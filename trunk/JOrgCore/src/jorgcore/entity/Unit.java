@@ -1,9 +1,13 @@
 package jorgcore.entity;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import jorgcore.database.DataBase;
 
 public class Unit {
 
@@ -17,6 +21,106 @@ public class Unit {
     public String type; //dvd, cd, hd, pendrive, computer, folder
     public String keywords;
     public double capacity;
+    private static DataBase db;
+
+    public static void begin() throws SQLException {
+        db = new DataBase();
+    }
+
+    public static void commit() throws SQLException {
+        db.close();
+    }
+
+    public static void insert(Unit unit) throws SQLException {
+        String sql = "insert into unit(" +
+                "name,creation_date,type,keywords) values (?,?,?,?)";
+        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ps.setString(1, unit.name);
+        ps.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
+        ps.setString(3, unit.type);
+        ps.setString(4, unit.keywords);
+        ps.executeUpdate();
+    }
+
+    public static void insert(Unit unit, int idContainer) throws SQLException {
+        String sql = "insert into unit(" +
+                "name,creation_date,type,keywords,id_container) values (?,?,?,?,?)";
+        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ps.setString(1, unit.name);
+        ps.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
+        ps.setString(3, unit.type);
+        ps.setString(4, unit.keywords);
+        ps.setInt(5, idContainer);
+        ps.executeUpdate();
+    }
+
+    public static void update(Unit unit) throws SQLException {
+        String sql = "update into set " +
+                "name = ?,type = ?,keywords = ? where id = ?";
+        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ps.setString(1, unit.name);
+        ps.setString(2, unit.type);
+        ps.setString(3, unit.keywords);
+        ps.setInt(4, unit.id);
+        ps.executeUpdate();
+    }
+
+    public static void update(Unit unit, int idContainer) throws SQLException {
+        String sql = "update into set " +
+                "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
+        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ps.setString(1, unit.name);
+        ps.setString(2, unit.type);
+        ps.setString(3, unit.keywords);
+        ps.setInt(4, idContainer);
+        ps.setInt(5, unit.id);
+        ps.executeUpdate();
+    }
+
+    public static void delete(Unit unit) throws SQLException {
+        String sql = "delete from set where id =?";
+        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ps.setInt(1, unit.id);
+        ps.executeUpdate();
+    }
+
+    public static int count() throws SQLException {
+        ResultSet rs = db.query("select count(*) from unit ");
+        rs.next();
+        return rs.getInt(1);
+    }
+
+    public static List<Unit> findAll() throws SQLException {
+        List<Unit> unit = new ArrayList<Unit>();
+        ResultSet rs = db.query("select top 20 * from unit order by id desc");
+        mapping(rs, unit);
+        return unit;
+    }
+
+    public static Unit findBy(int id) throws SQLException {
+        Unit unit = new Unit();
+        ResultSet rs = db.query("select * from container where id=" + id);
+        rs.next();
+        mappingElement(unit, rs);
+        return unit;
+    }
+
+    public static List<Unit> findBy(String name) throws SQLException{
+        String condition = "";
+        if (name.contains("*")) {
+            name = name.replace("*", "%");
+            condition = "lcase(name) like '" + name.toLowerCase() + "'";
+        } else {
+            condition = "lcase(name) ='" + name.toLowerCase() + "'";
+        }
+        return findWhere(condition);
+    }
+    private static List<Unit> findWhere(String where) throws SQLException {
+        List<Unit> containers = new ArrayList<Unit>();
+        ResultSet rs = db.query("select * from unit where " + where + " order by id  desc");
+        mapping(rs, containers);
+        return containers;
+    }
 
     private static void mapping(ResultSet rs, Collection<Unit> units) throws SQLException {
         while (rs.next()) {
@@ -64,7 +168,6 @@ public class Unit {
 
     @Override
     public String toString() {
-        return "Unit[id="+id+",name="+name+"]";
+        return "Unit[id=" + id + ",name=" + name + "]";
     }
-
 }

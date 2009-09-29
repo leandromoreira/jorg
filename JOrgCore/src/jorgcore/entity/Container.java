@@ -130,7 +130,7 @@ public class Container {
 
     private static List<Container> findWhere(String where) throws SQLException {
         List<Container> containers = new ArrayList<Container>();
-        ResultSet rs = db.query("select top 20 * from container where " + where + " order by id  desc");
+        ResultSet rs = db.query("select * from container where " + where + " order by id  desc");
         mapping(rs, containers);
         return containers;
     }
@@ -227,7 +227,16 @@ public class Container {
     }
 
     private static void makeAllSonsRoot(Container con) throws SQLException {
+        deleteAllUnitLinks(con);
         String sql = "update container set id_pai = ? where id_pai = ? ";
+        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ps.setNull(1, java.sql.Types.INTEGER);
+        ps.setInt(2, con.id);
+        ps.executeUpdate();
+    }
+
+    private static void deleteAllUnitLinks(Container con) throws SQLException {
+        String sql = "update unit set id_container = ? where id = ? ";
         PreparedStatement ps = db.getConnection().prepareStatement(sql);
         ps.setNull(1, java.sql.Types.INTEGER);
         ps.setInt(2, con.id);

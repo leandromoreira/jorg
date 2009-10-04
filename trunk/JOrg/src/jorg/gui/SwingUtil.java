@@ -19,7 +19,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import jorg.gui.config.Configurator;
-import jorgcore.database.DataBase;
 import jorgcore.entity.Container;
 
 public final class SwingUtil {
@@ -131,6 +130,36 @@ public final class SwingUtil {
         }
     }
     public static void populateJTableContainerNew(JTable tab,int rowCount) {
+        TableColumnModel tb = new DefaultTableColumnModel();
+        TableColumn id =new TableColumn(0, 150);
+        id.setPreferredWidth(150);
+        id.setResizable(false);
+        TableColumn desc =new TableColumn(0, 350);
+        desc.setPreferredWidth(350);
+        desc.setResizable(false);
+        TableColumn idP =new TableColumn(0, 150);
+        idP.setPreferredWidth(150);
+        idP.setResizable(false);
+        tb.addColumn(id);
+        tb.addColumn(desc);
+        tb.addColumn(idP);
+
+        String[] columnNames = new String[]{
+            getInternationalizedText("container.table.id"),
+            getInternationalizedText("container.table.description"),
+            getInternationalizedText("container.table.id_pai")};
+        TableModel tbm = new DefaultTableModel(columnNames, rowCount);
+        tab.setColumnModel(tb);
+        tab.setModel(tbm);
+
+        tab.getColumnModel().getColumn(0).setResizable(false);
+        tab.getColumnModel().getColumn(0).setMaxWidth(55);
+        tab.getColumnModel().getColumn(1).setResizable(false);
+        tab.getColumnModel().getColumn(1).setMaxWidth(300);
+        tab.getColumnModel().getColumn(2).setResizable(false);
+        tab.getColumnModel().getColumn(2).setMaxWidth(300);
+    }
+    public static void populateJTableUnitNew(JTable tab,int rowCount) {
         TableColumnModel tb = new DefaultTableColumnModel();
         TableColumn id =new TableColumn(0, 150);
         id.setPreferredWidth(150);

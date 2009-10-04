@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * SearchUnit.java
- *
- * Created on 28/09/2009, 22:04:00
- */
-
 package jorg.gui.unit;
 
 import java.awt.Container;
@@ -23,13 +12,8 @@ import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
 
-/**
- *
- * @author Leandro
- */
 public class SearchUnit extends javax.swing.JFrame {
 
-    /** Creates new form SearchUnit */
     public SearchUnit() {
         initComponents();
     }
@@ -188,7 +172,8 @@ public class SearchUnit extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchActionPerformed
-        /*if (!jTxtTerm.getText().equals("")) {
+        /*
+        if (!jTxtTerm.getText().equals("")) {
             try {
                 SwingUtil.resetMessage(jLblMessage);
                 Container.begin();
@@ -208,7 +193,8 @@ public class SearchUnit extends javax.swing.JFrame {
                     Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }*/
+        }
+        */
 }//GEN-LAST:event_jBtnSearchActionPerformed
 
     private void jBtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBackActionPerformed
@@ -236,8 +222,8 @@ public class SearchUnit extends javax.swing.JFrame {
                     SwingUtil.setupJLblToErrorMessage(jLblMessage, ex.toString());
                 }
             }
-            formWindowOpened(null);*/
-        }
+            formWindowOpened(null);
+        }*/
 }//GEN-LAST:event_jBtnDeleteActionPerformed
 
     private void jBtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditActionPerformed

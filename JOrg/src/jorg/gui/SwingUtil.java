@@ -20,6 +20,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import jorg.gui.config.Configurator;
 import jorgcore.entity.Container;
+import jorgcore.entity.Unit;
 
 public final class SwingUtil {
 
@@ -110,6 +111,7 @@ public final class SwingUtil {
     }
 
     public static void populateJTableContainer(JTable tab,int rowCount,Iterator<Container> it){
+        if(rowCount>20) rowCount = 20;
         populateJTableContainerNew(tab, rowCount);
         try {
             Container.begin();
@@ -159,25 +161,44 @@ public final class SwingUtil {
         tab.getColumnModel().getColumn(2).setResizable(false);
         tab.getColumnModel().getColumn(2).setMaxWidth(300);
     }
+
+    public static void populateJTableUnit(JTable tab,int rowCount,Iterator<Unit> it){
+        if(rowCount>20) rowCount = 20;
+        populateJTableUnitNew(tab, rowCount);
+        try {
+            Unit.begin();
+        } catch (SQLException ex) {
+            Logger.getLogger(SwingUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int row = 0;
+        while (it.hasNext()){
+            Unit con = it.next();
+            tab.setValueAt(con.id , row, 0);
+            tab.setValueAt(con.name , row, 1);
+            tab.setValueAt(con.type , row, 2);
+            row++;
+        }
+    }
+
     public static void populateJTableUnitNew(JTable tab,int rowCount) {
         TableColumnModel tb = new DefaultTableColumnModel();
         TableColumn id =new TableColumn(0, 150);
         id.setPreferredWidth(150);
         id.setResizable(false);
-        TableColumn desc =new TableColumn(0, 350);
-        desc.setPreferredWidth(350);
-        desc.setResizable(false);
-        TableColumn idP =new TableColumn(0, 150);
-        idP.setPreferredWidth(150);
-        idP.setResizable(false);
+        TableColumn name =new TableColumn(0, 250);
+        name.setPreferredWidth(350);
+        name.setResizable(false);
+        TableColumn type =new TableColumn(0, 250);
+        type.setPreferredWidth(150);
+        type.setResizable(false);
         tb.addColumn(id);
-        tb.addColumn(desc);
-        tb.addColumn(idP);
+        tb.addColumn(name);
+        tb.addColumn(type);
 
         String[] columnNames = new String[]{
-            getInternationalizedText("container.table.id"),
-            getInternationalizedText("container.table.description"),
-            getInternationalizedText("container.table.id_pai")};
+            getInternationalizedText("unit.table.id"),
+            getInternationalizedText("unit.table.name"),
+            getInternationalizedText("unit.table.type")};
         TableModel tbm = new DefaultTableModel(columnNames, rowCount);
         tab.setColumnModel(tb);
         tab.setModel(tbm);

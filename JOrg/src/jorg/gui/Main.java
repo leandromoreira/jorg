@@ -1,9 +1,11 @@
 package jorg.gui;
 
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
+import jorg.gui.unit.SearchUnit;
 
 public class Main extends javax.swing.JFrame {
 
@@ -45,13 +47,13 @@ public class Main extends javax.swing.JFrame {
 
         jLblLeftPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/filetypes.png"))); // NOI18N
 
-        jLblTitulo.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        jLblTitulo.setFont(new java.awt.Font("Tahoma", 0, 48));
         jLblTitulo.setForeground(new java.awt.Color(0, 0, 153));
         jLblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblTitulo.setText("j");
         jLblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLblDescricao.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLblDescricao.setFont(new java.awt.Font("Tahoma", 0, 12));
         jLblDescricao.setForeground(new java.awt.Color(0, 0, 153));
         jLblDescricao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblDescricao.setText("j");
@@ -69,7 +71,7 @@ public class Main extends javax.swing.JFrame {
         jMnuFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMnuFile.add(jSeparator1);
 
-        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuExit.setForeground(new java.awt.Color(153, 0, 51));
         jMnuExit.setText("Exit");
         jMnuExit.addActionListener(new java.awt.event.ActionListener() {
@@ -89,7 +91,7 @@ public class Main extends javax.swing.JFrame {
         jMnuContainer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jMnuContainerQuery.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuContainerQuery.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuContainerQuery.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuContainerQuery.setForeground(new java.awt.Color(153, 0, 51));
         jMnuContainerQuery.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jMnuContainerQuery.setText("Managment");
@@ -110,10 +112,15 @@ public class Main extends javax.swing.JFrame {
         jMnuUnit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jMnuManagmentUnit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuManagmentUnit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuManagmentUnit.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuManagmentUnit.setForeground(new java.awt.Color(153, 0, 51));
         jMnuManagmentUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jMnuManagmentUnit.setText("Managment");
+        jMnuManagmentUnit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuManagmentUnitActionPerformed(evt);
+            }
+        });
         jMnuUnit.add(jMnuManagmentUnit);
 
         jMnuBar.add(jMnuUnit);
@@ -182,6 +189,7 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private SearchContainer container = new SearchContainer();
+    private SearchUnit unit = new SearchUnit();
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     }//GEN-LAST:event_formWindowOpened
@@ -197,6 +205,13 @@ public class Main extends javax.swing.JFrame {
         dispose();
         System.exit(0);
     }//GEN-LAST:event_jMnuExitActionPerformed
+
+    private void jMnuManagmentUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuManagmentUnitActionPerformed
+        SwingUtil.center(unit);
+        unit.getjTxtTerm().setText("");
+        SwingUtil.setDefaultButton(unit, unit.getjBtnSearch());
+        unit.setVisible(true);
+    }//GEN-LAST:event_jMnuManagmentUnitActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -232,6 +247,7 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("mnu.file", jMnuFile);
         setInternationalizedText("mnu.container", jMnuContainer);
         setInternationalizedText("mnu.container.search", jMnuContainerQuery);
+        setInternationalizedText("mnu.management.unit", jMnuManagmentUnit);
         setInternationalizedText("mnu.unit", jMnuUnit);
         setInternationalizedText("mnu.index", jMnuIndexable);
         setInternationalizedText("mnu.about", jMnuAbout);

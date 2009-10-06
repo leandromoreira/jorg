@@ -1,16 +1,13 @@
 package jorg.gui.unit;
 
-import java.awt.Container;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import jorg.gui.SwingUtil;
-import jorg.gui.config.Configurator;
-import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
+import jorgcore.entity.Container;
+import jorgcore.entity.Unit;
 
 public class SearchUnit extends javax.swing.JFrame {
 
@@ -41,8 +38,13 @@ public class SearchUnit extends javax.swing.JFrame {
         jBtnNew = new javax.swing.JButton();
 
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
-        jLblUnitInfo.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
+        jLblUnitInfo.setFont(new java.awt.Font("Tahoma", 0, 32));
         jLblUnitInfo.setForeground(new java.awt.Color(51, 51, 255));
         jLblUnitInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblUnitInfo.setText("Unit Central");
@@ -264,6 +266,25 @@ public class SearchUnit extends javax.swing.JFrame {
         newContainer.setVisible(true);*/
 }//GEN-LAST:event_jBtnNewActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        SwingUtil.resetMessage(jLblMessage);
+        try {
+            Unit.begin();
+            Iterator<Unit> it = Unit.findAll().iterator();
+            SwingUtil.populateJTableUnit(jTblUnit, Unit.count(), it);
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pack();
+                Unit.commit();
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_formWindowOpened
+
     /**
     * @param args the command line arguments
     */
@@ -289,5 +310,173 @@ public class SearchUnit extends javax.swing.JFrame {
     private javax.swing.JTable jTblUnit;
     private javax.swing.JTextField jTxtTerm;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the jBtnBack
+     */
+    public javax.swing.JButton getjBtnBack() {
+        return jBtnBack;
+    }
+
+    /**
+     * @param jBtnBack the jBtnBack to set
+     */
+    public void setjBtnBack(javax.swing.JButton jBtnBack) {
+        this.jBtnBack = jBtnBack;
+    }
+
+    /**
+     * @return the jBtnDelete
+     */
+    public javax.swing.JButton getjBtnDelete() {
+        return jBtnDelete;
+    }
+
+    /**
+     * @param jBtnDelete the jBtnDelete to set
+     */
+    public void setjBtnDelete(javax.swing.JButton jBtnDelete) {
+        this.jBtnDelete = jBtnDelete;
+    }
+
+    /**
+     * @return the jBtnEdit
+     */
+    public javax.swing.JButton getjBtnEdit() {
+        return jBtnEdit;
+    }
+
+    /**
+     * @param jBtnEdit the jBtnEdit to set
+     */
+    public void setjBtnEdit(javax.swing.JButton jBtnEdit) {
+        this.jBtnEdit = jBtnEdit;
+    }
+
+    /**
+     * @return the jBtnNew
+     */
+    public javax.swing.JButton getjBtnNew() {
+        return jBtnNew;
+    }
+
+    /**
+     * @param jBtnNew the jBtnNew to set
+     */
+    public void setjBtnNew(javax.swing.JButton jBtnNew) {
+        this.jBtnNew = jBtnNew;
+    }
+
+    /**
+     * @return the jBtnSearch
+     */
+    public javax.swing.JButton getjBtnSearch() {
+        return jBtnSearch;
+    }
+
+    /**
+     * @param jBtnSearch the jBtnSearch to set
+     */
+    public void setjBtnSearch(javax.swing.JButton jBtnSearch) {
+        this.jBtnSearch = jBtnSearch;
+    }
+
+    /**
+     * @return the jLblContainerTip
+     */
+    public javax.swing.JLabel getjLblContainerTip() {
+        return jLblContainerTip;
+    }
+
+    /**
+     * @param jLblContainerTip the jLblContainerTip to set
+     */
+    public void setjLblContainerTip(javax.swing.JLabel jLblContainerTip) {
+        this.jLblContainerTip = jLblContainerTip;
+    }
+
+    /**
+     * @return the jLblMessage
+     */
+    public javax.swing.JLabel getjLblMessage() {
+        return jLblMessage;
+    }
+
+    /**
+     * @param jLblMessage the jLblMessage to set
+     */
+    public void setjLblMessage(javax.swing.JLabel jLblMessage) {
+        this.jLblMessage = jLblMessage;
+    }
+
+    /**
+     * @return the jLblSearchText
+     */
+    public javax.swing.JLabel getjLblSearchText() {
+        return jLblSearchText;
+    }
+
+    /**
+     * @param jLblSearchText the jLblSearchText to set
+     */
+    public void setjLblSearchText(javax.swing.JLabel jLblSearchText) {
+        this.jLblSearchText = jLblSearchText;
+    }
+
+    /**
+     * @return the jLblUnitInfo
+     */
+    public javax.swing.JLabel getjLblUnitInfo() {
+        return jLblUnitInfo;
+    }
+
+    /**
+     * @param jLblUnitInfo the jLblUnitInfo to set
+     */
+    public void setjLblUnitInfo(javax.swing.JLabel jLblUnitInfo) {
+        this.jLblUnitInfo = jLblUnitInfo;
+    }
+
+    /**
+     * @return the jScrollPane1
+     */
+    public javax.swing.JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    /**
+     * @param jScrollPane1 the jScrollPane1 to set
+     */
+    public void setjScrollPane1(javax.swing.JScrollPane jScrollPane1) {
+        this.jScrollPane1 = jScrollPane1;
+    }
+
+    /**
+     * @return the jTblUnit
+     */
+    public javax.swing.JTable getjTblUnit() {
+        return jTblUnit;
+    }
+
+    /**
+     * @param jTblUnit the jTblUnit to set
+     */
+    public void setjTblUnit(javax.swing.JTable jTblUnit) {
+        this.jTblUnit = jTblUnit;
+    }
+
+    /**
+     * @return the jTxtTerm
+     */
+    public javax.swing.JTextField getjTxtTerm() {
+        return jTxtTerm;
+    }
+
+    /**
+     * @param jTxtTerm the jTxtTerm to set
+     */
+    public void setjTxtTerm(javax.swing.JTextField jTxtTerm) {
+        this.jTxtTerm = jTxtTerm;
+    }
 
 }

@@ -6,10 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jorg.gui.SwingUtil;
 import jorg.gui.container.SearchContainer;
-import jorgcore.entity.Container;
 import jorgcore.entity.Unit;
 
 public class SearchUnit extends javax.swing.JFrame {
+
+    private NewUnit newUnit = new NewUnit();
 
     public SearchUnit() {
         initComponents();
@@ -254,16 +255,15 @@ public class SearchUnit extends javax.swing.JFrame {
 }//GEN-LAST:event_jBtnEditActionPerformed
 
     private void jBtnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNewActionPerformed
-       /* SwingUtil.resetMessage(jLblMessage);
-        SwingUtil.center(newContainer);
-        newContainer.setInsertableMode(true);
-        newContainer.setInfoTitle("container.new");
-        newContainer.getjTabPanel().setSelectedIndex(0);
-        newContainer.getjCheckIsRoot().setSelected(true);
-        newContainer.getjTxtParent().setText("");
-        newContainer.getjTxtDescription().setText("");
-        newContainer.getjTxtTerm().setText("");
-        newContainer.setVisible(true);*/
+        SwingUtil.resetMessage(jLblMessage);
+        SwingUtil.center(newUnit);
+        newUnit.setInsertableMode(true);
+        newUnit.getjTabPanel().setSelectedIndex(0);
+    //    newUnit.getjCheckIsRoot().setSelected(true);
+  //      newUnit.getjTxtParent().setText("");
+//        newUnit.getjTxtDescription().setText("");
+        newUnit.getjTxtTerm().setText("");
+        newUnit.setVisible(true);
 }//GEN-LAST:event_jBtnNewActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -477,6 +477,20 @@ public class SearchUnit extends javax.swing.JFrame {
      */
     public void setjTxtTerm(javax.swing.JTextField jTxtTerm) {
         this.jTxtTerm = jTxtTerm;
+    }
+
+    /**
+     * @return the newUnit
+     */
+    public NewUnit getNewUnit() {
+        return newUnit;
+    }
+
+    /**
+     * @param newUnit the newUnit to set
+     */
+    public void setNewUnit(NewUnit newUnit) {
+        this.newUnit = newUnit;
     }
 
 }

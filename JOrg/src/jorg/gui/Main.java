@@ -275,6 +275,7 @@ public class Main extends javax.swing.JFrame {
         setupMain();
         setupMenu();
         configContainerWindows();
+        configUnitWindows();
     }
 
     private final void setupMain() {
@@ -316,5 +317,16 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("container.new.isroot", newContainer.getjCheckIsRoot());
         newContainer.getjTabPanel().setTitleAt(0, getInternationalizedText("container.new.tabnew"));
         newContainer.getjTabPanel().setTitleAt(1, getInternationalizedText("container.new.tabchoose"));
+    }
+
+    private final void configUnitWindows() {
+        setInternationalizedText("window.unit.info", unit.getjLblUnitInfo());
+        setInternationalizedText("window.unit.search.label", unit.getjLblSearchText());
+        setInternationalizedText("search", unit.getjBtnSearch());
+        setInternationalizedText("container.tip",unit.getjLblContainerTip());
+        setInternationalizedText("new",unit.getjBtnNew());
+        setInternationalizedText("edit",unit.getjBtnEdit());
+        setInternationalizedText("delete",unit.getjBtnDelete());
+        setInternationalizedText("back",unit.getjBtnBack());
     }
 }

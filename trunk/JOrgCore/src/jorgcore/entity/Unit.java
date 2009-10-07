@@ -18,7 +18,7 @@ public class Unit {
     public Date rented_date;
     public Date release_date;
     public Date creation_date;
-    public String type; //dvd, cd, hd, pendrive, computer, folder
+    public String type;
     public String keywords;
     public double capacity;
     private static DataBase db;

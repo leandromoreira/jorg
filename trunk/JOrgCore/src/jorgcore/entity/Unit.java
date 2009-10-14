@@ -55,18 +55,19 @@ public class Unit {
     }
 
     public static void update(Unit unit) throws SQLException {
-        String sql = "update into set " +
-                "name = ?,type = ?,keywords = ? where id = ?";
+        String sql = "update unit set " +
+                "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
         PreparedStatement ps = db.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setString(2, unit.type);
         ps.setString(3, unit.keywords);
-        ps.setInt(4, unit.id);
+        ps.setNull(4, java.sql.Types.INTEGER);
+        ps.setInt(5, unit.id);
         ps.executeUpdate();
     }
 
     public static void update(Unit unit, int idContainer) throws SQLException {
-        String sql = "update into set " +
+        String sql = "update unit set " +
                 "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
         PreparedStatement ps = db.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
@@ -78,8 +79,12 @@ public class Unit {
     }
 
     public static void delete(Unit unit) throws SQLException {
-        String sql = "delete from set where id =?";
+        String sql = "delete from file where id_unit =?";
         PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ps.setInt(1, unit.id);
+        ps.executeUpdate();
+        sql = "delete from unit where id =?";
+        ps = db.getConnection().prepareStatement(sql);
         ps.setInt(1, unit.id);
         ps.executeUpdate();
     }
@@ -90,6 +95,28 @@ public class Unit {
         return rs.getInt(1);
     }
 
+    public static boolean hasParent(Unit unit) {
+        try {
+            findParentBy(unit);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static Container findParentBy(Unit unit) throws SQLException  {
+        Container.begin();
+        ResultSet rs = db.query("select * from unit where id=" + unit.id+" and id_container is not null");
+        rs.next();
+        System.out.println(rs.getString(1));
+        try {
+            return Container.findBy(unit.id_container);
+        } finally{
+            Container.commit();
+        }
+    }
+
+
     public static List<Unit> findAll() throws SQLException {
         List<Unit> unit = new ArrayList<Unit>();
         ResultSet rs = db.query("select top 20 * from unit order by id desc");
@@ -99,7 +126,7 @@ public class Unit {
 
     public static Unit findBy(int id) throws SQLException {
         Unit unit = new Unit();
-        ResultSet rs = db.query("select * from container where id=" + id);
+        ResultSet rs = db.query("select * from unit where id=" + id);
         rs.next();
         mappingElement(unit, rs);
         return unit;

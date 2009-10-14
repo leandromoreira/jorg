@@ -8,10 +8,10 @@
  *
  * Created on 28/09/2009, 22:04:18
  */
-
 package jorg.gui.unit;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,14 +19,19 @@ import java.util.logging.Logger;
 import jorg.gui.SwingUtil;
 import jorg.gui.container.SearchContainer;
 import jorgcore.entity.Container;
+import jorgcore.entity.Unit;
 
 public class NewUnit extends javax.swing.JFrame {
 
     public NewUnit() {
         initComponents();
     }
-
     private boolean insertMode;
+    private SearchUnit search;
+    public NewUnit(SearchUnit search) {
+        this.search = search;
+        initComponents();
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -47,8 +52,6 @@ public class NewUnit extends javax.swing.JFrame {
         jBtnSave = new javax.swing.JButton();
         jBtnBack = new javax.swing.JButton();
         jCboType = new javax.swing.JComboBox();
-        jTxtKeywords = new javax.swing.JTextField();
-        jLblKeywords = new javax.swing.JLabel();
         jLblType = new javax.swing.JLabel();
         jPnChoose = new javax.swing.JPanel();
         jLblSearchText = new javax.swing.JLabel();
@@ -98,12 +101,7 @@ public class NewUnit extends javax.swing.JFrame {
         });
 
         jCboType.setEditable(true);
-        jCboType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DVD", "CD", "HD", "Pendrive", "Network Computer", "Folder" }));
-
-        jTxtKeywords.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jLblKeywords.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLblKeywords.setText("Keywords:");
+        jCboType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DVD", "CD", "HD", "Pendrive" }));
 
         jLblType.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLblType.setText("Type:");
@@ -131,11 +129,7 @@ public class NewUnit extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPnNewLayout.createSequentialGroup()
                         .addComponent(jLblType, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCboType, 0, 577, Short.MAX_VALUE))
-                    .addGroup(jPnNewLayout.createSequentialGroup()
-                        .addComponent(jLblKeywords, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTxtKeywords, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)))
+                        .addComponent(jCboType, 0, 577, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPnNewLayout.setVerticalGroup(
@@ -153,13 +147,9 @@ public class NewUnit extends javax.swing.JFrame {
                     .addComponent(jTxtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCboType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCboType)
                     .addComponent(jLblType))
-                .addGap(18, 18, 18)
-                .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTxtKeywords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLblKeywords))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnSave)
                     .addComponent(jBtnBack))
@@ -255,7 +245,6 @@ public class NewUnit extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 677, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -266,7 +255,6 @@ public class NewUnit extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 421, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLblInfo)
@@ -280,9 +268,9 @@ public class NewUnit extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkActionPerformed
-        if (!jChk.isSelected()) {
+        if (jChk.isSelected()) {
             getjTabPanel().setSelectedIndex(1);
-        }else{
+        } else {
             getjTxtBind().setText("");
         }
 }//GEN-LAST:event_jChkActionPerformed
@@ -290,11 +278,82 @@ public class NewUnit extends javax.swing.JFrame {
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
         SwingUtil.resetMessage(getjLblMessage());
         if (isInsertMode()) {
-            //insert();
+            insert();
         } else {
-           // update();
+            update();
         }
 }//GEN-LAST:event_jBtnSaveActionPerformed
+
+    
+    private void update() {
+        if (jTxtName.getText() == null) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
+            return;
+        }
+        if (jTxtName.getText().trim().equals("")) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
+            return;
+        }
+        Unit editedUnit = new Unit();
+        editedUnit.id = this.editedId;
+        editedUnit.type = jCboType.getSelectedItem().toString().trim();
+        editedUnit.name = jTxtName.getText();
+        if (jChk.isSelected()) {
+            editedUnit.id_container = new Integer(jTxtBind.getText().split("-")[0].trim());
+        }
+        try {
+            Unit.begin();
+            if (jChk.isSelected()) {
+                Unit.update(editedUnit, editedUnit.id_container);
+            } else {
+                Unit.update(editedUnit);
+            }
+            Unit.commit();
+            goBack();
+        } catch (SQLException ex) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
+            Logger.getLogger(NewUnit.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
+            Logger.getLogger(NewUnit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void insert() {
+
+        if (jTxtName.getText() == null) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
+            return;
+        }
+        if (jTxtName.getText().trim().equals("")) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
+            return;
+        }
+        Unit newUnit = new Unit();
+        newUnit.type = jCboType.getSelectedItem().toString().trim();
+        newUnit.creation_date = new Date();
+        newUnit.name = jTxtName.getText();
+        if (jChk.isSelected()) {
+            newUnit.id_container = new Integer(jTxtBind.getText().split("-")[0].trim());
+        }
+        try {
+            Unit.begin();
+            if (jChk.isSelected()) {
+                Unit.insert(newUnit, newUnit.id_container);
+            } else {
+                Unit.insert(newUnit);
+            }
+            Unit.commit();
+            goBack();
+        } catch (SQLException ex) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
+            Logger.getLogger(NewUnit.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
+            Logger.getLogger(NewUnit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private void jBtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBackActionPerformed
         setVisible(false);
@@ -332,16 +391,16 @@ public class NewUnit extends javax.swing.JFrame {
 }//GEN-LAST:event_jBtnSelectActionPerformed
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new NewUnit().setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnBack;
     private javax.swing.JButton jBtnSave;
@@ -351,7 +410,6 @@ public class NewUnit extends javax.swing.JFrame {
     private javax.swing.JCheckBox jChk;
     private javax.swing.JLabel jLblContainerParent;
     private javax.swing.JLabel jLblInfo;
-    private javax.swing.JLabel jLblKeywords;
     private javax.swing.JLabel jLblMessage;
     private javax.swing.JLabel jLblName;
     private javax.swing.JLabel jLblSearchText;
@@ -362,12 +420,9 @@ public class NewUnit extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabPanel;
     private javax.swing.JTable jTblChose;
     private javax.swing.JTextField jTxtBind;
-    private javax.swing.JTextField jTxtKeywords;
     private javax.swing.JTextField jTxtName;
     private javax.swing.JTextField jTxtTerm;
     // End of variables declaration//GEN-END:variables
-
-    
 
     void setInsertableMode(boolean b) {
         this.setInsertMode(b);
@@ -497,20 +552,6 @@ public class NewUnit extends javax.swing.JFrame {
      */
     public void setjLblInfo(javax.swing.JLabel jLblInfo) {
         this.jLblInfo = jLblInfo;
-    }
-
-    /**
-     * @return the jLblKeywords
-     */
-    public javax.swing.JLabel getjLblKeywords() {
-        return jLblKeywords;
-    }
-
-    /**
-     * @param jLblKeywords the jLblKeywords to set
-     */
-    public void setjLblKeywords(javax.swing.JLabel jLblKeywords) {
-        this.jLblKeywords = jLblKeywords;
     }
 
     /**
@@ -654,20 +695,6 @@ public class NewUnit extends javax.swing.JFrame {
     }
 
     /**
-     * @return the jTxtKeywords
-     */
-    public javax.swing.JTextField getjTxtKeywords() {
-        return jTxtKeywords;
-    }
-
-    /**
-     * @param jTxtKeywords the jTxtKeywords to set
-     */
-    public void setjTxtKeywords(javax.swing.JTextField jTxtKeywords) {
-        this.jTxtKeywords = jTxtKeywords;
-    }
-
-    /**
      * @return the jTxtName
      */
     public javax.swing.JTextField getjTxtName() {
@@ -693,6 +720,43 @@ public class NewUnit extends javax.swing.JFrame {
      */
     public void setjTxtTerm(javax.swing.JTextField jTxtTerm) {
         this.jTxtTerm = jTxtTerm;
+    }
+
+    private void goBack() {
+        try {
+            Unit.begin();
+            Iterator<Unit> it = Unit.findAll().iterator();
+            SwingUtil.populateJTableUnit(getSearch().getjTblUnit(), Unit.count(), it);
+            setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pack();
+                Unit.commit();
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * @return the search
+     */
+    public SearchUnit getSearch() {
+        return search;
+    }
+
+    /**
+     * @param search the search to set
+     */
+    public void setSearch(SearchUnit search) {
+        this.search = search;
+    }
+
+    private int editedId;
+    public void setEditedId(int id) {
+        editedId = id;
     }
 
 }

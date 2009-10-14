@@ -22,7 +22,6 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="677" max="32767" attributes="0"/>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -36,7 +35,6 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="421" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLblInfo" min="-2" max="-2" attributes="0"/>
@@ -90,11 +88,6 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jCboType" pref="577" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLblKeywords" pref="51" max="32767" attributes="1"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTxtKeywords" pref="577" max="32767" attributes="0"/>
-                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -117,15 +110,10 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCboType" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCboType" alignment="3" max="32767" attributes="0"/>
                           <Component id="jLblType" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTxtKeywords" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLblKeywords" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="48" max="32767" attributes="0"/>
+                      <EmptySpace pref="86" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jBtnSave" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jBtnBack" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -197,26 +185,13 @@
               <Properties>
                 <Property name="editable" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="6">
+                  <StringArray count="4">
                     <StringItem index="0" value="DVD"/>
                     <StringItem index="1" value="CD"/>
                     <StringItem index="2" value="HD"/>
                     <StringItem index="3" value="Pendrive"/>
-                    <StringItem index="4" value="Network Computer"/>
-                    <StringItem index="5" value="Folder"/>
                   </StringArray>
                 </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="jTxtKeywords">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="0"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLblKeywords">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Keywords:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLblType">

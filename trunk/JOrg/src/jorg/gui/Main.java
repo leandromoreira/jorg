@@ -1,10 +1,10 @@
 package jorg.gui;
 
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
+import jorg.gui.unit.NewUnit;
 import jorg.gui.unit.SearchUnit;
 
 public class Main extends javax.swing.JFrame {
@@ -210,6 +210,7 @@ public class Main extends javax.swing.JFrame {
         SwingUtil.center(unit);
         unit.getjTxtTerm().setText("");
         SwingUtil.setDefaultButton(unit, unit.getjBtnSearch());
+        SwingUtil.setDefaultButton(unit.getNewUnit(), unit.getNewUnit().getjBtnSearch());
         unit.setVisible(true);
     }//GEN-LAST:event_jMnuManagmentUnitActionPerformed
 
@@ -328,5 +329,16 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("edit",unit.getjBtnEdit());
         setInternationalizedText("delete",unit.getjBtnDelete());
         setInternationalizedText("back",unit.getjBtnBack());
+        NewUnit nUnit = unit.getNewUnit();
+        setInternationalizedText("back", nUnit.getjBtnBack());
+        setInternationalizedText("save", nUnit.getjBtnSave());
+        setInternationalizedText("search", nUnit.getjBtnSearch());
+        setInternationalizedText("select", nUnit.getjBtnSelect());
+        setInternationalizedText("window.unit.chkcontainer", nUnit.getjChk());
+        setInternationalizedText("mnu.container", nUnit.getjLblContainerParent());
+        setInternationalizedText("window.unit.info", nUnit.getjLblInfo());
+        setInternationalizedText("name", nUnit.getjLblName());
+        setInternationalizedText("window.unit.search.label", nUnit.getjLblSearchText());
+        setInternationalizedText("type", nUnit.getjLblType());
     }
 }

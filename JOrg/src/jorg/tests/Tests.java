@@ -1,23 +1,29 @@
 package jorg.tests;
 
+import java.util.Arrays;
 import java.util.Set;
-import jorgcore.entity.File;
+import jorg.gui.config.Configurator;
 import jorgcore.entity.FileManager;
 
 public class Tests {
     public static void main(String[] args) {
-        Set<String> m = FileManager.listFilesAt("c:\\tmp\\");
+        Set<String> m = FileManager.listFilesAt("C:\\Curso.Info.Upgrade.e.Manutencao.de.Notebooks");
+            int progressoMax = 200;
+            double qtdPerItem = (double)progressoMax / (double)m.size();
+
+            double mmm = qtdPerItem;
+
             for (String item : m) {
-                java.io.File file = new java.io.File(item);
-                File f = new File(file);
-                System.out.println("========================================");
-                System.out.println(f.name);
-                System.out.println(f.extension);
-                System.out.println(f.path);
-                System.out.println(f.size);
-                System.out.println(f.size_in_bytes);
-                System.out.println(f.time_last_modified.toLocaleString());
-                System.out.println("========================================");
+                System.out.println(mmm);
+                mmm += qtdPerItem;
             }
+            System.out.println(Arrays.toString(Configurator.getAudioTypes()));
+            System.out.println(Arrays.toString(Configurator.getCompressionTypes()));
+            System.out.println(Arrays.toString(Configurator.getDocTypes()));
+            System.out.println(Arrays.toString(Configurator.getHtmlTypes()));
+            System.out.println(Arrays.toString(Configurator.getImageTypes()));
+            System.out.println(Arrays.toString(Configurator.getPersonalTypes()));
+            System.out.println(Arrays.toString(Configurator.getPictureTypes()));
+            System.out.println(Arrays.toString(Configurator.getVideoTypes()));
     }
 }

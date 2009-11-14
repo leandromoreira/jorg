@@ -4,6 +4,7 @@ import javax.swing.JCheckBox;
 import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
+import jorg.gui.file.FileIndexing;
 import jorg.gui.unit.NewUnit;
 import jorg.gui.unit.SearchUnit;
 
@@ -31,8 +32,8 @@ public class Main extends javax.swing.JFrame {
         jMnuUnit = new javax.swing.JMenu();
         jMnuManagmentUnit = new javax.swing.JMenuItem();
         jMnuIndexable = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jMnuIndexFiles = new javax.swing.JMenuItem();
+        jMnuSearchFiles = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
 
@@ -112,7 +113,7 @@ public class Main extends javax.swing.JFrame {
         jMnuUnit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jMnuManagmentUnit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuManagmentUnit.setFont(new java.awt.Font("Segoe UI", 0, 32));
+        jMnuManagmentUnit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         jMnuManagmentUnit.setForeground(new java.awt.Color(153, 0, 51));
         jMnuManagmentUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jMnuManagmentUnit.setText("Managment");
@@ -132,15 +133,23 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMnuIndexable.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 0, 32));
-        jMenuItem3.setForeground(new java.awt.Color(153, 0, 51));
-        jMenuItem3.setText("Files");
-        jMnuIndexable.add(jMenuItem3);
+        jMnuIndexFiles.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuIndexFiles.setForeground(new java.awt.Color(153, 0, 51));
+        jMnuIndexFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/ComposeMail24.gif"))); // NOI18N
+        jMnuIndexFiles.setText("Index Files");
+        jMnuIndexFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuIndexFilesActionPerformed(evt);
+            }
+        });
+        jMnuIndexable.add(jMnuIndexFiles);
 
-        jMenuItem6.setFont(new java.awt.Font("Segoe UI", 0, 32));
-        jMenuItem6.setForeground(new java.awt.Color(153, 0, 51));
-        jMenuItem6.setText("Document");
-        jMnuIndexable.add(jMenuItem6);
+        jMnuSearchFiles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMnuSearchFiles.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuSearchFiles.setForeground(new java.awt.Color(153, 0, 51));
+        jMnuSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Find24.gif"))); // NOI18N
+        jMnuSearchFiles.setText("Search Files");
+        jMnuIndexable.add(jMnuSearchFiles);
 
         jMnuBar.add(jMnuIndexable);
 
@@ -190,6 +199,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private SearchContainer container = new SearchContainer();
     private SearchUnit unit = new SearchUnit();
+    private FileIndexing fileIndexing = new FileIndexing();
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     }//GEN-LAST:event_formWindowOpened
@@ -214,6 +224,13 @@ public class Main extends javax.swing.JFrame {
         unit.setVisible(true);
     }//GEN-LAST:event_jMnuManagmentUnitActionPerformed
 
+    private void jMnuIndexFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuIndexFilesActionPerformed
+        SwingUtil.center(fileIndexing);
+        fileIndexing.getjTxtTerm().setText("");
+        SwingUtil.setDefaultButton(fileIndexing, fileIndexing.getjBtnSearch());
+        fileIndexing.setVisible(true);
+    }//GEN-LAST:event_jMnuIndexFilesActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -229,17 +246,17 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLblMidlePic;
     private javax.swing.JLabel jLblRigthPic;
     private javax.swing.JLabel jLblTitulo;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenu jMnuAbout;
     private javax.swing.JMenuBar jMnuBar;
     private javax.swing.JMenu jMnuContainer;
     private javax.swing.JMenuItem jMnuContainerQuery;
     private javax.swing.JMenuItem jMnuExit;
     private javax.swing.JMenu jMnuFile;
+    private javax.swing.JMenuItem jMnuIndexFiles;
     private javax.swing.JMenu jMnuIndexable;
     private javax.swing.JMenuItem jMnuManagmentUnit;
+    private javax.swing.JMenuItem jMnuSearchFiles;
     private javax.swing.JMenu jMnuUnit;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables

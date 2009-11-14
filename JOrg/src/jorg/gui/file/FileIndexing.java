@@ -15,11 +15,14 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jorg.gui.SwingUtil;
 import jorg.gui.container.SearchContainer;
 import jorgcore.entity.Container;
+import jorgcore.entity.File;
+import jorgcore.entity.FileManager;
 import jorgcore.entity.Unit;
 
 public class FileIndexing extends javax.swing.JFrame {
@@ -49,11 +52,9 @@ public class FileIndexing extends javax.swing.JFrame {
         jLblContainerParent = new javax.swing.JLabel();
         jTxtBind = new javax.swing.JTextField();
         jLblName = new javax.swing.JLabel();
-        jTxtName = new javax.swing.JTextField();
-        jBtnSave = new javax.swing.JButton();
+        jBtnIndex = new javax.swing.JButton();
         jBtnBack = new javax.swing.JButton();
-        jCboType = new javax.swing.JComboBox();
-        jLblType = new javax.swing.JLabel();
+        jCboLocation = new javax.swing.JComboBox();
         jPnChoose = new javax.swing.JPanel();
         jLblSearchText = new javax.swing.JLabel();
         jTxtTerm = new javax.swing.JTextField();
@@ -67,7 +68,7 @@ public class FileIndexing extends javax.swing.JFrame {
         setResizable(false);
 
         jChk.setSelected(true);
-        jChk.setText("Is inside of a container?");
+        jChk.setText("Is it from a unit?");
         jChk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jChkActionPerformed(evt);
@@ -75,21 +76,19 @@ public class FileIndexing extends javax.swing.JFrame {
         });
 
         jLblContainerParent.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLblContainerParent.setText("Container:");
+        jLblContainerParent.setText("Unit:");
 
         jTxtBind.setEditable(false);
         jTxtBind.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLblName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLblName.setText("Name:");
+        jLblName.setText("Chose unit or type location to be addressed:");
 
-        jTxtName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jBtnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Save24.gif"))); // NOI18N
-        jBtnSave.setText("Save");
-        jBtnSave.addActionListener(new java.awt.event.ActionListener() {
+        jBtnIndex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/SaveAll24.gif"))); // NOI18N
+        jBtnIndex.setText("Index");
+        jBtnIndex.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnSaveActionPerformed(evt);
+                jBtnIndexActionPerformed(evt);
             }
         });
 
@@ -101,11 +100,7 @@ public class FileIndexing extends javax.swing.JFrame {
             }
         });
 
-        jCboType.setEditable(true);
-        jCboType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DVD", "CD", "HD", "Pendrive" }));
-
-        jLblType.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLblType.setText("Type:");
+        jCboLocation.setEditable(true);
 
         javax.swing.GroupLayout jPnNewLayout = new javax.swing.GroupLayout(jPnNew);
         jPnNew.setLayout(jPnNewLayout);
@@ -114,23 +109,17 @@ public class FileIndexing extends javax.swing.JFrame {
             .addGroup(jPnNewLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLblContainerParent, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLblName, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jChk, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                     .addGroup(jPnNewLayout.createSequentialGroup()
-                        .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLblName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLblContainerParent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jBtnIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jChk, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPnNewLayout.createSequentialGroup()
-                                .addComponent(jBtnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTxtBind, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-                            .addComponent(jTxtName, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPnNewLayout.createSequentialGroup()
-                        .addComponent(jLblType, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCboType, 0, 577, Short.MAX_VALUE)))
+                        .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtBind, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(jCboLocation, 0, 414, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPnNewLayout.setVerticalGroup(
@@ -144,15 +133,11 @@ public class FileIndexing extends javax.swing.JFrame {
                     .addComponent(jTxtBind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLblName)
-                    .addComponent(jTxtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLblName, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCboLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCboType)
-                    .addComponent(jLblType))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtnSave)
+                    .addComponent(jBtnIndex)
                     .addComponent(jBtnBack))
                 .addContainerGap())
         );
@@ -236,10 +221,10 @@ public class FileIndexing extends javax.swing.JFrame {
         jLblMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblMessage.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32));
+        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
         jLblInfo.setForeground(new java.awt.Color(51, 51, 255));
         jLblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLblInfo.setText("Unit Management");
+        jLblInfo.setText("File Indexing");
         jLblInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -276,85 +261,36 @@ public class FileIndexing extends javax.swing.JFrame {
         }
 }//GEN-LAST:event_jChkActionPerformed
 
-    private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
-        SwingUtil.resetMessage(getjLblMessage());
+    private void jBtnIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIndexActionPerformed
+
+        String caminho = jCboLocation.getSelectedItem().toString();
+        System.out.println(new Date());
+        Set<File> arquivos = FileManager.listFilesAt(caminho);
+        System.out.println(arquivos.size());
+        System.out.println(new Date());
+        try {
+            File.begin();
+            long count = 0;
+                for (File arquivo : arquivos) {
+                    File.insert(arquivo);
+                    count++;
+                    if (count >= 2000){
+                        File.commit();
+                        File.begin();
+                    }
+                }
+            File.commit();
+        System.out.println(new Date());
+        }catch (Exception ex){
+            System.out.println(ex);
+        }
+        /*SwingUtil.resetMessage(getjLblMessage());
         if (isInsertMode()) {
             insert();
         } else {
             update();
-        }
-}//GEN-LAST:event_jBtnSaveActionPerformed
-
-    
-    private void update() {
-        if (jTxtName.getText() == null) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
-            return;
-        }
-        if (jTxtName.getText().trim().equals("")) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
-            return;
-        }
-        Unit editedUnit = new Unit();
-        editedUnit.id = this.editedId;
-        editedUnit.type = jCboType.getSelectedItem().toString().trim();
-        editedUnit.name = jTxtName.getText();
-        if (jChk.isSelected()) {
-            editedUnit.id_container = new Integer(jTxtBind.getText().split("-")[0].trim());
-        }
-        try {
-            Unit.begin();
-            if (jChk.isSelected()) {
-                Unit.update(editedUnit, editedUnit.id_container);
-            } else {
-                Unit.update(editedUnit);
-            }
-            Unit.commit();
-            goBack();
-        } catch (SQLException ex) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
-            Logger.getLogger(FileIndexing.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
-            Logger.getLogger(FileIndexing.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void insert() {
-
-        if (jTxtName.getText() == null) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
-            return;
-        }
-        if (jTxtName.getText().trim().equals("")) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), SwingUtil.getInternationalizedText("name.required"));
-            return;
-        }
-        Unit newUnit = new Unit();
-        newUnit.type = jCboType.getSelectedItem().toString().trim();
-        newUnit.creation_date = new Date();
-        newUnit.name = jTxtName.getText();
-        if (jChk.isSelected()) {
-            newUnit.id_container = new Integer(jTxtBind.getText().split("-")[0].trim());
-        }
-        try {
-            Unit.begin();
-            if (jChk.isSelected()) {
-                Unit.insert(newUnit, newUnit.id_container);
-            } else {
-                Unit.insert(newUnit);
-            }
-            Unit.commit();
-            goBack();
-        } catch (SQLException ex) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
-            Logger.getLogger(FileIndexing.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            SwingUtil.setupJLblToInfoMessage(getjLblMessage(), ex.getMessage());
-            Logger.getLogger(FileIndexing.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+        }*/
+}//GEN-LAST:event_jBtnIndexActionPerformed
 
     private void jBtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBackActionPerformed
         setVisible(false);
@@ -405,24 +341,22 @@ public class FileIndexing extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnBack;
-    private javax.swing.JButton jBtnSave;
+    private javax.swing.JButton jBtnIndex;
     private javax.swing.JButton jBtnSearch;
     private javax.swing.JButton jBtnSelect;
-    private javax.swing.JComboBox jCboType;
+    private javax.swing.JComboBox jCboLocation;
     private javax.swing.JCheckBox jChk;
     private javax.swing.JLabel jLblContainerParent;
     private javax.swing.JLabel jLblInfo;
     private javax.swing.JLabel jLblMessage;
     private javax.swing.JLabel jLblName;
     private javax.swing.JLabel jLblSearchText;
-    private javax.swing.JLabel jLblType;
     private javax.swing.JPanel jPnChoose;
     private javax.swing.JPanel jPnNew;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabPanel;
     private javax.swing.JTable jTblChose;
     private javax.swing.JTextField jTxtBind;
-    private javax.swing.JTextField jTxtName;
     private javax.swing.JTextField jTxtTerm;
     // End of variables declaration//GEN-END:variables
 
@@ -459,20 +393,6 @@ public class FileIndexing extends javax.swing.JFrame {
     }
 
     /**
-     * @return the jBtnSave
-     */
-    public javax.swing.JButton getjBtnSave() {
-        return jBtnSave;
-    }
-
-    /**
-     * @param jBtnSave the jBtnSave to set
-     */
-    public void setjBtnSave(javax.swing.JButton jBtnSave) {
-        this.jBtnSave = jBtnSave;
-    }
-
-    /**
      * @return the jBtnSearch
      */
     public javax.swing.JButton getjBtnSearch() {
@@ -498,20 +418,6 @@ public class FileIndexing extends javax.swing.JFrame {
      */
     public void setjBtnSelect(javax.swing.JButton jBtnSelect) {
         this.jBtnSelect = jBtnSelect;
-    }
-
-    /**
-     * @return the jCboType
-     */
-    public javax.swing.JComboBox getjCboType() {
-        return jCboType;
-    }
-
-    /**
-     * @param jCboType the jCboType to set
-     */
-    public void setjCboType(javax.swing.JComboBox jCboType) {
-        this.jCboType = jCboType;
     }
 
     /**
@@ -598,19 +504,6 @@ public class FileIndexing extends javax.swing.JFrame {
         this.jLblSearchText = jLblSearchText;
     }
 
-    /**
-     * @return the jLblType
-     */
-    public javax.swing.JLabel getjLblType() {
-        return jLblType;
-    }
-
-    /**
-     * @param jLblType the jLblType to set
-     */
-    public void setjLblType(javax.swing.JLabel jLblType) {
-        this.jLblType = jLblType;
-    }
 
     /**
      * @return the jPnChoose
@@ -696,19 +589,6 @@ public class FileIndexing extends javax.swing.JFrame {
         this.jTxtBind = jTxtBind;
     }
 
-    /**
-     * @return the jTxtName
-     */
-    public javax.swing.JTextField getjTxtName() {
-        return jTxtName;
-    }
-
-    /**
-     * @param jTxtName the jTxtName to set
-     */
-    public void setjTxtName(javax.swing.JTextField jTxtName) {
-        this.jTxtName = jTxtName;
-    }
 
     /**
      * @return the jTxtTerm

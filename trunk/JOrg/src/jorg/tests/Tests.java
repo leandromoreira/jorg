@@ -1,9 +1,8 @@
 package jorg.tests;
 
+import java.io.File;
 import java.util.Arrays;
-import java.util.Set;
 import jorg.gui.config.Configurator;
-import jorgcore.entity.FileManager;
 
 public class Tests {
     public static void main(String[] args) {

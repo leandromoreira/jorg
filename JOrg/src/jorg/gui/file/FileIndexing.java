@@ -66,8 +66,12 @@ public class FileIndexing extends javax.swing.JFrame {
         jLblInfo = new javax.swing.JLabel();
 
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
-        jChk.setSelected(true);
         jChk.setText("Is it from a unit?");
         jChk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,6 +330,10 @@ public class FileIndexing extends javax.swing.JFrame {
         getjTxtBind().setText(idSelected + " - " + description);
         getjTabPanel().setSelectedIndex(0);
 }//GEN-LAST:event_jBtnSelectActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        jCboLocation.setModel(new javax.swing.DefaultComboBoxModel(FileManager.getDrives()));
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

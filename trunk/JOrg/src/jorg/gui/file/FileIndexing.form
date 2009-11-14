@@ -66,28 +66,19 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="jLblName" alignment="1" max="32767" attributes="1"/>
-                                  <Component id="jLblContainerParent" alignment="1" max="32767" attributes="1"/>
-                              </Group>
+                          <Component id="jLblContainerParent" alignment="1" min="-2" max="-2" attributes="1"/>
+                          <Component id="jLblName" pref="214" max="32767" attributes="1"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jChk" alignment="0" pref="414" max="32767" attributes="1"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="jBtnIndex" min="-2" pref="136" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jChk" alignment="0" pref="577" max="32767" attributes="1"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jBtnSave" min="-2" pref="136" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jBtnBack" min="-2" pref="136" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jTxtBind" alignment="1" pref="577" max="32767" attributes="0"/>
-                                  <Component id="jTxtName" alignment="1" pref="577" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="jBtnBack" min="-2" pref="136" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLblType" pref="51" max="32767" attributes="1"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jCboType" pref="577" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jTxtBind" alignment="1" pref="414" max="32767" attributes="0"/>
+                          <Component id="jCboLocation" alignment="0" pref="414" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -105,17 +96,12 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLblName" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTxtName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLblName" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="jCboLocation" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace pref="92" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCboType" alignment="3" max="32767" attributes="0"/>
-                          <Component id="jLblType" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="86" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jBtnSave" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jBtnIndex" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jBtnBack" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -127,7 +113,7 @@
             <Component class="javax.swing.JCheckBox" name="jChk">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Is inside of a container?"/>
+                <Property name="text" type="java.lang.String" value="Is it from a unit?"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChkActionPerformed"/>
@@ -136,7 +122,7 @@
             <Component class="javax.swing.JLabel" name="jLblContainerParent">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Container:"/>
+                <Property name="text" type="java.lang.String" value="Unit:"/>
               </Properties>
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Container"/>
@@ -151,23 +137,18 @@
             <Component class="javax.swing.JLabel" name="jLblName">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Name:"/>
+                <Property name="text" type="java.lang.String" value="Chose unit or type location to be addressed:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTxtName">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="0"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="jBtnSave">
+            <Component class="javax.swing.JButton" name="jBtnIndex">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/jorg/gui/picture/Save24.gif"/>
+                  <Image iconType="3" name="/jorg/gui/picture/SaveAll24.gif"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Save"/>
+                <Property name="text" type="java.lang.String" value="Index"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnSaveActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnIndexActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jBtnBack">
@@ -181,23 +162,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnBackActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jCboType">
+            <Component class="javax.swing.JComboBox" name="jCboLocation">
               <Properties>
                 <Property name="editable" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="DVD"/>
-                    <StringItem index="1" value="CD"/>
-                    <StringItem index="2" value="HD"/>
-                    <StringItem index="3" value="Pendrive"/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLblType">
-              <Properties>
-                <Property name="horizontalAlignment" type="int" value="4"/>
-                <Property name="text" type="java.lang.String" value="Type:"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -334,7 +304,7 @@
           <Color blue="ff" green="33" red="33" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Unit Management"/>
+        <Property name="text" type="java.lang.String" value="File Indexing"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder/>

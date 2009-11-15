@@ -63,17 +63,23 @@ public class File {
         ps.executeUpdate();
     }
 
-    public static void insert(Unit unit, int idContainer) throws SQLException {
-        String sql = "insert into unit(" +
-                "name,creation_date,type,keywords,id_container) values (?,?,?,?,?)";
+     public static void insert(File unit,Long unitId) throws SQLException {
+        String sql = "insert into file(" +
+                "name,path,size,extension,size_in_bytes, time_last_modified,date_last_modified,id_unit) " +
+                "values (?,?,?,?,?,?,?,?)";
         PreparedStatement ps = db.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
-        ps.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
-        ps.setString(3, unit.type);
-        ps.setString(4, unit.keywords);
-        ps.setInt(5, idContainer);
+        ps.setString(2, unit.path);
+        ps.setDouble(3, unit.size);
+        ps.setString(4, unit.extension);
+        ps.setLong(5, unit.size_in_bytes);
+        ps.setTime(6, new Time(unit.time_last_modified.getTime()));
+        ps.setDate(7, new java.sql.Date(unit.time_last_modified.getTime()));
+        ps.setLong(8, unitId);
+        //ps.setDate(6, new java.sql.Date());
         ps.executeUpdate();
     }
+
 
     public static void update(Unit unit) throws SQLException {
         String sql = "update unit set " +

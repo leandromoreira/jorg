@@ -35,7 +35,7 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexFiles = new javax.swing.JMenuItem();
         jMnuSearchFiles = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMnuAboutSub = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -72,8 +72,10 @@ public class Main extends javax.swing.JFrame {
         jMnuFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMnuFile.add(jSeparator1);
 
-        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32));
+        jMnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         jMnuExit.setForeground(new java.awt.Color(153, 0, 51));
+        jMnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Stop24 (2).gif"))); // NOI18N
         jMnuExit.setText("Exit");
         jMnuExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,7 +115,7 @@ public class Main extends javax.swing.JFrame {
         jMnuUnit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jMnuManagmentUnit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuManagmentUnit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuManagmentUnit.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuManagmentUnit.setForeground(new java.awt.Color(153, 0, 51));
         jMnuManagmentUnit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jMnuManagmentUnit.setText("Managment");
@@ -133,6 +135,7 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMnuIndexable.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jMnuIndexFiles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMnuIndexFiles.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         jMnuIndexFiles.setForeground(new java.awt.Color(153, 0, 51));
         jMnuIndexFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/ComposeMail24.gif"))); // NOI18N
@@ -160,8 +163,16 @@ public class Main extends javax.swing.JFrame {
         jMnuAbout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMnuAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jMenuItem4.setText("jMenuItem1");
-        jMnuAbout.add(jMenuItem4);
+        jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuAboutSub.setForeground(new java.awt.Color(153, 0, 51));
+        jMnuAboutSub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Information24.gif"))); // NOI18N
+        jMnuAboutSub.setText("About");
+        jMnuAboutSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuAboutSubActionPerformed(evt);
+            }
+        });
+        jMnuAbout.add(jMnuAboutSub);
 
         jMnuBar.add(jMnuAbout);
 
@@ -231,6 +242,10 @@ public class Main extends javax.swing.JFrame {
         fileIndexing.setVisible(true);
     }//GEN-LAST:event_jMnuIndexFilesActionPerformed
 
+    private void jMnuAboutSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMnuAboutSubActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -246,8 +261,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLblMidlePic;
     private javax.swing.JLabel jLblRigthPic;
     private javax.swing.JLabel jLblTitulo;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenu jMnuAbout;
+    private javax.swing.JMenuItem jMnuAboutSub;
     private javax.swing.JMenuBar jMnuBar;
     private javax.swing.JMenu jMnuContainer;
     private javax.swing.JMenuItem jMnuContainerQuery;
@@ -268,7 +283,10 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("mnu.management.unit", jMnuManagmentUnit);
         setInternationalizedText("mnu.unit", jMnuUnit);
         setInternationalizedText("mnu.index", jMnuIndexable);
+        setInternationalizedText("mnu.index.file", jMnuIndexFiles);
+        setInternationalizedText("mnu.index.search", jMnuSearchFiles);
         setInternationalizedText("mnu.about", jMnuAbout);
+        setInternationalizedText("mnu.about", jMnuAboutSub);
         setInternationalizedText("exit", jMnuExit);
     }
 
@@ -294,6 +312,7 @@ public class Main extends javax.swing.JFrame {
         setupMenu();
         configContainerWindows();
         configUnitWindows();
+        configFileIndexWindow();
     }
 
     private final void setupMain() {
@@ -357,5 +376,18 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("name", nUnit.getjLblName());
         setInternationalizedText("window.unit.search.label", nUnit.getjLblSearchText());
         setInternationalizedText("type", nUnit.getjLblType());
+    }
+
+    private void configFileIndexWindow() {
+        setInternationalizedText("window.file.info", fileIndexing.getjLblInfo());
+        fileIndexing.getjTabPanel().setTitleAt(0, getInternationalizedText("window.file.info"));
+        fileIndexing.getjTabPanel().setTitleAt(1, getInternationalizedText("search"));
+        setInternationalizedText("window.unit.search.label", fileIndexing.getjLblSearchText());
+        setInternationalizedText("window.file.isitfrom", fileIndexing.getjChk());
+        setInternationalizedText("mnu.unit", fileIndexing.getjLblContainerParent());
+        setInternationalizedText("window.file.choselocation", fileIndexing.getjLblName());
+        setInternationalizedText("index",fileIndexing.getjBtnIndex());
+        setInternationalizedText("search", fileIndexing.getjBtnSearch());
+        setInternationalizedText("back",fileIndexing.getjBtnBack());
     }
 }

@@ -148,7 +148,7 @@ public class FileIndexing extends javax.swing.JFrame {
 
         jLblContainerParent.getAccessibleContext().setAccessibleName("Container");
 
-        jTabPanel.addTab("Unit Management", jPnNew);
+        jTabPanel.addTab("File Indexing", jPnNew);
 
         jLblSearchText.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLblSearchText.setText("Search by name:");
@@ -225,7 +225,7 @@ public class FileIndexing extends javax.swing.JFrame {
         jLblMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblMessage.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
+        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32));
         jLblInfo.setForeground(new java.awt.Color(51, 51, 255));
         jLblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblInfo.setText("File Indexing");
@@ -258,7 +258,7 @@ public class FileIndexing extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkActionPerformed
-        if (jChk.isSelected()) {
+        if (getjChk().isSelected()) {
             getjTabPanel().setSelectedIndex(1);
         } else {
             getjTxtBind().setText("");
@@ -266,25 +266,37 @@ public class FileIndexing extends javax.swing.JFrame {
 }//GEN-LAST:event_jChkActionPerformed
 
     private void jBtnIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIndexActionPerformed
-
-        String caminho = jCboLocation.getSelectedItem().toString();
-        System.out.println(new Date());
+        String caminho = getjCboLocation().getSelectedItem().toString();
         Set<File> arquivos = FileManager.listFilesAt(caminho);
-        System.out.println(arquivos.size());
-        System.out.println(new Date());
         try {
-            File.begin();
-            long count = 0;
-                for (File arquivo : arquivos) {
-                    File.insert(arquivo);
-                    count++;
-                    if (count >= 2000){
-                        File.commit();
-                        File.begin();
+            if (jTxtBind.getText().equals("")){
+                File.begin();
+                long count = 0;
+                    for (File arquivo : arquivos) {
+                        File.insert(arquivo);
+                        count++;
+                        if (count >= 2000){
+                            File.commit();
+                            File.begin();
+                        }
                     }
-                }
-            File.commit();
-        System.out.println(new Date());
+                File.commit();
+            }else{
+                long id = 0L;
+                String[] terms = jTxtBind.getText().split("-");
+                id = Long.parseLong(terms[0].trim());
+                File.begin();
+                long count = 0;
+                    for (File arquivo : arquivos) {
+                        File.insert(arquivo,id);
+                        count++;
+                        if (count >= 2000){
+                            File.commit();
+                            File.begin();
+                        }
+                    }
+                File.commit();
+            }
         }catch (Exception ex){
             System.out.println(ex);
         }
@@ -304,10 +316,10 @@ public class FileIndexing extends javax.swing.JFrame {
         if (!jTxtTerm.getText().equals("")) {
             try {
                 SwingUtil.resetMessage(getjLblMessage());
-                Container.begin();
-                List<Container> set = Container.findBy(getjTxtTerm().getText());
-                Iterator<Container> it = set.iterator();
-                SwingUtil.populateJTableContainer(getjTblChose(), set.size(), it);
+                Unit.begin();
+                List<Unit> set = Unit.findBy(getjTxtTerm().getText());
+                Iterator<Unit> it = set.iterator();
+                SwingUtil.populateJTableUnit(getjTblChose(), set.size(), it);
             } catch (SQLException ex) {
                 Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
@@ -316,7 +328,7 @@ public class FileIndexing extends javax.swing.JFrame {
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
             } finally {
                 try {
-                    Container.commit();
+                    Unit.commit();
                 } catch (SQLException ex) {
                     Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -332,7 +344,7 @@ public class FileIndexing extends javax.swing.JFrame {
 }//GEN-LAST:event_jBtnSelectActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        jCboLocation.setModel(new javax.swing.DefaultComboBoxModel(FileManager.getDrives()));
+        getjCboLocation().setModel(new javax.swing.DefaultComboBoxModel(FileManager.getDrives()));
     }//GEN-LAST:event_formWindowActivated
 
     /**
@@ -647,6 +659,41 @@ public class FileIndexing extends javax.swing.JFrame {
     private int editedId;
     public void setEditedId(int id) {
         editedId = id;
+    }
+
+    /**
+     * @return the jBtnIndex
+     */
+    public javax.swing.JButton getjBtnIndex() {
+        return jBtnIndex;
+    }
+
+    /**
+     * @param jBtnIndex the jBtnIndex to set
+     */
+    public void setjBtnIndex(javax.swing.JButton jBtnIndex) {
+        this.jBtnIndex = jBtnIndex;
+    }
+
+    /**
+     * @return the jCboLocation
+     */
+    public javax.swing.JComboBox getjCboLocation() {
+        return jCboLocation;
+    }
+
+    /**
+     * @param jCboLocation the jCboLocation to set
+     */
+    public void setjCboLocation(javax.swing.JComboBox jCboLocation) {
+        this.jCboLocation = jCboLocation;
+    }
+
+    /**
+     * @return the editedId
+     */
+    public int getEditedId() {
+        return editedId;
     }
 
 }

@@ -1,5 +1,8 @@
 package jorg.gui;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBox;
 import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
@@ -7,6 +10,7 @@ import jorg.gui.container.SearchContainer;
 import jorg.gui.file.FileIndexing;
 import jorg.gui.unit.NewUnit;
 import jorg.gui.unit.SearchUnit;
+import jorgcore.database.DataBase;
 
 public class Main extends javax.swing.JFrame {
 
@@ -251,7 +255,13 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuAboutSubActionPerformed
 
     private void closing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closing
-        System.out.println("CLOSING THE CONNECTION TOO...");
+        try {
+            //DataBase.getConnection().createStatement().execute("SHUTDOWN");
+            // todo: implement the right way to close javadb
+            DataBase.getConnection().close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_closing
 
     public static void main(String args[]) {

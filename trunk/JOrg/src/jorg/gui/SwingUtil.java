@@ -5,6 +5,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import jorg.gui.config.Configurator;
 import jorgcore.entity.Container;
+import jorgcore.entity.File;
 import jorgcore.entity.Unit;
 
 public final class SwingUtil {
@@ -40,7 +42,7 @@ public final class SwingUtil {
 
     public final static void setupJLblToErrorMessage(final javax.swing.JLabel jlbl, final String text) {
         jlbl.setIcon(new javax.swing.ImageIcon(SwingUtil.class.getResource("/jorg/gui/picture/Stop24 (2).gif")));
-        jlbl.setText("ERROR:"+text);
+        jlbl.setText("ERROR:" + text);
     }
 
     public final static void setDefaultButton(JFrame container, JButton jBtn) {
@@ -72,9 +74,9 @@ public final class SwingUtil {
                 lookAndFeel = "com.sun.java.swing.plaf.motif.MotifLookAndFeel";
             } else if (lookfeel.equals("GTK")) {
                 lookAndFeel = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
-            } else if (lookfeel.equals("Nimbus")){
+            } else if (lookfeel.equals("Nimbus")) {
                 lookAndFeel = "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel";
-            }else{
+            } else {
                 try {
                     UIManager.setLookAndFeel(lookAndFeel);
                 } catch (ClassNotFoundException ex) {
@@ -110,8 +112,10 @@ public final class SwingUtil {
         }
     }
 
-    public static void populateJTableContainer(JTable tab,int rowCount,Iterator<Container> it){
-        if(rowCount>20) rowCount = 20;
+    public static void populateJTableContainer(JTable tab, int rowCount, Iterator<Container> it) {
+        if (rowCount > 20) {
+            rowCount = 20;
+        }
         populateJTableContainerNew(tab, rowCount);
         try {
             Container.begin();
@@ -119,10 +123,10 @@ public final class SwingUtil {
             Logger.getLogger(SwingUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
         int row = 0;
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Container con = it.next();
-            tab.setValueAt(con.id , row, 0);
-            tab.setValueAt(con.description , row, 1);
+            tab.setValueAt(con.id, row, 0);
+            tab.setValueAt(con.description, row, 1);
             try {
                 tab.setValueAt(Container.findParentBy(con.id).description, row, 2);
             } catch (SQLException ex) {
@@ -130,16 +134,78 @@ public final class SwingUtil {
             }
             row++;
         }
+
     }
-    public static void populateJTableContainerNew(JTable tab,int rowCount) {
+
+    public static void populateJTableFile(JTable tab, int rowCount, Iterator<File> it) {
         TableColumnModel tb = new DefaultTableColumnModel();
-        TableColumn id =new TableColumn(0, 150);
+
+        TableColumn id = new TableColumn(0, 150);
         id.setPreferredWidth(150);
         id.setResizable(false);
-        TableColumn desc =new TableColumn(0, 350);
+        tb.addColumn(id);
+
+        TableColumn name = new TableColumn(0, 150);
+        name.setPreferredWidth(150);
+        name.setResizable(false);
+        tb.addColumn(name);
+
+        TableColumn path = new TableColumn(0, 150);
+        path.setPreferredWidth(150);
+        path.setResizable(false);
+        tb.addColumn(path);
+
+        TableColumn size = new TableColumn(0, 150);
+        size.setPreferredWidth(150);
+        size.setResizable(false);
+        tb.addColumn(size);
+
+        TableColumn id_unit = new TableColumn(0, 150);
+        id_unit.setPreferredWidth(150);
+        id_unit.setResizable(false);
+        tb.addColumn(id_unit);
+        
+        String[] columnNames = new String[]{
+            getInternationalizedText("file.id"),
+            getInternationalizedText("file.name"),
+            getInternationalizedText("file.path"),
+            getInternationalizedText("file.size"),
+            getInternationalizedText("mnu.unit")
+            };
+        TableModel tbm = new DefaultTableModel(columnNames, rowCount);
+        tab.setColumnModel(tb);
+        tab.setModel(tbm);
+
+        tab.getColumnModel().getColumn(0).setResizable(false);
+        tab.getColumnModel().getColumn(0).setMaxWidth(55);
+        tab.getColumnModel().getColumn(1).setResizable(false);
+        tab.getColumnModel().getColumn(1).setMaxWidth(400);
+        tab.getColumnModel().getColumn(2).setResizable(false);
+        tab.getColumnModel().getColumn(2).setMaxWidth(600);
+
+        int row = 0;
+        DecimalFormat df = new DecimalFormat("#.##MB");
+        while (it.hasNext()) {
+            File file = it.next();
+            tab.setValueAt(file.id, row, 0);
+            tab.setValueAt(file.name, row, 1);
+            tab.setValueAt(file.path, row, 2);
+            tab.setValueAt(df.format(file.size), row, 3);
+            tab.setValueAt(file.id_unit, row, 4);
+            row++;
+        }
+
+    }
+
+    public static void populateJTableContainerNew(JTable tab, int rowCount) {
+        TableColumnModel tb = new DefaultTableColumnModel();
+        TableColumn id = new TableColumn(0, 150);
+        id.setPreferredWidth(150);
+        id.setResizable(false);
+        TableColumn desc = new TableColumn(0, 350);
         desc.setPreferredWidth(350);
         desc.setResizable(false);
-        TableColumn idP =new TableColumn(0, 150);
+        TableColumn idP = new TableColumn(0, 150);
         idP.setPreferredWidth(150);
         idP.setResizable(false);
         tb.addColumn(id);
@@ -162,8 +228,10 @@ public final class SwingUtil {
         tab.getColumnModel().getColumn(2).setMaxWidth(300);
     }
 
-    public static void populateJTableUnit(JTable tab,int rowCount,Iterator<Unit> it){
-        if(rowCount>20) rowCount = 20;
+    public static void populateJTableUnit(JTable tab, int rowCount, Iterator<Unit> it) {
+        if (rowCount > 20) {
+            rowCount = 20;
+        }
         populateJTableUnitNew(tab, rowCount);
         try {
             Unit.begin();
@@ -171,24 +239,24 @@ public final class SwingUtil {
             Logger.getLogger(SwingUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
         int row = 0;
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Unit con = it.next();
-            tab.setValueAt(con.id , row, 0);
-            tab.setValueAt(con.name , row, 1);
-            tab.setValueAt(con.type , row, 2);
+            tab.setValueAt(con.id, row, 0);
+            tab.setValueAt(con.name, row, 1);
+            tab.setValueAt(con.type, row, 2);
             row++;
         }
     }
 
-    public static void populateJTableUnitNew(JTable tab,int rowCount) {
+    public static void populateJTableUnitNew(JTable tab, int rowCount) {
         TableColumnModel tb = new DefaultTableColumnModel();
-        TableColumn id =new TableColumn(0, 150);
+        TableColumn id = new TableColumn(0, 150);
         id.setPreferredWidth(150);
         id.setResizable(false);
-        TableColumn name =new TableColumn(0, 250);
+        TableColumn name = new TableColumn(0, 250);
         name.setPreferredWidth(350);
         name.setResizable(false);
-        TableColumn type =new TableColumn(0, 250);
+        TableColumn type = new TableColumn(0, 250);
         type.setPreferredWidth(150);
         type.setResizable(false);
         tb.addColumn(id);

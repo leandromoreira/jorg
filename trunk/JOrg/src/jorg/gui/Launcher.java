@@ -20,10 +20,8 @@ public class Launcher {
             }
 
             private final void fakingAConnection() {
-                DataBase db;
                 try {
-                    db = new DataBase();
-                    db.close();
+                    new DataBase();
                 } catch (SQLException ex) {
                     Logger.getLogger(Launcher.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -28,9 +28,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLblMessage" alignment="0" pref="657" max="32767" attributes="0"/>
-                  <Component id="jTabPanel" alignment="0" pref="657" max="32767" attributes="0"/>
-                  <Component id="jLblInfo" alignment="0" pref="657" max="32767" attributes="0"/>
+                  <Component id="jLblMessage" alignment="0" pref="716" max="32767" attributes="0"/>
+                  <Component id="jTabPanel" alignment="0" pref="716" max="32767" attributes="0"/>
+                  <Component id="jLblInfo" alignment="0" pref="716" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -66,22 +66,29 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLblContainerParent" alignment="1" min="-2" max="-2" attributes="1"/>
-                          <Component id="jLblName" pref="214" max="32767" attributes="1"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jChk" alignment="0" pref="414" max="32767" attributes="1"/>
+                          <Component id="jPrg" alignment="0" pref="691" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jBtnIndex" min="-2" pref="136" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLblContainerParent" alignment="1" min="-2" max="-2" attributes="1"/>
+                                  <Component id="jLblName" pref="244" max="32767" attributes="1"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jBtnBack" min="-2" pref="136" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jChk" alignment="0" pref="443" max="32767" attributes="1"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jBtnIndex" min="-2" pref="136" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jBtnStop" min="-2" pref="136" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jBtnBack" min="-2" pref="136" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jTxtBind" alignment="1" pref="443" max="32767" attributes="0"/>
+                                  <Component id="jCboLocation" alignment="0" pref="443" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <Component id="jTxtBind" alignment="1" pref="414" max="32767" attributes="0"/>
-                          <Component id="jCboLocation" alignment="0" pref="414" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -102,10 +109,13 @@
                           <Component id="jLblName" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
                           <Component id="jCboLocation" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="92" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <Component id="jPrg" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="32" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jBtnIndex" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jBtnBack" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jBtnStop" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -172,6 +182,22 @@
                 </Property>
               </Properties>
             </Component>
+            <Component class="javax.swing.JProgressBar" name="jPrg">
+              <Properties>
+                <Property name="maximum" type="int" value="3000"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jBtnStop">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/jorg/gui/picture/Stop24 (2).gif"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Cancel"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnStopActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPnChoose">
@@ -189,7 +215,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" pref="632" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" pref="691" max="32767" attributes="0"/>
                           <Component id="jBtnSelect" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -199,7 +225,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLblSearchText" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTxtTerm" pref="405" max="32767" attributes="0"/>
+                          <Component id="jTxtTerm" pref="464" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jBtnSearch" min="-2" pref="136" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>

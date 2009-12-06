@@ -41,6 +41,9 @@ public class Main extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                closing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -73,7 +76,7 @@ public class Main extends javax.swing.JFrame {
         jMnuFile.add(jSeparator1);
 
         jMnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuExit.setForeground(new java.awt.Color(153, 0, 51));
         jMnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Stop24 (2).gif"))); // NOI18N
         jMnuExit.setText("Exit");
@@ -136,7 +139,7 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexable.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jMnuIndexFiles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuIndexFiles.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuIndexFiles.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuIndexFiles.setForeground(new java.awt.Color(153, 0, 51));
         jMnuIndexFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/ComposeMail24.gif"))); // NOI18N
         jMnuIndexFiles.setText("Index Files");
@@ -148,7 +151,7 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexable.add(jMnuIndexFiles);
 
         jMnuSearchFiles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuSearchFiles.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuSearchFiles.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuSearchFiles.setForeground(new java.awt.Color(153, 0, 51));
         jMnuSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Find24.gif"))); // NOI18N
         jMnuSearchFiles.setText("Search Files");
@@ -163,7 +166,7 @@ public class Main extends javax.swing.JFrame {
         jMnuAbout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMnuAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuAboutSub.setForeground(new java.awt.Color(153, 0, 51));
         jMnuAboutSub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Information24.gif"))); // NOI18N
         jMnuAboutSub.setText("About");
@@ -210,41 +213,46 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private SearchContainer container = new SearchContainer();
     private SearchUnit unit = new SearchUnit();
-    private FileIndexing fileIndexing = new FileIndexing();
+    private FileIndexing fileIndexing = new FileIndexing(this);
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     }//GEN-LAST:event_formWindowOpened
 
     private void jMnuContainerQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuContainerQueryActionPerformed
-        SwingUtil.center(container);
-        container.getjTxtTerm().setText("");
-        SwingUtil.setDefaultButton(container, container.getjBtnSearch());
-        container.setVisible(true);
+        SwingUtil.center(getContainer());
+        getContainer().getjTxtTerm().setText("");
+        SwingUtil.setDefaultButton( getContainer(), getContainer().getjBtnSearch());
+        getContainer().setVisible(true);
     }//GEN-LAST:event_jMnuContainerQueryActionPerformed
 
     private void jMnuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuExitActionPerformed
+        closing(null);
         dispose();
         System.exit(0);
     }//GEN-LAST:event_jMnuExitActionPerformed
 
     private void jMnuManagmentUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuManagmentUnitActionPerformed
-        SwingUtil.center(unit);
-        unit.getjTxtTerm().setText("");
-        SwingUtil.setDefaultButton(unit, unit.getjBtnSearch());
-        SwingUtil.setDefaultButton(unit.getNewUnit(), unit.getNewUnit().getjBtnSearch());
-        unit.setVisible(true);
+        SwingUtil.center(getUnit());
+        getUnit().getjTxtTerm().setText("");
+        SwingUtil.setDefaultButton( getUnit(), getUnit().getjBtnSearch());
+        SwingUtil.setDefaultButton(getUnit().getNewUnit(), getUnit().getNewUnit().getjBtnSearch());
+        getUnit().setVisible(true);
     }//GEN-LAST:event_jMnuManagmentUnitActionPerformed
 
     private void jMnuIndexFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuIndexFilesActionPerformed
-        SwingUtil.center(fileIndexing);
-        fileIndexing.getjTxtTerm().setText("");
-        SwingUtil.setDefaultButton(fileIndexing, fileIndexing.getjBtnSearch());
-        fileIndexing.setVisible(true);
+        SwingUtil.center(getFileIndexing());
+        getFileIndexing().getjTxtTerm().setText("");
+        SwingUtil.setDefaultButton( getFileIndexing(), getFileIndexing().getjBtnSearch());
+        getFileIndexing().setVisible(true);
     }//GEN-LAST:event_jMnuIndexFilesActionPerformed
 
     private void jMnuAboutSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSubActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMnuAboutSubActionPerformed
+
+    private void closing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closing
+        System.out.println("CLOSING THE CONNECTION TOO...");
+    }//GEN-LAST:event_closing
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -277,17 +285,17 @@ public class Main extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private final void setupMenu() {
-        setInternationalizedText("mnu.file", jMnuFile);
-        setInternationalizedText("mnu.container", jMnuContainer);
-        setInternationalizedText("mnu.container.search", jMnuContainerQuery);
-        setInternationalizedText("mnu.management.unit", jMnuManagmentUnit);
-        setInternationalizedText("mnu.unit", jMnuUnit);
-        setInternationalizedText("mnu.index", jMnuIndexable);
-        setInternationalizedText("mnu.index.file", jMnuIndexFiles);
-        setInternationalizedText("mnu.index.search", jMnuSearchFiles);
-        setInternationalizedText("mnu.about", jMnuAbout);
-        setInternationalizedText("mnu.about", jMnuAboutSub);
-        setInternationalizedText("exit", jMnuExit);
+        setInternationalizedText("mnu.file",getjMnuFile());
+        setInternationalizedText("mnu.container",getjMnuContainer());
+        setInternationalizedText("mnu.container.search",getjMnuContainerQuery());
+        setInternationalizedText("mnu.management.unit",getjMnuManagmentUnit());
+        setInternationalizedText("mnu.unit",getjMnuUnit());
+        setInternationalizedText("mnu.index",getjMnuIndexable());
+        setInternationalizedText("mnu.index.file",getjMnuIndexFiles());
+        setInternationalizedText("mnu.index.search",getjMnuSearchFiles());
+        setInternationalizedText("mnu.about",getjMnuAbout());
+        setInternationalizedText("mnu.about",getjMnuAboutSub());
+        setInternationalizedText("exit",getjMnuExit());
     }
 
     private final String getInternationalizedText(final String key) {
@@ -295,16 +303,16 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void configContainerWindows() {
-        container.setTitle(getInternationalizedText("container.title"));
-        setInternationalizedText("container.info", container.getjLblContainerInfo());
-        setInternationalizedText("container.searchlabel", container.getjLblSearchText());
-        setInternationalizedText("container.searchbutton", container.getjBtnSearch());
-        setInternationalizedText("container.tip", container.getjLblContainerTip());
-        setInternationalizedText("container.new", container.getjBtnContainerNew());
-        setInternationalizedText("container.edit", container.getjBtnContainerEdit());
-        setInternationalizedText("container.delete", container.getjBtnContainerDelete());
-        setInternationalizedText("container.back", container.getjBtnContainerBack());
-        configureContainerNew(container.getNewContainer());
+        getContainer().setTitle(getInternationalizedText("container.title"));
+        setInternationalizedText("container.info", getContainer().getjLblContainerInfo());
+        setInternationalizedText("container.searchlabel", getContainer().getjLblSearchText());
+        setInternationalizedText("container.searchbutton", getContainer().getjBtnSearch());
+        setInternationalizedText("container.tip", getContainer().getjLblContainerTip());
+        setInternationalizedText("container.new", getContainer().getjBtnContainerNew());
+        setInternationalizedText("container.edit", getContainer().getjBtnContainerEdit());
+        setInternationalizedText("container.delete", getContainer().getjBtnContainerDelete());
+        setInternationalizedText("container.back", getContainer().getjBtnContainerBack());
+        configureContainerNew(getContainer().getNewContainer());
     }
 
     public final void internationalize() {
@@ -317,9 +325,9 @@ public class Main extends javax.swing.JFrame {
 
     private final void setupMain() {
         setTitle(getInternationalizedText("main.title"));
-        jLblTitulo.setText("<html>" + getInternationalizedText("main.label.title") +
+        getjLblTitulo().setText("<html>" + getInternationalizedText("main.label.title") +
                 " " + getInternationalizedText("main.version") + "</html>");
-        jLblDescricao.setText("<html>" + getInternationalizedText("main.label.description") + "</html>");
+        getjLblDescricao().setText("<html>" + getInternationalizedText("main.label.description") + "</html>");
     }
 
     private final void setInternationalizedText(final String text, final javax.swing.JButton jbtn) {
@@ -357,15 +365,15 @@ public class Main extends javax.swing.JFrame {
     }
 
     private final void configUnitWindows() {
-        setInternationalizedText("window.unit.info", unit.getjLblUnitInfo());
-        setInternationalizedText("window.unit.search.label", unit.getjLblSearchText());
-        setInternationalizedText("search", unit.getjBtnSearch());
-        setInternationalizedText("container.tip",unit.getjLblContainerTip());
-        setInternationalizedText("new",unit.getjBtnNew());
-        setInternationalizedText("edit",unit.getjBtnEdit());
-        setInternationalizedText("delete",unit.getjBtnDelete());
-        setInternationalizedText("back",unit.getjBtnBack());
-        NewUnit nUnit = unit.getNewUnit();
+        setInternationalizedText("window.unit.info", getUnit().getjLblUnitInfo());
+        setInternationalizedText("window.unit.search.label", getUnit().getjLblSearchText());
+        setInternationalizedText("search", getUnit().getjBtnSearch());
+        setInternationalizedText("container.tip",getUnit().getjLblContainerTip());
+        setInternationalizedText("new",getUnit().getjBtnNew());
+        setInternationalizedText("edit",getUnit().getjBtnEdit());
+        setInternationalizedText("delete",getUnit().getjBtnDelete());
+        setInternationalizedText("back",getUnit().getjBtnBack());
+        NewUnit nUnit = getUnit().getNewUnit();
         setInternationalizedText("back", nUnit.getjBtnBack());
         setInternationalizedText("save", nUnit.getjBtnSave());
         setInternationalizedText("search", nUnit.getjBtnSearch());
@@ -379,15 +387,310 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void configFileIndexWindow() {
-        setInternationalizedText("window.file.info", fileIndexing.getjLblInfo());
-        fileIndexing.getjTabPanel().setTitleAt(0, getInternationalizedText("window.file.info"));
-        fileIndexing.getjTabPanel().setTitleAt(1, getInternationalizedText("search"));
-        setInternationalizedText("window.unit.search.label", fileIndexing.getjLblSearchText());
-        setInternationalizedText("window.file.isitfrom", fileIndexing.getjChk());
-        setInternationalizedText("mnu.unit", fileIndexing.getjLblContainerParent());
-        setInternationalizedText("window.file.choselocation", fileIndexing.getjLblName());
-        setInternationalizedText("index",fileIndexing.getjBtnIndex());
-        setInternationalizedText("search", fileIndexing.getjBtnSearch());
-        setInternationalizedText("back",fileIndexing.getjBtnBack());
+        setInternationalizedText("window.file.info", getFileIndexing().getjLblInfo());
+        getFileIndexing().getjTabPanel().setTitleAt(0, getInternationalizedText("window.file.info"));
+        getFileIndexing().getjTabPanel().setTitleAt(1, getInternationalizedText("search"));
+        setInternationalizedText("window.unit.search.label", getFileIndexing().getjLblSearchText());
+        setInternationalizedText("window.file.isitfrom", getFileIndexing().getjChk());
+        setInternationalizedText("mnu.unit", getFileIndexing().getjLblContainerParent());
+        setInternationalizedText("window.file.choselocation", getFileIndexing().getjLblName());
+        setInternationalizedText("index",getFileIndexing().getjBtnIndex());
+        setInternationalizedText("search", getFileIndexing().getjBtnSearch());
+        setInternationalizedText("back",getFileIndexing().getjBtnBack());
+        setInternationalizedText("cancel",getFileIndexing().getjBtnStop());
+    }
+
+    /**
+     * @return the container
+     */
+    public SearchContainer getContainer() {
+        return container;
+    }
+
+    /**
+     * @param container the container to set
+     */
+    public void setContainer(SearchContainer container) {
+        this.container = container;
+    }
+
+    /**
+     * @return the unit
+     */
+    public SearchUnit getUnit() {
+        return unit;
+    }
+
+    /**
+     * @param unit the unit to set
+     */
+    public void setUnit(SearchUnit unit) {
+        this.unit = unit;
+    }
+
+    /**
+     * @return the fileIndexing
+     */
+    public FileIndexing getFileIndexing() {
+        return fileIndexing;
+    }
+
+    /**
+     * @param fileIndexing the fileIndexing to set
+     */
+    public void setFileIndexing(FileIndexing fileIndexing) {
+        this.fileIndexing = fileIndexing;
+    }
+
+    /**
+     * @return the jLblDescricao
+     */
+    public javax.swing.JLabel getjLblDescricao() {
+        return jLblDescricao;
+    }
+
+    /**
+     * @param jLblDescricao the jLblDescricao to set
+     */
+    public void setjLblDescricao(javax.swing.JLabel jLblDescricao) {
+        this.jLblDescricao = jLblDescricao;
+    }
+
+    /**
+     * @return the jLblLeftPic
+     */
+    public javax.swing.JLabel getjLblLeftPic() {
+        return jLblLeftPic;
+    }
+
+    /**
+     * @param jLblLeftPic the jLblLeftPic to set
+     */
+    public void setjLblLeftPic(javax.swing.JLabel jLblLeftPic) {
+        this.jLblLeftPic = jLblLeftPic;
+    }
+
+    /**
+     * @return the jLblMidlePic
+     */
+    public javax.swing.JLabel getjLblMidlePic() {
+        return jLblMidlePic;
+    }
+
+    /**
+     * @param jLblMidlePic the jLblMidlePic to set
+     */
+    public void setjLblMidlePic(javax.swing.JLabel jLblMidlePic) {
+        this.jLblMidlePic = jLblMidlePic;
+    }
+
+    /**
+     * @return the jLblRigthPic
+     */
+    public javax.swing.JLabel getjLblRigthPic() {
+        return jLblRigthPic;
+    }
+
+    /**
+     * @param jLblRigthPic the jLblRigthPic to set
+     */
+    public void setjLblRigthPic(javax.swing.JLabel jLblRigthPic) {
+        this.jLblRigthPic = jLblRigthPic;
+    }
+
+    /**
+     * @return the jLblTitulo
+     */
+    public javax.swing.JLabel getjLblTitulo() {
+        return jLblTitulo;
+    }
+
+    /**
+     * @param jLblTitulo the jLblTitulo to set
+     */
+    public void setjLblTitulo(javax.swing.JLabel jLblTitulo) {
+        this.jLblTitulo = jLblTitulo;
+    }
+
+    /**
+     * @return the jMnuAbout
+     */
+    public javax.swing.JMenu getjMnuAbout() {
+        return jMnuAbout;
+    }
+
+    /**
+     * @param jMnuAbout the jMnuAbout to set
+     */
+    public void setjMnuAbout(javax.swing.JMenu jMnuAbout) {
+        this.jMnuAbout = jMnuAbout;
+    }
+
+    /**
+     * @return the jMnuAboutSub
+     */
+    public javax.swing.JMenuItem getjMnuAboutSub() {
+        return jMnuAboutSub;
+    }
+
+    /**
+     * @param jMnuAboutSub the jMnuAboutSub to set
+     */
+    public void setjMnuAboutSub(javax.swing.JMenuItem jMnuAboutSub) {
+        this.jMnuAboutSub = jMnuAboutSub;
+    }
+
+    /**
+     * @return the jMnuBar
+     */
+    public javax.swing.JMenuBar getjMnuBar() {
+        return jMnuBar;
+    }
+
+    /**
+     * @param jMnuBar the jMnuBar to set
+     */
+    public void setjMnuBar(javax.swing.JMenuBar jMnuBar) {
+        this.jMnuBar = jMnuBar;
+    }
+
+    /**
+     * @return the jMnuContainer
+     */
+    public javax.swing.JMenu getjMnuContainer() {
+        return jMnuContainer;
+    }
+
+    /**
+     * @param jMnuContainer the jMnuContainer to set
+     */
+    public void setjMnuContainer(javax.swing.JMenu jMnuContainer) {
+        this.jMnuContainer = jMnuContainer;
+    }
+
+    /**
+     * @return the jMnuContainerQuery
+     */
+    public javax.swing.JMenuItem getjMnuContainerQuery() {
+        return jMnuContainerQuery;
+    }
+
+    /**
+     * @param jMnuContainerQuery the jMnuContainerQuery to set
+     */
+    public void setjMnuContainerQuery(javax.swing.JMenuItem jMnuContainerQuery) {
+        this.jMnuContainerQuery = jMnuContainerQuery;
+    }
+
+    /**
+     * @return the jMnuExit
+     */
+    public javax.swing.JMenuItem getjMnuExit() {
+        return jMnuExit;
+    }
+
+    /**
+     * @param jMnuExit the jMnuExit to set
+     */
+    public void setjMnuExit(javax.swing.JMenuItem jMnuExit) {
+        this.jMnuExit = jMnuExit;
+    }
+
+    /**
+     * @return the jMnuFile
+     */
+    public javax.swing.JMenu getjMnuFile() {
+        return jMnuFile;
+    }
+
+    /**
+     * @param jMnuFile the jMnuFile to set
+     */
+    public void setjMnuFile(javax.swing.JMenu jMnuFile) {
+        this.jMnuFile = jMnuFile;
+    }
+
+    /**
+     * @return the jMnuIndexFiles
+     */
+    public javax.swing.JMenuItem getjMnuIndexFiles() {
+        return jMnuIndexFiles;
+    }
+
+    /**
+     * @param jMnuIndexFiles the jMnuIndexFiles to set
+     */
+    public void setjMnuIndexFiles(javax.swing.JMenuItem jMnuIndexFiles) {
+        this.jMnuIndexFiles = jMnuIndexFiles;
+    }
+
+    /**
+     * @return the jMnuIndexable
+     */
+    public javax.swing.JMenu getjMnuIndexable() {
+        return jMnuIndexable;
+    }
+
+    /**
+     * @param jMnuIndexable the jMnuIndexable to set
+     */
+    public void setjMnuIndexable(javax.swing.JMenu jMnuIndexable) {
+        this.jMnuIndexable = jMnuIndexable;
+    }
+
+    /**
+     * @return the jMnuManagmentUnit
+     */
+    public javax.swing.JMenuItem getjMnuManagmentUnit() {
+        return jMnuManagmentUnit;
+    }
+
+    /**
+     * @param jMnuManagmentUnit the jMnuManagmentUnit to set
+     */
+    public void setjMnuManagmentUnit(javax.swing.JMenuItem jMnuManagmentUnit) {
+        this.jMnuManagmentUnit = jMnuManagmentUnit;
+    }
+
+    /**
+     * @return the jMnuSearchFiles
+     */
+    public javax.swing.JMenuItem getjMnuSearchFiles() {
+        return jMnuSearchFiles;
+    }
+
+    /**
+     * @param jMnuSearchFiles the jMnuSearchFiles to set
+     */
+    public void setjMnuSearchFiles(javax.swing.JMenuItem jMnuSearchFiles) {
+        this.jMnuSearchFiles = jMnuSearchFiles;
+    }
+
+    /**
+     * @return the jMnuUnit
+     */
+    public javax.swing.JMenu getjMnuUnit() {
+        return jMnuUnit;
+    }
+
+    /**
+     * @param jMnuUnit the jMnuUnit to set
+     */
+    public void setjMnuUnit(javax.swing.JMenu jMnuUnit) {
+        this.jMnuUnit = jMnuUnit;
+    }
+
+    /**
+     * @return the jSeparator1
+     */
+    public javax.swing.JSeparator getjSeparator1() {
+        return jSeparator1;
+    }
+
+    /**
+     * @param jSeparator1 the jSeparator1 to set
+     */
+    public void setjSeparator1(javax.swing.JSeparator jSeparator1) {
+        this.jSeparator1 = jSeparator1;
     }
 }

@@ -27,14 +27,14 @@ public class Unit {
         db = new DataBase();
     }
 
+    @Deprecated
     public static void commit() throws SQLException {
-        db.close();
     }
 
     public static void insert(Unit unit) throws SQLException {
         String sql = "insert into unit(" +
                 "name,creation_date,type,keywords) values (?,?,?,?)";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
         ps.setString(3, unit.type);
@@ -45,7 +45,7 @@ public class Unit {
     public static void insert(Unit unit, int idContainer) throws SQLException {
         String sql = "insert into unit(" +
                 "name,creation_date,type,keywords,id_container) values (?,?,?,?,?)";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
         ps.setString(3, unit.type);
@@ -57,7 +57,7 @@ public class Unit {
     public static void update(Unit unit) throws SQLException {
         String sql = "update unit set " +
                 "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setString(2, unit.type);
         ps.setString(3, unit.keywords);
@@ -69,7 +69,7 @@ public class Unit {
     public static void update(Unit unit, int idContainer) throws SQLException {
         String sql = "update unit set " +
                 "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setString(2, unit.type);
         ps.setString(3, unit.keywords);
@@ -80,11 +80,11 @@ public class Unit {
 
     public static void delete(Unit unit) throws SQLException {
         String sql = "delete from file where id_unit =?";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, unit.id);
         ps.executeUpdate();
         sql = "delete from unit where id =?";
-        ps = db.getConnection().prepareStatement(sql);
+        ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, unit.id);
         ps.executeUpdate();
     }
@@ -119,7 +119,14 @@ public class Unit {
 
     public static List<Unit> findAll() throws SQLException {
         List<Unit> unit = new ArrayList<Unit>();
-        ResultSet rs = db.query("select top 20 * from unit order by id desc");
+        ResultSet rs = db.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
+        mapping(rs, unit);
+        return unit;
+    }
+
+    public static List<Unit> listLast() throws SQLException{
+        List<Unit> unit = new ArrayList<Unit>();
+        ResultSet rs = db.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
         mapping(rs, unit);
         return unit;
     }
@@ -166,9 +173,7 @@ public class Unit {
         unit.type = rs.getString("type");
         unit.keywords = rs.getString("keywords");
         unit.rented_date = rs.getDate("rented_date");
-        unit.release_date = rs.getDate("release_date");
         unit.creation_date = rs.getDate("creation_date");
-
     }
 
     @Override

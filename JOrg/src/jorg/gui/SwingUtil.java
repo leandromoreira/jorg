@@ -179,9 +179,13 @@ public final class SwingUtil {
         tab.getColumnModel().getColumn(0).setResizable(false);
         tab.getColumnModel().getColumn(0).setMaxWidth(55);
         tab.getColumnModel().getColumn(1).setResizable(false);
-        tab.getColumnModel().getColumn(1).setMaxWidth(400);
+        tab.getColumnModel().getColumn(1).setMaxWidth(600);
         tab.getColumnModel().getColumn(2).setResizable(false);
-        tab.getColumnModel().getColumn(2).setMaxWidth(600);
+        tab.getColumnModel().getColumn(2).setMaxWidth(300);
+        tab.getColumnModel().getColumn(3).setResizable(false);
+        tab.getColumnModel().getColumn(3).setMaxWidth(85);
+        tab.getColumnModel().getColumn(4).setResizable(false);
+        tab.getColumnModel().getColumn(4).setMaxWidth(55);
 
         int row = 0;
         DecimalFormat df = new DecimalFormat("#.##MB");

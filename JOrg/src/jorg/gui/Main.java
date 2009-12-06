@@ -10,6 +10,7 @@ import jorg.gui.container.SearchContainer;
 import jorg.gui.file.FileIndexing;
 import jorg.gui.unit.NewUnit;
 import jorg.gui.unit.SearchUnit;
+import jorg.indexing.LuceneSearcher;
 import jorgcore.database.DataBase;
 
 public class Main extends javax.swing.JFrame {
@@ -259,6 +260,7 @@ public class Main extends javax.swing.JFrame {
             //DataBase.getConnection().createStatement().execute("SHUTDOWN");
             // todo: implement the right way to close javadb
             DataBase.getConnection().close();
+            LuceneSearcher.closeReader();
         } catch (SQLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

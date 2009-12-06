@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import jorgcore.database.DataBase;
@@ -16,6 +18,7 @@ public class File {
     public double size;
     public long size_in_bytes;
     public Date time_last_modified;
+    public Date date_last_modified;
     public String extension;
     public int id_unit;
     private static PreparedStatement psBatch, psBatchLinked;
@@ -47,7 +50,6 @@ public class File {
     @Deprecated
     public static void commit() throws SQLException {
     }
-    
 
     public static void setupBatch() throws SQLException {
         if (psBatch == null | psBatchLinked == null) {
@@ -94,13 +96,57 @@ public class File {
         psBatchLinked.addBatch();
     }
 
+    public final static Collection<File> listBy(final int[] ids, String where) throws SQLException {
+
+        if (ids.length == 0) {
+            return new ArrayList<File>();
+        }
+        Collection<File> list = new ArrayList<File>();
+        if (where == null) {
+            where = "";
+        }
+        String copyOfWhere = where.toLowerCase();
+        where = createRestriction(ids, where);
+
+        if (!copyOfWhere.equals("")) {
+            where += " and " + copyOfWhere;
+        }
+        StringBuilder sql = new StringBuilder("select * from file " + where);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql.toString());
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            File file = new File();
+            file.extension = rs.getString("extension");
+            file.id = rs.getLong("id");
+            file.id_unit = rs.getInt("id_unit");
+            file.name = rs.getString("name");
+            file.path = rs.getString("path");
+            file.size = rs.getFloat("size");
+            file.size_in_bytes = rs.getLong("size_in_bytes");
+            file.time_last_modified = rs.getTime("time_last_modified");
+            file.date_last_modified = rs.getDate("date_last_modified");
+            list.add(file);
+        }
+        return list;
+    }
+
+    private final static String createRestriction(final int[] ids, String where) {
+        where = "where id in (";
+        for (int i = 0; i < ids.length; i++) {
+            int id = ids[i];
+            where += id + ",";
+        }
+        where = where.substring(0, where.length()-1) + ")";
+        return where;
+    }
+
     public static int lastId() throws SQLException {
         StringBuilder sql = new StringBuilder("select max(id) from file");
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql.toString());
         ResultSet rs = ps.executeQuery();
-        if (rs.next()){
+        if (rs.next()) {
             return rs.getInt(1);
-        }else{
+        } else {
             return 0;
         }
     }

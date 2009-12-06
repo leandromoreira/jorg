@@ -47,11 +47,16 @@ public final class DataBase {
 
     @Deprecated
     public void close() throws SQLException {
-        //getConnection().createStatement().execute("SHUTDOWN");
-        //getConnection().close();
     }
 
     public static final Connection getConnection() {
+        if (connection==null){
+            try {
+                new DataBase();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return connection;
     }
 }

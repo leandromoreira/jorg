@@ -248,9 +248,13 @@ public class NewContainer extends javax.swing.JFrame {
     private void jBtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchActionPerformed
         if (!jTxtTerm.getText().equals("")) {
             try {
+                String term = jTxtTerm.getText();
+                if (!term.contains("*")){
+                    term = "*" + term + "*";
+                }
                 SwingUtil.resetMessage(getjLblMessage());
                 Container.begin();
-                List<Container> set = Container.findBy(getjTxtTerm().getText());
+                List<Container> set = Container.findBy(term);
                 Iterator<Container> it = set.iterator();
                 SwingUtil.populateJTableContainer(getjTblContainer(), set.size(), it);
             } catch (SQLException ex) {

@@ -182,9 +182,13 @@ public class SearchUnit extends javax.swing.JFrame {
     private void jBtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchActionPerformed
         if (!jTxtTerm.getText().equals("")) {
             try {
+                String term = jTxtTerm.getText();
+                if (!term.contains("*")){
+                    term = "*" + term + "*";
+                }
                 SwingUtil.resetMessage(jLblMessage);
                 Unit.begin();
-                List<Unit> set = Unit.findBy(jTxtTerm.getText());
+                List<Unit> set = Unit.findBy(term);
                 Iterator<Unit> it = set.iterator();
                 SwingUtil.populateJTableUnit(jTblUnit, set.size(), it);
             } catch (SQLException ex) {

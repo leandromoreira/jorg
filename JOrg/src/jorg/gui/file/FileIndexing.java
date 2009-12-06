@@ -1,28 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * NewUnit.java
- *
- * Created on 28/09/2009, 22:04:18
- */
 package jorg.gui.file;
 
+import jorg.gui.Main;
 import jorg.gui.unit.*;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jorg.gui.SwingUtil;
 import jorg.gui.container.SearchContainer;
-import jorgcore.entity.Container;
-import jorgcore.entity.File;
-import jorgcore.entity.FileManager;
 import jorgcore.entity.Unit;
 
 public class FileIndexing extends javax.swing.JFrame {
@@ -32,9 +18,16 @@ public class FileIndexing extends javax.swing.JFrame {
     }
     private boolean insertMode;
     private SearchUnit search;
+
     public FileIndexing(SearchUnit search) {
         this.search = search;
         initComponents();
+    }
+    private Main delegate;
+
+    public FileIndexing(Main main) {
+        this();
+        delegate = main;
     }
 
     /** This method is called from within the constructor to
@@ -55,6 +48,8 @@ public class FileIndexing extends javax.swing.JFrame {
         jBtnIndex = new javax.swing.JButton();
         jBtnBack = new javax.swing.JButton();
         jCboLocation = new javax.swing.JComboBox();
+        jPrg = new javax.swing.JProgressBar();
+        jBtnStop = new javax.swing.JButton();
         jPnChoose = new javax.swing.JPanel();
         jLblSearchText = new javax.swing.JLabel();
         jTxtTerm = new javax.swing.JTextField();
@@ -106,6 +101,16 @@ public class FileIndexing extends javax.swing.JFrame {
 
         jCboLocation.setEditable(true);
 
+        jPrg.setMaximum(3000);
+
+        jBtnStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Stop24 (2).gif"))); // NOI18N
+        jBtnStop.setText("Cancel");
+        jBtnStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnStopActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPnNewLayout = new javax.swing.GroupLayout(jPnNew);
         jPnNew.setLayout(jPnNewLayout);
         jPnNewLayout.setHorizontalGroup(
@@ -113,17 +118,22 @@ public class FileIndexing extends javax.swing.JFrame {
             .addGroup(jPnNewLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLblContainerParent, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLblName, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jChk, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(jPrg, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
                     .addGroup(jPnNewLayout.createSequentialGroup()
-                        .addComponent(jBtnIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLblContainerParent, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLblName, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTxtBind, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-                    .addComponent(jCboLocation, 0, 414, Short.MAX_VALUE))
+                        .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jChk, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+                            .addGroup(jPnNewLayout.createSequentialGroup()
+                                .addComponent(jBtnIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTxtBind, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+                            .addComponent(jCboLocation, 0, 443, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPnNewLayout.setVerticalGroup(
@@ -139,10 +149,13 @@ public class FileIndexing extends javax.swing.JFrame {
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLblName, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCboLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addGap(41, 41, 41)
+                .addComponent(jPrg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnIndex)
-                    .addComponent(jBtnBack))
+                    .addComponent(jBtnBack)
+                    .addComponent(jBtnStop))
                 .addContainerGap())
         );
 
@@ -188,7 +201,7 @@ public class FileIndexing extends javax.swing.JFrame {
             .addGroup(jPnChooseLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPnChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
                     .addComponent(jBtnSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(jPnChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +209,7 @@ public class FileIndexing extends javax.swing.JFrame {
                     .addContainerGap()
                     .addComponent(jLblSearchText)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(jTxtTerm, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                    .addComponent(jTxtTerm, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jBtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
@@ -238,9 +251,9 @@ public class FileIndexing extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLblMessage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-                    .addComponent(jTabPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
-                    .addComponent(jLblInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE))
+                    .addComponent(jLblMessage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
+                    .addComponent(jTabPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
+                    .addComponent(jLblInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -264,48 +277,15 @@ public class FileIndexing extends javax.swing.JFrame {
             getjTxtBind().setText("");
         }
 }//GEN-LAST:event_jChkActionPerformed
+    private IndexingThread thread;
 
     private void jBtnIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIndexActionPerformed
-        String caminho = getjCboLocation().getSelectedItem().toString();
-        Set<File> arquivos = FileManager.listFilesAt(caminho);
-        try {
-            if (jTxtBind.getText().equals("")){
-                File.begin();
-                long count = 0;
-                    for (File arquivo : arquivos) {
-                        File.insert(arquivo);
-                        count++;
-                        if (count >= 2000){
-                            File.commit();
-                            File.begin();
-                        }
-                    }
-                File.commit();
-            }else{
-                long id = 0L;
-                String[] terms = jTxtBind.getText().split("-");
-                id = Long.parseLong(terms[0].trim());
-                File.begin();
-                long count = 0;
-                    for (File arquivo : arquivos) {
-                        File.insert(arquivo,id);
-                        count++;
-                        if (count >= 2000){
-                            File.commit();
-                            File.begin();
-                        }
-                    }
-                File.commit();
-            }
-        }catch (Exception ex){
-            System.out.println(ex);
-        }
-        /*SwingUtil.resetMessage(getjLblMessage());
-        if (isInsertMode()) {
-            insert();
-        } else {
-            update();
-        }*/
+        disableEverythingButStopButton();
+        String path = getjCboLocation().getSelectedItem().toString();
+        thread = new IndexingThread(jLblMessage, jPrg, path, jTxtBind.getText());
+        thread.setDelegate(this);
+        thread.start();
+
 }//GEN-LAST:event_jBtnIndexActionPerformed
 
     private void jBtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBackActionPerformed
@@ -345,7 +325,34 @@ public class FileIndexing extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         getjCboLocation().setModel(new javax.swing.DefaultComboBoxModel(FileManager.getDrives()));
+
+        try {
+            SwingUtil.resetMessage(getjLblMessage());
+            Unit.begin();
+            List<Unit> set = Unit.listLast();
+            Iterator<Unit> it = set.iterator();
+            SwingUtil.populateJTableUnit(getjTblChose(), set.size(), it);
+        } catch (SQLException ex) {
+            Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+            SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
+        } catch (Exception ex) {
+            Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+            SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
+        } finally {
+            try {
+                Unit.commit();
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_formWindowActivated
+
+    private void jBtnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnStopActionPerformed
+        thread.safetyStop();
+        enableEverything();
+        jPrg.setIndeterminate(false);
+        jPrg.setValue(jPrg.getMinimum());
+    }//GEN-LAST:event_jBtnStopActionPerformed
 
     /**
      * @param args the command line arguments
@@ -364,6 +371,7 @@ public class FileIndexing extends javax.swing.JFrame {
     private javax.swing.JButton jBtnIndex;
     private javax.swing.JButton jBtnSearch;
     private javax.swing.JButton jBtnSelect;
+    private javax.swing.JButton jBtnStop;
     private javax.swing.JComboBox jCboLocation;
     private javax.swing.JCheckBox jChk;
     private javax.swing.JLabel jLblContainerParent;
@@ -373,6 +381,7 @@ public class FileIndexing extends javax.swing.JFrame {
     private javax.swing.JLabel jLblSearchText;
     private javax.swing.JPanel jPnChoose;
     private javax.swing.JPanel jPnNew;
+    private javax.swing.JProgressBar jPrg;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabPanel;
     private javax.swing.JTable jTblChose;
@@ -524,7 +533,6 @@ public class FileIndexing extends javax.swing.JFrame {
         this.jLblSearchText = jLblSearchText;
     }
 
-
     /**
      * @return the jPnChoose
      */
@@ -609,7 +617,6 @@ public class FileIndexing extends javax.swing.JFrame {
         this.jTxtBind = jTxtBind;
     }
 
-
     /**
      * @return the jTxtTerm
      */
@@ -655,8 +662,8 @@ public class FileIndexing extends javax.swing.JFrame {
     public void setSearch(SearchUnit search) {
         this.search = search;
     }
-
     private int editedId;
+
     public void setEditedId(int id) {
         editedId = id;
     }
@@ -696,4 +703,39 @@ public class FileIndexing extends javax.swing.JFrame {
         return editedId;
     }
 
+    private void disableEverythingButStopButton() {
+        apply(false);
+    }
+
+    public void enableEverything() {
+        apply(true);
+    }
+
+    private void apply(boolean value) {
+        delegate.getjMnuContainer().setEnabled(value);
+        delegate.getjMnuUnit().setEnabled(value);
+        delegate.getjMnuIndexable().setEnabled(value);
+        jBtnIndex.setEnabled(value);
+        jBtnBack.setEnabled(value);
+        jBtnSearch.setEnabled(value);
+        jBtnSelect.setEnabled(value);
+        jTxtBind.setEnabled(value);
+        jTxtTerm.setEnabled(value);
+        jCboLocation.setEnabled(value);
+        jChk.setEnabled(value);
+    }
+
+    /**
+     * @return the jBtnStop
+     */
+    public javax.swing.JButton getjBtnStop() {
+        return jBtnStop;
+    }
+
+    /**
+     * @param jBtnStop the jBtnStop to set
+     */
+    public void setjBtnStop(javax.swing.JButton jBtnStop) {
+        this.jBtnStop = jBtnStop;
+    }
 }

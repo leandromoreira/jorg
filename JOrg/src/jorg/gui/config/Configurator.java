@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -20,6 +19,7 @@ public final class Configurator {
     private final static File setupFile = new File(SETUP_PATH + "setup.properties");
     private static Properties setup = new Properties(), internationalizator = new Properties();
     private static File iFile;
+    private static String[] stopWords;
 
     static {
         try {
@@ -27,6 +27,8 @@ public final class Configurator {
             try {
                 setup.load(in);
                 iFile = new File(LANG_PATH + setup.getProperty("language.file"));
+                filesToDontIndex = setup.get("files.not.indexable").toString().split(",");
+                stopWords = setup.get("stop.words").toString().split(",");
                 FileInputStream in1 = new FileInputStream(iFile);
                 internationalizator.load(in1);
             } catch (IOException ex) {
@@ -97,5 +99,31 @@ public final class Configurator {
             }
         }
         return list.toArray(new String[0]);
+    }
+    private static String[] filesToDontIndex;
+
+    public final static boolean isIndexable(final String filename) {
+        for (String file : filesToDontIndex) {
+            file = file.trim();
+            if (!file.contains("*")) {
+                if (filename.toLowerCase().equals(file.toLowerCase().trim())) {
+                    return false;
+                }
+            } else {
+                if (filename.toLowerCase().endsWith(file.substring(1, file.length()).toLowerCase().trim())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public final static String[] getStopWords() {
+        String[] value = new String[stopWords.length];
+        int index = 0;
+        for (String word : stopWords) {
+            value[index++] = word.trim();
+        }
+        return value;
     }
 }

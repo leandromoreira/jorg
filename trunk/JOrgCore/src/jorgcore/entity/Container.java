@@ -28,7 +28,7 @@ public class Container {
 
     public static void insert(Container con) throws SQLException {
         String sql = "insert into container(description,insert_date) values (?,?)";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, con.description);
         ps.setDate(2, new Date(new java.util.Date().getTime()));
         ps.executeUpdate();
@@ -36,7 +36,7 @@ public class Container {
 
     public static void insert(Container con, int id_pai) throws SQLException {
         String sql = "insert into container(description,id_pai,insert_date) values (?,?,?)";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, con.description);
         ps.setInt(2, id_pai);
         ps.setDate(3, new Date(new java.util.Date().getTime()));
@@ -45,7 +45,7 @@ public class Container {
 
     public static void update(Container con) throws SQLException {
         String sql = "update container set description = ? where id = ?";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, con.description);
         ps.setInt(2, con.id);
         ps.executeUpdate();
@@ -53,7 +53,7 @@ public class Container {
 
     public static void update(Container con, int id_pai) throws SQLException {
         String sql = "update container set description = ?, id_pai = ? where id = ?";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, con.description);
         ps.setInt(2, id_pai);
         ps.setInt(3, con.id);
@@ -62,7 +62,7 @@ public class Container {
 
     public static void becomeRoot(Container con) throws SQLException {
         String sql = "update container set id_pai = ? where id = ?";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setNull(1, java.sql.Types.INTEGER);
         ps.setInt(2, con.id);
         ps.executeUpdate();
@@ -71,7 +71,7 @@ public class Container {
     public static void delete(Container con) throws SQLException {
         makeAllSonsRoot(con);
         String sql = "delete from container where id =?";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, con.id);
         ps.executeUpdate();
     }
@@ -84,7 +84,7 @@ public class Container {
 
     public static List<Container> findAll() throws SQLException {
         List<Container> containers = new ArrayList<Container>();
-        ResultSet rs = db.query("select top 20 * from container order by id desc");
+        ResultSet rs = db.query("select * from container order by id desc offset 0 rows fetch next 20 rows only");
         mapping(rs, containers);
         return containers;
     }
@@ -229,7 +229,7 @@ public class Container {
     private static void makeAllSonsRoot(Container con) throws SQLException {
         deleteAllUnitLinks(con);
         String sql = "update container set id_pai = ? where id_pai = ? ";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setNull(1, java.sql.Types.INTEGER);
         ps.setInt(2, con.id);
         ps.executeUpdate();
@@ -237,7 +237,7 @@ public class Container {
 
     private static void deleteAllUnitLinks(Container con) throws SQLException {
         String sql = "update unit set id_container = ? where id = ? ";
-        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setNull(1, java.sql.Types.INTEGER);
         ps.setInt(2, con.id);
         ps.executeUpdate();

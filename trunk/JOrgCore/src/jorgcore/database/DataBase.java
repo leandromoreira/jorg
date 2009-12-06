@@ -4,15 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class DataBase {
 
-    private static final String BD_PATH = "db/java";
-    private static final String USER = "sa";
+    private static final String BD_PATH = "db";
+    private static final String USER = "";
     private static final String PWD = "";
-    private static final String URL = "jdbc:hsqldb:file:";
-    private static final String PARAM = ";shutdown=true";
+    private static final String URL = "jdbc:derby:";
+    private static final String PARAM = ";";
     private static Connection connection;
+    static{
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public DataBase() throws SQLException {
         if (connection != null) {
@@ -36,12 +45,13 @@ public final class DataBase {
         return getConnection().createStatement().executeQuery(sql);
     }
 
+    @Deprecated
     public void close() throws SQLException {
-        getConnection().createStatement().execute("SHUTDOWN");
-        getConnection().close();
+        //getConnection().createStatement().execute("SHUTDOWN");
+        //getConnection().close();
     }
 
-    public final Connection getConnection() {
+    public static final Connection getConnection() {
         return connection;
     }
 }

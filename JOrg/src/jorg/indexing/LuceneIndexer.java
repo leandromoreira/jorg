@@ -14,7 +14,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-public class JorgSearchSystem {
+public class LuceneIndexer {
 
     public static final String[] stopWords = Configurator.getStopWords();
     public static final java.io.File INDEX_DIR = new java.io.File("testindex");

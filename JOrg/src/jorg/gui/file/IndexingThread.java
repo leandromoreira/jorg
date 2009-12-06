@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import jorg.gui.config.Configurator;
-import jorg.indexing.JorgSearchSystem;
+import jorg.indexing.LuceneIndexer;
 import jorgcore.database.DataBase;
 import jorgcore.entity.File;
 
@@ -150,6 +150,6 @@ public class IndexingThread extends Thread {
     }
 
     private void luceneIndexationOf(Collection<File> files, int lastIdBefore) throws IOException {
-        JorgSearchSystem.Index(files, lastIdBefore);
+        LuceneIndexer.Index(files, lastIdBefore);
     }
 }

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jorg.gui.config.Configurator;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -38,6 +40,11 @@ public class LuceneSearcher {
         }
     }
     private static IndexReader reader;
+    private static Searcher searcher;
+    private static Set<String> stopWords;
+    private static Analyzer analyzer;
+    private static QueryParser parser;
+    private static Query query;
 
     public final static int[] search(final String value) throws CorruptIndexException, IOException, ParseException {
         if (value == null) {
@@ -51,15 +58,33 @@ public class LuceneSearcher {
         if (reader == null) {
             reader = IndexReader.open(FSDirectory.open(LuceneIndexer.INDEX_DIR), true);
         }
-        final Searcher searcher = new IndexSearcher(reader);
-        final Set<String> stopWords = new HashSet<String>();
-        LuceneIndexer.fillUp(stopWords);
-        final Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT, stopWords);
-        final QueryParser parser = new QueryParser(Version.LUCENE_CURRENT, LuceneIndexer.CONTENTS_FIELD, analyzer);
-        final Query query = parser.parse(value);
+        if (searcher == null) {
+            searcher = new IndexSearcher(reader);
+        }
+        if (stopWords == null) {
+            stopWords = new HashSet<String>();
+            LuceneIndexer.fillUp(stopWords);
+        }
+        if (analyzer == null) {
+            analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT, stopWords);
+        }
+        if (parser == null) {
+            parser = new QueryParser(Version.LUCENE_CURRENT, LuceneIndexer.CONTENTS_FIELD, analyzer);
+        }
+        query = parser.parse(value);
         documentId = doPagingSearch(searcher, query, hitsPerPage, false, true);
         //reader.close();
         return documentId;
+    }
+
+    public static void closeReader(){
+        if (reader!=null){
+            try {
+                reader.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LuceneSearcher.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private final static int[] doPagingSearch(final Searcher searcher, final Query query, final int hitsPerPage, final boolean raw, final boolean interactive) throws IOException {

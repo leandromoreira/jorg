@@ -160,32 +160,24 @@ public final class SwingUtil {
         size.setResizable(false);
         tb.addColumn(size);
 
-        TableColumn id_unit = new TableColumn(0, 150);
-        id_unit.setPreferredWidth(150);
-        id_unit.setResizable(false);
-        tb.addColumn(id_unit);
-        
         String[] columnNames = new String[]{
             getInternationalizedText("file.id"),
             getInternationalizedText("file.name"),
             getInternationalizedText("file.path"),
-            getInternationalizedText("file.size"),
-            getInternationalizedText("mnu.unit")
-            };
+            getInternationalizedText("file.size")
+        };
         TableModel tbm = new DefaultTableModel(columnNames, rowCount);
         tab.setColumnModel(tb);
         tab.setModel(tbm);
 
         tab.getColumnModel().getColumn(0).setResizable(false);
-        tab.getColumnModel().getColumn(0).setMaxWidth(55);
+        tab.getColumnModel().getColumn(0).setMaxWidth(85);
         tab.getColumnModel().getColumn(1).setResizable(false);
         tab.getColumnModel().getColumn(1).setMaxWidth(600);
         tab.getColumnModel().getColumn(2).setResizable(false);
         tab.getColumnModel().getColumn(2).setMaxWidth(300);
         tab.getColumnModel().getColumn(3).setResizable(false);
         tab.getColumnModel().getColumn(3).setMaxWidth(85);
-        tab.getColumnModel().getColumn(4).setResizable(false);
-        tab.getColumnModel().getColumn(4).setMaxWidth(55);
 
         int row = 0;
         DecimalFormat df = new DecimalFormat("#.##MB");
@@ -195,7 +187,6 @@ public final class SwingUtil {
             tab.setValueAt(file.name, row, 1);
             tab.setValueAt(file.path, row, 2);
             tab.setValueAt(df.format(file.size), row, 3);
-            tab.setValueAt(file.id_unit, row, 4);
             row++;
         }
 

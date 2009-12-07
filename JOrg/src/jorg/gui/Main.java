@@ -8,6 +8,7 @@ import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
 import jorg.gui.file.FileIndexing;
+import jorg.gui.file.FileSearching;
 import jorg.gui.unit.NewUnit;
 import jorg.gui.unit.SearchUnit;
 import jorg.indexing.LuceneSearcher;
@@ -160,6 +161,11 @@ public class Main extends javax.swing.JFrame {
         jMnuSearchFiles.setForeground(new java.awt.Color(153, 0, 51));
         jMnuSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Find24.gif"))); // NOI18N
         jMnuSearchFiles.setText("Search Files");
+        jMnuSearchFiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuSearchFilesActionPerformed(evt);
+            }
+        });
         jMnuIndexable.add(jMnuSearchFiles);
 
         jMnuBar.add(jMnuIndexable);
@@ -219,6 +225,7 @@ public class Main extends javax.swing.JFrame {
     private SearchContainer container = new SearchContainer();
     private SearchUnit unit = new SearchUnit();
     private FileIndexing fileIndexing = new FileIndexing(this);
+    private FileSearching fileSearching = new FileSearching(this);
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     }//GEN-LAST:event_formWindowOpened
@@ -252,7 +259,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuIndexFilesActionPerformed
 
     private void jMnuAboutSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSubActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jMnuAboutSubActionPerformed
 
     private void closing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closing
@@ -265,6 +272,12 @@ public class Main extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_closing
+
+    private void jMnuSearchFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuSearchFilesActionPerformed
+        SwingUtil.center(fileSearching);
+        SwingUtil.setDefaultButton( fileSearching, fileSearching.getjBtnSearch());
+        fileSearching.setVisible(true);
+    }//GEN-LAST:event_jMnuSearchFilesActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

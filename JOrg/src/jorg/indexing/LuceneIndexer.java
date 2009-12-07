@@ -38,7 +38,7 @@ public class LuceneIndexer {
         for (File word : files) {
             Document doc = new Document();
             doc.add(new Field(ID_FIELD, Integer.toString(actualId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-            doc.add(new Field(CONTENTS_FIELD,extractFrom(word),Field.Store.YES,Field.Index.toIndex(true, true)));
+            doc.add(new Field(CONTENTS_FIELD,cleanString(word),Field.Store.YES,Field.Index.toIndex(true, true)));
             writer.addDocument(doc);
             ++actualId;
         }
@@ -55,8 +55,8 @@ public class LuceneIndexer {
         }
     }
 
-    private static String extractFrom(File file){
-        String full = file.path.replace(java.io.File.separator, " ") + file.name.replace(".", " ");
+    private static String cleanString(File file){
+        String full = file.path.replace(java.io.File.separator, " ").replace("_", " ") + " " + file.name.replace(".", " ");
         return full;
     }
 

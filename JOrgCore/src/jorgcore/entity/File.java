@@ -130,13 +130,20 @@ public class File {
         return list;
     }
 
+    private final static boolean existsUnit(final Long id) throws SQLException {
+        StringBuilder sql = new StringBuilder("select * from file where id=" + id+" and id_unit is not null");
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql.toString());
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
+
     private final static String createRestriction(final int[] ids, String where) {
         where = "where id in (";
         for (int i = 0; i < ids.length; i++) {
             int id = ids[i];
             where += id + ",";
         }
-        where = where.substring(0, where.length()-1) + ")";
+        where = where.substring(0, where.length() - 1) + ")";
         return where;
     }
 

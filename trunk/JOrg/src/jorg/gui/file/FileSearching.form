@@ -25,15 +25,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jLblMessage" alignment="0" pref="736" max="32767" attributes="0"/>
+          <Component id="jLblMessage" alignment="0" pref="953" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="716" max="32767" attributes="0"/>
-                  <Component id="jLblInfo" alignment="0" pref="716" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="933" max="32767" attributes="0"/>
+                  <Component id="jLblInfo" alignment="0" pref="933" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTxtSearch" pref="346" max="32767" attributes="0"/>
+                          <Component id="jTxtSearch" pref="563" max="32767" attributes="0"/>
                           <Component id="jLblSearchingFor" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -182,6 +182,9 @@
               <Table columnCount="0" rowCount="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTblFileMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

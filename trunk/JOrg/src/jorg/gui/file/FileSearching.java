@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jorg.gui.Main;
 import jorg.gui.SwingUtil;
-import jorg.gui.config.Configurator;
 import jorg.indexing.LuceneSearcher;
 import jorgcore.entity.File;
 import org.apache.lucene.index.CorruptIndexException;
@@ -49,11 +48,11 @@ public class FileSearching extends javax.swing.JFrame {
             }
         });
 
-        jLblMessage.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLblMessage.setFont(new java.awt.Font("Tahoma", 0, 18));
         jLblMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblMessage.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
+        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32));
         jLblInfo.setForeground(new java.awt.Color(51, 51, 255));
         jLblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblInfo.setText("File Searching");
@@ -91,21 +90,26 @@ public class FileSearching extends javax.swing.JFrame {
 
             }
         ));
+        jTblFile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblFileMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTblFile);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 736, Short.MAX_VALUE)
+            .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 953, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
-                    .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 716, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 933, Short.MAX_VALUE)
+                    .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 933, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                            .addComponent(jTxtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
                             .addComponent(jLblSearchingFor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,26 +185,31 @@ public class FileSearching extends javax.swing.JFrame {
     }
 
     private void jBtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchActionPerformed
-        String query = jTxtSearch.getText();
-        jLblMessage.setText("");
+        String query = getjTxtSearch().getText();
+        getjLblMessage().setText("");
         try {
             int[] ids = LuceneSearcher.search(query);
             Collection<File> files = File.listBy(ids, null);
-            SwingUtil.populateJTableFile(jTblFile, files.size(), files.iterator());
+            SwingUtil.populateJTableFile( getjTblFile(), files.size(), files.iterator());
         } catch (CorruptIndexException ex) {
             Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            jLblMessage.setText(reduce("Index corrupted! " + ex));
+            getjLblMessage().setText(reduce("Index corrupted! " + ex));
         } catch (IOException ex) {
             Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            jLblMessage.setText(reduce("IO exception! " + ex));
+            getjLblMessage().setText(reduce("IO exception! " + ex));
         } catch (ParseException ex) {
             Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            jLblMessage.setText(reduce("Parse exception! " + ex));
+            getjLblMessage().setText(reduce("Parse exception! " + ex));
         } catch (Exception ex) {
             Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            jLblMessage.setText(reduce("General Exception! " + ex));
+            getjLblMessage().setText(reduce("General Exception! " + ex));
         }
     }//GEN-LAST:event_jBtnSearchActionPerformed
+
+    private void jTblFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblFileMouseClicked
+        System.out.print( getjTblFile().getValueAt(getjTblFile().getSelectedRow(),0) + " - ");
+        System.out.println( getjTblFile().getValueAt(getjTblFile().getSelectedRow(),1));
+    }//GEN-LAST:event_jTblFileMouseClicked
 
     private String reduce(String value) {
         return (value.length() > 85) ? value.substring(0, 85) : value;
@@ -230,4 +239,200 @@ public class FileSearching extends javax.swing.JFrame {
     private javax.swing.JTextField jTxtMin;
     private javax.swing.JTextField jTxtSearch;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the delegate
+     */
+    public Main getDelegate() {
+        return delegate;
+    }
+
+    /**
+     * @return the jBtnSearch
+     */
+    public javax.swing.JButton getjBtnSearch() {
+        return jBtnSearch;
+    }
+
+    /**
+     * @return the jLblInfo
+     */
+    public javax.swing.JLabel getjLblInfo() {
+        return jLblInfo;
+    }
+
+    /**
+     * @return the jLblMessage
+     */
+    public javax.swing.JLabel getjLblMessage() {
+        return jLblMessage;
+    }
+
+    /**
+     * @return the jLblSearchingFor
+     */
+    public javax.swing.JLabel getjLblSearchingFor() {
+        return jLblSearchingFor;
+    }
+
+    /**
+     * @return the jLblWithExtension
+     */
+    public javax.swing.JLabel getjLblWithExtension() {
+        return jLblWithExtension;
+    }
+
+    /**
+     * @return the jLblWithMaxSize
+     */
+    public javax.swing.JLabel getjLblWithMaxSize() {
+        return jLblWithMaxSize;
+    }
+
+    /**
+     * @return the jLblWithMinSize
+     */
+    public javax.swing.JLabel getjLblWithMinSize() {
+        return jLblWithMinSize;
+    }
+
+    /**
+     * @return the jScrollPane1
+     */
+    public javax.swing.JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    /**
+     * @return the jTblFile
+     */
+    public javax.swing.JTable getjTblFile() {
+        return jTblFile;
+    }
+
+    /**
+     * @return the jTxtExtension
+     */
+    public javax.swing.JTextField getjTxtExtension() {
+        return jTxtExtension;
+    }
+
+    /**
+     * @return the jTxtMax
+     */
+    public javax.swing.JTextField getjTxtMax() {
+        return jTxtMax;
+    }
+
+    /**
+     * @return the jTxtMin
+     */
+    public javax.swing.JTextField getjTxtMin() {
+        return jTxtMin;
+    }
+
+    /**
+     * @return the jTxtSearch
+     */
+    public javax.swing.JTextField getjTxtSearch() {
+        return jTxtSearch;
+    }
+
+    /**
+     * @param delegate the delegate to set
+     */
+    public void setDelegate(Main delegate) {
+        this.delegate = delegate;
+    }
+
+    /**
+     * @param jBtnSearch the jBtnSearch to set
+     */
+    public void setjBtnSearch(javax.swing.JButton jBtnSearch) {
+        this.jBtnSearch = jBtnSearch;
+    }
+
+    /**
+     * @param jLblInfo the jLblInfo to set
+     */
+    public void setjLblInfo(javax.swing.JLabel jLblInfo) {
+        this.jLblInfo = jLblInfo;
+    }
+
+    /**
+     * @param jLblMessage the jLblMessage to set
+     */
+    public void setjLblMessage(javax.swing.JLabel jLblMessage) {
+        this.jLblMessage = jLblMessage;
+    }
+
+    /**
+     * @param jLblSearchingFor the jLblSearchingFor to set
+     */
+    public void setjLblSearchingFor(javax.swing.JLabel jLblSearchingFor) {
+        this.jLblSearchingFor = jLblSearchingFor;
+    }
+
+    /**
+     * @param jLblWithExtension the jLblWithExtension to set
+     */
+    public void setjLblWithExtension(javax.swing.JLabel jLblWithExtension) {
+        this.jLblWithExtension = jLblWithExtension;
+    }
+
+    /**
+     * @param jLblWithMaxSize the jLblWithMaxSize to set
+     */
+    public void setjLblWithMaxSize(javax.swing.JLabel jLblWithMaxSize) {
+        this.jLblWithMaxSize = jLblWithMaxSize;
+    }
+
+    /**
+     * @param jLblWithMinSize the jLblWithMinSize to set
+     */
+    public void setjLblWithMinSize(javax.swing.JLabel jLblWithMinSize) {
+        this.jLblWithMinSize = jLblWithMinSize;
+    }
+
+    /**
+     * @param jScrollPane1 the jScrollPane1 to set
+     */
+    public void setjScrollPane1(javax.swing.JScrollPane jScrollPane1) {
+        this.jScrollPane1 = jScrollPane1;
+    }
+
+    /**
+     * @param jTblFile the jTblFile to set
+     */
+    public void setjTblFile(javax.swing.JTable jTblFile) {
+        this.jTblFile = jTblFile;
+    }
+
+    /**
+     * @param jTxtExtension the jTxtExtension to set
+     */
+    public void setjTxtExtension(javax.swing.JTextField jTxtExtension) {
+        this.jTxtExtension = jTxtExtension;
+    }
+
+    /**
+     * @param jTxtMax the jTxtMax to set
+     */
+    public void setjTxtMax(javax.swing.JTextField jTxtMax) {
+        this.jTxtMax = jTxtMax;
+    }
+
+    /**
+     * @param jTxtMin the jTxtMin to set
+     */
+    public void setjTxtMin(javax.swing.JTextField jTxtMin) {
+        this.jTxtMin = jTxtMin;
+    }
+
+    /**
+     * @param jTxtSearch the jTxtSearch to set
+     */
+    public void setjTxtSearch(javax.swing.JTextField jTxtSearch) {
+        this.jTxtSearch = jTxtSearch;
+    }
 }

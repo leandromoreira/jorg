@@ -103,6 +103,7 @@ public class LuceneSearcher {
             int id = Integer.parseInt(doc.get(LuceneIndexer.ID_FIELD));
             //log(doc.get(LuceneIndexer.ID_FIELD) + " - " + doc.get(LuceneIndexer.CONTENTS_FIELD));
             documents[index++] = id;
+            log(id);
         }
         return documents;
     }

@@ -16,7 +16,6 @@ public class Unit {
     public String name;
     public String rented_to;
     public Date rented_date;
-    public Date release_date;
     public Date creation_date;
     public String type;
     public String keywords;
@@ -66,6 +65,25 @@ public class Unit {
         ps.executeUpdate();
     }
 
+    public final static void updateForRent(final Unit unit) throws SQLException {
+        String sql = "update unit set " +
+                "rented_to = ?,rented_date = ? where id = ?";
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
+
+        if (unit.rented_to == null || "".equals(unit.rented_to)) {
+            ps.setNull(1, java.sql.Types.VARCHAR);
+        } else {
+            ps.setString(1, unit.rented_to);
+        }
+        if (unit.rented_date == null) {
+            ps.setNull(2, java.sql.Types.DATE);
+        } else {
+            ps.setDate(2, new java.sql.Date(unit.rented_date.getTime()));
+        }
+        ps.setInt(3, unit.id);
+        ps.executeUpdate();
+    }
+
     public static void update(Unit unit, int idContainer) throws SQLException {
         String sql = "update unit set " +
                 "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
@@ -104,18 +122,17 @@ public class Unit {
         }
     }
 
-    public static Container findParentBy(Unit unit) throws SQLException  {
+    public static Container findParentBy(Unit unit) throws SQLException {
         Container.begin();
-        ResultSet rs = db.query("select * from unit where id=" + unit.id+" and id_container is not null");
+        ResultSet rs = db.query("select * from unit where id=" + unit.id + " and id_container is not null");
         rs.next();
         System.out.println(rs.getString(1));
         try {
             return Container.findBy(unit.id_container);
-        } finally{
+        } finally {
             Container.commit();
         }
     }
-
 
     public static List<Unit> findAll() throws SQLException {
         List<Unit> unit = new ArrayList<Unit>();
@@ -124,7 +141,7 @@ public class Unit {
         return unit;
     }
 
-    public static List<Unit> listLast() throws SQLException{
+    public static List<Unit> listLast() throws SQLException {
         List<Unit> unit = new ArrayList<Unit>();
         ResultSet rs = db.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
         mapping(rs, unit);
@@ -139,7 +156,15 @@ public class Unit {
         return unit;
     }
 
-    public static List<Unit> findBy(String name) throws SQLException{
+    public static Unit findUnitWithinContainerBy(int id) throws SQLException {
+        Unit unit = new Unit();
+        ResultSet rs = db.query("select * from unit where id=" + id + " and id_container is not null");
+        rs.next();
+        mappingElement(unit, rs);
+        return unit;
+    }
+
+    public static List<Unit> findBy(String name) throws SQLException {
         String condition = "";
         if (name.contains("*")) {
             name = name.replace("*", "%");
@@ -149,6 +174,7 @@ public class Unit {
         }
         return findWhere(condition);
     }
+
     private static List<Unit> findWhere(String where) throws SQLException {
         List<Unit> containers = new ArrayList<Unit>();
         ResultSet rs = db.query("select * from unit where " + where + " order by id  desc");

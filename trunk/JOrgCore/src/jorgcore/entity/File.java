@@ -96,6 +96,26 @@ public class File {
         psBatchLinked.addBatch();
     }
 
+    public final static File listBy(long id) throws SQLException{
+        PreparedStatement ps = DataBase.getConnection().prepareStatement("select * from file where id = " +id + " and id_unit is not null");
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()) {
+            File file = new File();
+            file.extension = rs.getString("extension");
+            file.id = rs.getLong("id");
+            file.id_unit = rs.getInt("id_unit");
+            file.name = rs.getString("name");
+            file.path = rs.getString("path");
+            file.size = rs.getFloat("size");
+            file.size_in_bytes = rs.getLong("size_in_bytes");
+            file.time_last_modified = rs.getTime("time_last_modified");
+            file.date_last_modified = rs.getDate("date_last_modified");
+            return file;
+        }else{
+            return null;
+        }
+    }
+
     public final static Collection<File> listBy(final int[] ids, String where) throws SQLException {
 
         if (ids.length == 0) {
@@ -173,15 +193,6 @@ public class File {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + (this.name != null ? this.name.hashCode() : 0);
-        hash = 31 * hash + (this.path != null ? this.path.hashCode() : 0);
-        hash = 31 * hash + (int) (this.size_in_bytes ^ (this.size_in_bytes >>> 32));
-        return hash;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -190,20 +201,22 @@ public class File {
             return false;
         }
         final File other = (File) obj;
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        if ((this.path == null) ? (other.path != null) : !this.path.equals(other.path)) {
-            return false;
-        }
-        if (this.size_in_bytes != other.size_in_bytes) {
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public int hashCode() {
+        int hash = 5;
+        hash = 73 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
     }
+
+    public File setId(int id){
+        this.id = (long)id;
+        return this;
+    }
+
 }

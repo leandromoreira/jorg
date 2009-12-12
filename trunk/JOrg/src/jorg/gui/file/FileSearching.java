@@ -1,13 +1,19 @@
 package jorg.gui.file;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jorg.gui.Main;
 import jorg.gui.SwingUtil;
+import jorg.gui.config.Configurator;
 import jorg.indexing.LuceneSearcher;
+import jorgcore.entity.Container;
 import jorgcore.entity.File;
+import jorgcore.entity.Unit;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.ParseException;
 
@@ -190,7 +196,8 @@ public class FileSearching extends javax.swing.JFrame {
         try {
             int[] ids = LuceneSearcher.search(query);
             Collection<File> files = File.listBy(ids, null);
-            SwingUtil.populateJTableFile( getjTblFile(), files.size(), files.iterator());
+            files = orderBy(ids, (List<File>) files);
+            SwingUtil.populateJTableFile(getjTblFile(), files.size(), files.iterator());
         } catch (CorruptIndexException ex) {
             Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
             getjLblMessage().setText(reduce("Index corrupted! " + ex));
@@ -207,8 +214,35 @@ public class FileSearching extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnSearchActionPerformed
 
     private void jTblFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblFileMouseClicked
-        System.out.print( getjTblFile().getValueAt(getjTblFile().getSelectedRow(),0) + " - ");
-        System.out.println( getjTblFile().getValueAt(getjTblFile().getSelectedRow(),1));
+        try {
+            File file = File.listBy(Long.parseLong(getjTblFile().getValueAt(getjTblFile().getSelectedRow(), 0).toString()));
+            if (file == null) {
+                jLblMessage.setText(Configurator.getInternationlizedText("no.unit.linked"));
+            } else {
+                Unit.begin();
+                Unit unit = null;
+                boolean hasContainer = false;
+                try {
+                    unit = Unit.findUnitWithinContainerBy(file.id_unit);
+                    hasContainer = true;
+                } catch (SQLException sQLException) {
+                    unit = Unit.findBy(file.id_unit);
+                }
+                String state = stateOf(unit);
+                if (hasContainer) {
+                    Container.begin();
+                    String fullPath = Container.giveMeFullAdresOf(Container.findBy(unit.id_container));
+                    jLblMessage.setText("<html>"+fullPath + " >> "+ unit.name + state+"</html>");
+                }else{
+                    jLblMessage.setText("<html>"+unit.name + state+"</html>");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jTblFileMouseClicked
 
     private String reduce(String value) {
@@ -434,5 +468,25 @@ public class FileSearching extends javax.swing.JFrame {
      */
     public void setjTxtSearch(javax.swing.JTextField jTxtSearch) {
         this.jTxtSearch = jTxtSearch;
+    }
+
+    private Collection<File> orderBy(int[] ids, List<File> list) {
+        Collection<File> newList = new ArrayList<File>();
+        for (int id : ids) {
+            if (id < 0) {
+                break;
+            }
+            File unit = list.get(list.indexOf(new File().setId(id)));
+            newList.add(unit);
+        }
+        return newList;
+    }
+
+    private final String stateOf(final Unit unit) {
+        if (unit.rented_to!=null){
+            return " <font color='blue'>(" + Configurator.getInternationlizedText("rented.to") + " " + unit.rented_to + ")</font> ";
+        }else{
+            return "";
+        }
     }
 }

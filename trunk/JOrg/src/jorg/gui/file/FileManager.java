@@ -9,7 +9,7 @@ public class FileManager {
 
     private final static String fileSeparator = System.getProperty("file.separator");
 
-    public final static Collection<File> listFilesAt(final String path, final ListFileListener listener) {
+    public final static Collection<File> listFilesAt(final String path, final ListFileListener listener, final IndexingThread thread) {
         java.io.File dir = new java.io.File(path);
         String[] children = null;
         try {
@@ -19,13 +19,21 @@ public class FileManager {
             children = null;
         }
         Collection<File> files = new ArrayList<File>();
-
+        if (thread.isStoped()) {
+            throw new IllegalStateException("");
+        }
         if (children != null) {
             for (int i = 0; i < children.length; i++) {
                 String filename = children[i];
+                if (thread.isStoped()) {
+                    throw new IllegalStateException("");
+                }
                 if (new java.io.File(path + fileSeparator + filename).isDirectory()) {
-                    files.addAll(listFilesAt(path + fileSeparator + filename, listener));
+                    files.addAll(listFilesAt(path + fileSeparator + filename, listener, thread));
                 } else {
+                    if (thread.isStoped()) {
+                        throw new IllegalStateException("");
+                    }
                     if (Configurator.isIndexable(filename)) {
                         files.add(new File(new java.io.File(path + fileSeparator + filename)));
                         listener.fireChanges(filename);

@@ -46,13 +46,14 @@ public class LuceneSearcher {
     private static QueryParser parser;
     private static Query query;
 
-    public final static int[] search(final String value) throws CorruptIndexException, IOException, ParseException {
+    public final static int[] search(String value) throws CorruptIndexException, IOException, ParseException {
         if (value == null) {
             return new int[0];
         }
         if (value.trim().equals("")) {
             return new int[0];
         }
+        value = value.replace(java.io.File.separator, " ").replace("_", " ") + " " + value.replace(".", " ");
         int[] documentId = null;
         final int hitsPerPage = getNumberFromConfigurator();
         if (reader == null) {
@@ -101,9 +102,7 @@ public class LuceneSearcher {
         for (ScoreDoc sDoc : hits) {
             Document doc = searcher.doc(sDoc.doc);
             int id = Integer.parseInt(doc.get(LuceneIndexer.ID_FIELD));
-            //log(doc.get(LuceneIndexer.ID_FIELD) + " - " + doc.get(LuceneIndexer.CONTENTS_FIELD));
             documents[index++] = id;
-            log(id);
         }
         return documents;
     }

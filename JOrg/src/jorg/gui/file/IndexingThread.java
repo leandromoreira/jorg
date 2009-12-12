@@ -34,6 +34,10 @@ public class IndexingThread extends Thread {
         stop = true; 
     }
 
+    public boolean isStoped(){
+        return stop;
+    }
+
     public IndexingThread(JLabel lbl, JProgressBar prg, String path, String id_unit) {
         this.lbl = lbl;
         this.prg = prg;
@@ -45,10 +49,11 @@ public class IndexingThread extends Thread {
     public void run() {
         prg.setIndeterminate(true);
         prg.setString(Configurator.getInternationlizedText("list.of.files"));
-        log("Starting to list all files on "+path);
-        Collection<File> files = FileManager.listFilesAt(path, new ListFileListener(lbl));
-        log("Done! They are "+files.size()+ " files.");
         try {
+            log("Starting to list all files on "+path);
+            Collection<File> files = FileManager.listFilesAt(path, new ListFileListener(lbl),this);
+            log("Done! They are "+files.size()+ " files.");
+
             prg.setIndeterminate(false);
             prg.setMaximum(files.size() + 1);
 

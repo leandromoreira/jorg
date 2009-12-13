@@ -5,6 +5,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -20,6 +21,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import jorg.gui.config.Configurator;
+import jorg.gui.picture.icons.IconCellRender;
 import jorgcore.entity.Container;
 import jorgcore.entity.File;
 import jorgcore.entity.Unit;
@@ -138,7 +140,13 @@ public final class SwingUtil {
     }
 
     public static void populateJTableFile(JTable tab, int rowCount, Iterator<File> it) {
+        tab.setRowHeight(48);
         TableColumnModel tb = new DefaultTableColumnModel();
+
+        TableColumn icon = new TableColumn(0, 150);
+        icon.setPreferredWidth(55);
+        icon.setResizable(false);
+        tb.addColumn(icon);
 
         TableColumn id = new TableColumn(0, 150);
         id.setPreferredWidth(150);
@@ -160,33 +168,49 @@ public final class SwingUtil {
         size.setResizable(false);
         tb.addColumn(size);
 
-        String[] columnNames = new String[]{
+        String[] columnNames = new String[]{"",
             getInternationalizedText("file.id"),
             getInternationalizedText("file.name"),
             getInternationalizedText("file.path"),
             getInternationalizedText("file.size")
         };
-        TableModel tbm = new DefaultTableModel(columnNames, rowCount);
+        TableModel tbm = new DefaultTableModel(columnNames, rowCount) {
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                if (columnIndex == 0) {
+                    return false;
+                }
+                return true;
+            }
+        };
         tab.setColumnModel(tb);
         tab.setModel(tbm);
 
-        tab.getColumnModel().getColumn(0).setResizable(false);
-        tab.getColumnModel().getColumn(0).setMaxWidth(85);
-        tab.getColumnModel().getColumn(1).setResizable(false);
-        tab.getColumnModel().getColumn(1).setMaxWidth(600);
-        tab.getColumnModel().getColumn(2).setResizable(false);
-        tab.getColumnModel().getColumn(2).setMaxWidth(300);
-        tab.getColumnModel().getColumn(3).setResizable(false);
-        tab.getColumnModel().getColumn(3).setMaxWidth(85);
+        int index = 0;
+
+        tab.getColumnModel().getColumn(index).setResizable(false);
+        tab.getColumnModel().getColumn(index).setCellRenderer(new IconCellRender());
+        tab.getColumnModel().getColumn(index++).setMaxWidth(55);
+
+        tab.getColumnModel().getColumn(index).setResizable(false);
+        tab.getColumnModel().getColumn(index++).setMaxWidth(85);
+        tab.getColumnModel().getColumn(index).setResizable(false);
+        tab.getColumnModel().getColumn(index++).setMaxWidth(600);
+        tab.getColumnModel().getColumn(index).setResizable(false);
+        tab.getColumnModel().getColumn(index++).setMaxWidth(300);
+        tab.getColumnModel().getColumn(index).setResizable(false);
+        tab.getColumnModel().getColumn(index++).setMaxWidth(85);
 
         int row = 0;
         DecimalFormat df = new DecimalFormat("#.##MB");
         while (it.hasNext()) {
             File file = it.next();
-            tab.setValueAt(file.id, row, 0);
-            tab.setValueAt(file.name, row, 1);
-            tab.setValueAt(file.path, row, 2);
-            tab.setValueAt(df.format(file.size), row, 3);
+            tab.setValueAt(Configurator.getPathFor(file.extension), row, 0);
+            tab.setValueAt(file.id, row, 1);
+            tab.setValueAt(file.name, row, 2);
+            tab.setValueAt(file.path, row, 3);
+            tab.setValueAt(df.format(file.size), row, 4);
             row++;
         }
 
@@ -239,6 +263,11 @@ public final class SwingUtil {
             tab.setValueAt(con.id, row, 0);
             tab.setValueAt(con.name, row, 1);
             tab.setValueAt(con.type, row, 2);
+            if (con.rented_to == null) {
+                tab.setValueAt("", row, 3);
+            } else {
+                tab.setValueAt(con.rented_to + " - " + (con.rented_date == null ? "" : con.rented_date.toLocaleString()), row, 3);
+            }
             row++;
         }
     }
@@ -254,14 +283,22 @@ public final class SwingUtil {
         TableColumn type = new TableColumn(0, 250);
         type.setPreferredWidth(150);
         type.setResizable(false);
+        TableColumn rented = new TableColumn(0, 250);
+        rented.setPreferredWidth(150);
+        rented.setResizable(false);
+
+
         tb.addColumn(id);
         tb.addColumn(name);
         tb.addColumn(type);
+        tb.addColumn(rented);
 
         String[] columnNames = new String[]{
             getInternationalizedText("unit.table.id"),
             getInternationalizedText("unit.table.name"),
-            getInternationalizedText("unit.table.type")};
+            getInternationalizedText("unit.table.type"),
+            getInternationalizedText("unit.table.rented")
+        };
         TableModel tbm = new DefaultTableModel(columnNames, rowCount);
         tab.setColumnModel(tb);
         tab.setModel(tbm);
@@ -272,5 +309,7 @@ public final class SwingUtil {
         tab.getColumnModel().getColumn(1).setMaxWidth(300);
         tab.getColumnModel().getColumn(2).setResizable(false);
         tab.getColumnModel().getColumn(2).setMaxWidth(300);
+        tab.getColumnModel().getColumn(3).setResizable(false);
+        tab.getColumnModel().getColumn(3).setMaxWidth(300);
     }
 }

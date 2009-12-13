@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -55,6 +56,46 @@ public final class Configurator {
 
     public final static String getInternationlizedText(final String key) {
         return internationalizator.getProperty(key);
+    }
+    private static final String iconPath = "/jorg/gui/picture/icons/";
+
+    public final static String getPathFor(String ext) {
+        if (ext == null) {
+            return iconPath + "exe_sem_nada.png";
+        } else {
+            if (isInside(getPersonalTypes(), ext)) {
+                return iconPath + "exe_sem_nada.png";
+            }
+
+            if (isInside(getCompressionTypes(), ext)) {
+                return iconPath + "rar_zip_tar.png";
+            }
+
+            if (isInside(getImageTypes(), ext)) {
+                return iconPath + "iso_nrg_mdf_.png";
+            }
+
+            if (isInside(getPersonalTypes(), ext)) {
+                return iconPath + "picture.png";
+            }
+
+            if (isInside(getDocTypes(), ext)) {
+                return iconPath + "doc_ex_.png";
+            }
+
+            if (isInside(getHtmlTypes(), ext)) {
+                return iconPath + "html_.png";
+            }
+
+            if (isInside(getVideoTypes(), ext)) {
+                return iconPath + "avi_mkv_video_.png";
+            }
+
+            if (isInside(getAudioTypes(), ext)) {
+                return iconPath + "mp3_wma_au.png";
+            }
+        }
+        return iconPath + "exe_sem_nada.png";
     }
 
     public final static String[] getPersonalTypes() {
@@ -125,5 +166,15 @@ public final class Configurator {
             value[index++] = word.trim();
         }
         return value;
+    }
+
+    private final static boolean isInside(final String[] types, String ext) {
+        ext = ext.trim().toLowerCase();
+        for (String type : types) {
+            if (type.trim().toLowerCase().equals(ext)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

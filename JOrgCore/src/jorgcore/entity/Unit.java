@@ -65,6 +65,16 @@ public class Unit {
         ps.executeUpdate();
     }
 
+    public static void updateRent(Unit unit) throws SQLException {
+        String sql = "update unit set " +
+                "rented_to = ?,rented_date = ? where id = ?";
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
+        ps.setString(1, unit.rented_to);
+        ps.setDate(2, new java.sql.Date(unit.rented_date.getTime()));
+        ps.setInt(3, unit.id);
+        ps.executeUpdate();
+    }
+
     public final static void updateForRent(final Unit unit) throws SQLException {
         String sql = "update unit set " +
                 "rented_to = ?,rented_date = ? where id = ?";
@@ -96,7 +106,30 @@ public class Unit {
         ps.executeUpdate();
     }
 
-    public static void delete(Unit unit) throws SQLException {
+    private static int[] deleteLuceneIndex(int id) {
+        try {
+            String sql = "select id from file where id_unit =?";
+            PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Integer> arrays = new ArrayList<Integer>();
+            while (rs.next()) {
+                int eachId = rs.getInt(1);
+                arrays.add(eachId);
+            }
+            int[] ids = new int[arrays.size()];
+            int index = 0;
+            for (Integer value : arrays) {
+                ids[index++] = value;
+            }
+            return ids;
+        } catch (SQLException sQLException) {
+        }
+        return new int[0];
+    }
+
+    public static int[] delete(Unit unit) throws SQLException {
+        int[] ids = deleteLuceneIndex(unit.id);
         String sql = "delete from file where id_unit =?";
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, unit.id);
@@ -105,6 +138,7 @@ public class Unit {
         ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, unit.id);
         ps.executeUpdate();
+        return ids;
     }
 
     public static int count() throws SQLException {

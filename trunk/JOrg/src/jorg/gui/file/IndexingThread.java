@@ -106,7 +106,7 @@ public class IndexingThread extends Thread {
         long count = 0;
         filesRejected.clear();
         for (File file : files) {
-            if (stop) throw new SQLException("User request to stop!");
+            if (stop) throw new SQLException("");
             try {
                 File.insert(file, id);
             } catch (SQLException e) {
@@ -130,7 +130,7 @@ public class IndexingThread extends Thread {
         long count = 0;
         filesRejected.clear();
         for (File file : files) {
-            if (stop) throw new SQLException("User request to stop!");
+            if (stop) throw new SQLException("");
             try {
                 File.insert(file);
             } catch (SQLException e) {

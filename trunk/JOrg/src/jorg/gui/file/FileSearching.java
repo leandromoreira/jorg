@@ -52,6 +52,15 @@ public class FileSearching extends javax.swing.JFrame {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowDeactivated(java.awt.event.WindowEvent evt) {
+                formWindowDeactivated(evt);
+            }
+            public void windowDeiconified(java.awt.event.WindowEvent evt) {
+                formWindowDeiconified(evt);
+            }
         });
 
         jLblMessage.setFont(new java.awt.Font("Tahoma", 0, 18));
@@ -189,14 +198,25 @@ public class FileSearching extends javax.swing.JFrame {
     private final void validate(final String fieldsToSwho) {
         //name,path,size,size_in_bytes,date_last_modified,time_last_modified
     }
+    private boolean readAgain = false;
+
+    public void setReadAgain(boolean read) {
+        readAgain = read;
+    }
 
     private void jBtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchActionPerformed
         String query = getjTxtSearch().getText();
         getjLblMessage().setText("");
         try {
+            if (readAgain) {
+                LuceneSearcher.resetReader();
+                readAgain = false;
+            }
             int[] ids = LuceneSearcher.search(query);
             Collection<File> files = File.listBy(ids, null);
-            files = orderBy(ids, (List<File>) files);
+            if (files.size() != 0) {
+                files = orderBy(ids, (List<File>) files);
+            }
             SwingUtil.populateJTableFile(getjTblFile(), files.size(), files.iterator());
         } catch (CorruptIndexException ex) {
             Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
@@ -215,7 +235,7 @@ public class FileSearching extends javax.swing.JFrame {
 
     private void jTblFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblFileMouseClicked
         try {
-            File file = File.listBy(Long.parseLong(getjTblFile().getValueAt(getjTblFile().getSelectedRow(), 0).toString()));
+            File file = File.listBy(Long.parseLong(getjTblFile().getValueAt(getjTblFile().getSelectedRow(), 1).toString()));
             if (file == null) {
                 jLblMessage.setText(Configurator.getInternationlizedText("no.unit.linked"));
             } else {
@@ -232,9 +252,9 @@ public class FileSearching extends javax.swing.JFrame {
                 if (hasContainer) {
                     Container.begin();
                     String fullPath = Container.giveMeFullAdresOf(Container.findBy(unit.id_container));
-                    jLblMessage.setText("<html>"+fullPath + " >> "+ unit.name + state+"</html>");
-                }else{
-                    jLblMessage.setText("<html>"+unit.name + state+"</html>");
+                    jLblMessage.setText("<html>" + fullPath + " >> " + unit.name + state + "</html>");
+                } else {
+                    jLblMessage.setText("<html>" + unit.name + state + "</html>");
                 }
             }
         } catch (SQLException ex) {
@@ -244,6 +264,18 @@ public class FileSearching extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jTblFileMouseClicked
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.out.println("CLOSING");
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowDeactivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeactivated
+        readAgain = true;
+    }//GEN-LAST:event_formWindowDeactivated
+
+    private void formWindowDeiconified(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeiconified
+        System.out.println("DEICONIFEID");
+    }//GEN-LAST:event_formWindowDeiconified
 
     private String reduce(String value) {
         return (value.length() > 85) ? value.substring(0, 85) : value;
@@ -476,16 +508,19 @@ public class FileSearching extends javax.swing.JFrame {
             if (id < 0) {
                 break;
             }
-            File unit = list.get(list.indexOf(new File().setId(id)));
-            newList.add(unit);
+            try {
+                File unit = list.get(list.indexOf(new File().setId(id)));
+                newList.add(unit);
+            } catch (Exception e) {
+            }
         }
         return newList;
     }
 
     private final String stateOf(final Unit unit) {
-        if (unit.rented_to!=null){
+        if (unit.rented_to != null) {
             return " <font color='blue'>(" + Configurator.getInternationlizedText("rented.to") + " " + unit.rented_to + ")</font> ";
-        }else{
+        } else {
             return "";
         }
     }

@@ -46,6 +46,19 @@ public class LuceneSearcher {
     private static QueryParser parser;
     private static Query query;
 
+    public final static void resetReader() {
+        if (reader != null) {
+            try {
+                reader.close();
+            } catch (Exception ex) {
+            }
+        }
+        reader = null;
+        searcher = null;
+        analyzer = null;
+        parser = null;
+    }
+
     public final static int[] search(String value) throws CorruptIndexException, IOException, ParseException {
         if (value == null) {
             return new int[0];
@@ -74,12 +87,11 @@ public class LuceneSearcher {
         }
         query = parser.parse(value);
         documentId = doPagingSearch(searcher, query, hitsPerPage, false, true);
-        //reader.close();
         return documentId;
     }
 
-    public static void closeReader(){
-        if (reader!=null){
+    public static void closeReader() {
+        if (reader != null) {
             try {
                 reader.close();
             } catch (IOException ex) {

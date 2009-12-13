@@ -24,11 +24,8 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLblLeftPic = new javax.swing.JLabel();
         jLblTitulo = new javax.swing.JLabel();
         jLblDescricao = new javax.swing.JLabel();
-        jLblMidlePic = new javax.swing.JLabel();
-        jLblRigthPic = new javax.swing.JLabel();
         jMnuBar = new javax.swing.JMenuBar();
         jMnuFile = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JSeparator();
@@ -55,8 +52,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jLblLeftPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/filetypes.png"))); // NOI18N
-
         jLblTitulo.setFont(new java.awt.Font("Tahoma", 0, 48));
         jLblTitulo.setForeground(new java.awt.Color(0, 0, 153));
         jLblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -68,10 +63,6 @@ public class Main extends javax.swing.JFrame {
         jLblDescricao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblDescricao.setText("j");
         jLblDescricao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        jLblMidlePic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/filetypes.png"))); // NOI18N
-
-        jLblRigthPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/filetypes.png"))); // NOI18N
 
         jMnuFile.setForeground(new java.awt.Color(153, 0, 51));
         jMnuFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/t1.png"))); // NOI18N
@@ -196,15 +187,8 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 1275, Short.MAX_VALUE)
-            .addComponent(jLblDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 1275, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLblLeftPic)
-                .addGap(60, 60, 60)
-                .addComponent(jLblMidlePic)
-                .addGap(74, 74, 74)
-                .addComponent(jLblRigthPic)
-                .addContainerGap())
+            .addComponent(jLblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
+            .addComponent(jLblDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,12 +196,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLblDescricao)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLblLeftPic)
-                    .addComponent(jLblRigthPic)
-                    .addComponent(jLblMidlePic))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(332, Short.MAX_VALUE))
         );
 
         pack();
@@ -290,9 +269,6 @@ public class Main extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLblDescricao;
-    private javax.swing.JLabel jLblLeftPic;
-    private javax.swing.JLabel jLblMidlePic;
-    private javax.swing.JLabel jLblRigthPic;
     private javax.swing.JLabel jLblTitulo;
     private javax.swing.JMenu jMnuAbout;
     private javax.swing.JMenuItem jMnuAboutSub;
@@ -397,6 +373,8 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("new",getUnit().getjBtnNew());
         setInternationalizedText("edit",getUnit().getjBtnEdit());
         setInternationalizedText("delete",getUnit().getjBtnDelete());
+        setInternationalizedText("rent",getUnit().getjBtnRent());
+        setInternationalizedText("giveback",getUnit().getjBtnGiveBack());
         setInternationalizedText("back",getUnit().getjBtnBack());
         NewUnit nUnit = getUnit().getNewUnit();
         setInternationalizedText("back", nUnit.getjBtnBack());
@@ -479,48 +457,6 @@ public class Main extends javax.swing.JFrame {
      */
     public void setjLblDescricao(javax.swing.JLabel jLblDescricao) {
         this.jLblDescricao = jLblDescricao;
-    }
-
-    /**
-     * @return the jLblLeftPic
-     */
-    public javax.swing.JLabel getjLblLeftPic() {
-        return jLblLeftPic;
-    }
-
-    /**
-     * @param jLblLeftPic the jLblLeftPic to set
-     */
-    public void setjLblLeftPic(javax.swing.JLabel jLblLeftPic) {
-        this.jLblLeftPic = jLblLeftPic;
-    }
-
-    /**
-     * @return the jLblMidlePic
-     */
-    public javax.swing.JLabel getjLblMidlePic() {
-        return jLblMidlePic;
-    }
-
-    /**
-     * @param jLblMidlePic the jLblMidlePic to set
-     */
-    public void setjLblMidlePic(javax.swing.JLabel jLblMidlePic) {
-        this.jLblMidlePic = jLblMidlePic;
-    }
-
-    /**
-     * @return the jLblRigthPic
-     */
-    public javax.swing.JLabel getjLblRigthPic() {
-        return jLblRigthPic;
-    }
-
-    /**
-     * @param jLblRigthPic the jLblRigthPic to set
-     */
-    public void setjLblRigthPic(javax.swing.JLabel jLblRigthPic) {
-        this.jLblRigthPic = jLblRigthPic;
     }
 
     /**

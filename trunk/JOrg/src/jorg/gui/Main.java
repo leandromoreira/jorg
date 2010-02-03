@@ -4,11 +4,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
 import jorg.gui.file.FileIndexing;
 import jorg.gui.file.FileSearching;
+import jorg.gui.statistics.Statistics;
 import jorg.gui.unit.NewUnit;
 import jorg.gui.unit.SearchUnit;
 import jorg.indexing.LuceneSearcher;
@@ -38,6 +40,7 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexFiles = new javax.swing.JMenuItem();
         jMnuSearchFiles = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
+        jMnuAboutSub1 = new javax.swing.JMenuItem();
         jMnuAboutSub = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -168,7 +171,18 @@ public class Main extends javax.swing.JFrame {
         jMnuAbout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMnuAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32));
+        jMnuAboutSub1.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuAboutSub1.setForeground(new java.awt.Color(153, 0, 51));
+        jMnuAboutSub1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Host24.gif"))); // NOI18N
+        jMnuAboutSub1.setText("Statistics");
+        jMnuAboutSub1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuAboutSub1ActionPerformed(evt);
+            }
+        });
+        jMnuAbout.add(jMnuAboutSub1);
+
+        jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         jMnuAboutSub.setForeground(new java.awt.Color(153, 0, 51));
         jMnuAboutSub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Information24.gif"))); // NOI18N
         jMnuAboutSub.setText("About");
@@ -187,8 +201,8 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
-            .addComponent(jLblDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
+            .addComponent(jLblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 1261, Short.MAX_VALUE)
+            .addComponent(jLblDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 1261, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,6 +219,7 @@ public class Main extends javax.swing.JFrame {
     private SearchUnit unit = new SearchUnit();
     private FileIndexing fileIndexing = new FileIndexing(this);
     private FileSearching fileSearching = new FileSearching(this);
+    private Statistics frmStatistics = new Statistics();
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     }//GEN-LAST:event_formWindowOpened
@@ -238,7 +253,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jMnuIndexFilesActionPerformed
 
     private void jMnuAboutSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSubActionPerformed
-        
+       JOptionPane.showMessageDialog(this,"JOrg\n" +
+               "version: "+Configurator.getInternationlizedText("main.version")+"\n"
+              +"devblog: "+Configurator.getInternationlizedText("main.developer.blog")+"\n"
+              +"srcsite: "+Configurator.getSetupProprerty("source.code.site")
+              +"\n------------------------------------------------------"
+              ,"JOrg - "+Configurator.getInternationlizedText("main.version"),JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMnuAboutSubActionPerformed
 
     private void closing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closing
@@ -258,6 +278,11 @@ public class Main extends javax.swing.JFrame {
         fileSearching.setVisible(true);
     }//GEN-LAST:event_jMnuSearchFilesActionPerformed
 
+    private void jMnuAboutSub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSub1ActionPerformed
+        SwingUtil.center(frmStatistics);
+        frmStatistics.setVisible(true);
+    }//GEN-LAST:event_jMnuAboutSub1ActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -272,6 +297,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLblTitulo;
     private javax.swing.JMenu jMnuAbout;
     private javax.swing.JMenuItem jMnuAboutSub;
+    private javax.swing.JMenuItem jMnuAboutSub1;
     private javax.swing.JMenuBar jMnuBar;
     private javax.swing.JMenu jMnuContainer;
     private javax.swing.JMenuItem jMnuContainerQuery;

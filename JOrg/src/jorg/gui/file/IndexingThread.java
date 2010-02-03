@@ -60,7 +60,7 @@ public class IndexingThread extends Thread {
             log("Starting to insert all files on the list");
             
             File.setupBatch();
-            int lastIdBefore = File.lastId();
+            
             if (id_unit.equals("")) {
                 indexWithoutAUnit(files);
             } else {
@@ -70,6 +70,9 @@ public class IndexingThread extends Thread {
                 indexWithALinkedUnit(files, id);
             }
             File.finishBatch();
+            Thread.sleep(500);
+            int lastIdBefore = File.lastId()-files.size();
+            log("lastIdBefore ="+lastIdBefore);
             luceneIndexationOf(files,lastIdBefore);
             
             lbl.setText(Configurator.getInternationlizedText("finish"));

@@ -64,6 +64,11 @@ public class NewUnit extends javax.swing.JFrame {
         jLblInfo = new javax.swing.JLabel();
 
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jChk.setSelected(true);
         jChk.setText("Is inside of a container?");
@@ -231,11 +236,11 @@ public class NewUnit extends javax.swing.JFrame {
 
         jTabPanel.addTab("Bind", jPnChoose);
 
-        jLblMessage.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLblMessage.setFont(new java.awt.Font("Tahoma", 0, 18));
         jLblMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblMessage.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
+        jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32));
         jLblInfo.setForeground(new java.awt.Color(51, 51, 255));
         jLblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLblInfo.setText("Unit Management");
@@ -393,6 +398,27 @@ public class NewUnit extends javax.swing.JFrame {
         getjTxtBind().setText(idSelected + " - " + description);
         getjTabPanel().setSelectedIndex(0);
 }//GEN-LAST:event_jBtnSelectActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        try{
+                Container.begin();
+                List<Container> set = Container.findAll();
+                Iterator<Container> it = set.iterator();
+                SwingUtil.populateJTableContainer(getjTblChose() , set.size(), it);
+            } catch (SQLException ex) {
+                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+                SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
+            } catch (Exception ex) {
+                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+                SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
+            } finally {
+                try {
+                    Container.commit();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

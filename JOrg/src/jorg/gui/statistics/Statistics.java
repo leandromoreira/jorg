@@ -5,6 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import jorgcore.database.DataBase;
 
 public class Statistics extends javax.swing.JFrame {
@@ -12,6 +17,7 @@ public class Statistics extends javax.swing.JFrame {
     public Statistics() {
         initComponents();
     }
+
     private int createFileCounterReport(ResultSet rs, PreparedStatement ps) throws SQLException {
         int fileQuantity = 0;
         if (rs.next()) {
@@ -20,6 +26,49 @@ public class Statistics extends javax.swing.JFrame {
         ps.close();
         rs.close();
         return fileQuantity;
+    }
+
+    private Map<String, Integer> top10Extensions(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        sql = "select extension,count(extension) from file group by extension order by count(extension) desc offset 0 rows fetch next 10 rows only ";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        Map<String, Integer> map = new LinkedHashMap<String, Integer>();
+        while (rs.next()) {
+            map.put(rs.getString(1), rs.getInt(2));
+        }
+        ps.close();
+        rs.close();
+        return map;
+    }
+    private Date date;
+
+    private String[] olderFile(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        sql = "select name,size,date_last_modified from file where date_last_modified = (select min(date_last_modified) from file)";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        String name[] = new String[2];
+        if (rs.next()) {
+            name[0] = rs.getString(1);
+            name[1] = rs.getString(2);
+            date = rs.getDate(3);
+        }
+        ps.close();
+        rs.close();
+        return name;
+    }
+
+    private String[] biggerFile(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        sql = "select name,size from file where size = (select max(size) from file)";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        String name[] = new String[2];
+        if (rs.next()) {
+            name[0] = rs.getString(1);
+            name[1] = rs.getString(2);
+        }
+        ps.close();
+        rs.close();
+        return name;
     }
 
     private double createSumarizeOfSize(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -48,7 +97,6 @@ public class Statistics extends javax.swing.JFrame {
         jPnNew = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtxtAreaGeneral = new javax.swing.JTextArea();
-        jPnChoose = new javax.swing.JPanel();
         jLblInfo = new javax.swing.JLabel();
 
         setResizable(false);
@@ -60,7 +108,7 @@ public class Statistics extends javax.swing.JFrame {
 
         jtxtAreaGeneral.setBackground(new java.awt.Color(0, 0, 0));
         jtxtAreaGeneral.setColumns(20);
-        jtxtAreaGeneral.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        jtxtAreaGeneral.setFont(new java.awt.Font("Monospaced", 0, 14));
         jtxtAreaGeneral.setForeground(new java.awt.Color(51, 255, 0));
         jtxtAreaGeneral.setRows(5);
         jScrollPane1.setViewportView(jtxtAreaGeneral);
@@ -83,19 +131,6 @@ public class Statistics extends javax.swing.JFrame {
         );
 
         jTabPanel.addTab("General", jPnNew);
-
-        javax.swing.GroupLayout jPnChooseLayout = new javax.swing.GroupLayout(jPnChoose);
-        jPnChoose.setLayout(jPnChooseLayout);
-        jPnChooseLayout.setHorizontalGroup(
-            jPnChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 880, Short.MAX_VALUE)
-        );
-        jPnChooseLayout.setVerticalGroup(
-            jPnChooseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 389, Short.MAX_VALUE)
-        );
-
-        jTabPanel.addTab("Bind", jPnChoose);
 
         jLblInfo.setFont(new java.awt.Font("Tahoma", 0, 32));
         jLblInfo.setForeground(new java.awt.Color(51, 51, 255));
@@ -128,19 +163,37 @@ public class Statistics extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
-            Connection con = DataBase.getConnection();
+            final Connection con = DataBase.getConnection();
             String sql = "select count(*) from file";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            int fileQuantity = createFileCounterReport(rs, ps);
-            double totalSize = createSumarizeOfSize(con, sql, ps, rs);
+            final int fileQuantity = createFileCounterReport(rs, ps);
+            final int unitQuantity = createUnitCounterReport(con, sql, ps, rs);
+            final int rentedUnitQuantity = createRentedUnitCounterReport(con, sql, ps, rs);
+            final double totalSize = createSumarizeOfSize(con, sql, ps, rs);
+            final String[] biggerFile = biggerFile(con, sql, ps, rs);
+            final String[] olderFile = olderFile(con, sql, ps, rs);
+            final Map<String, Integer> topExtensions = top10Extensions(con, sql, ps, rs);
+            Iterator<String> it = topExtensions.keySet().iterator();
+            final StringBuilder sb = new StringBuilder();
+            sb.append("Top10 Extensions\t\t\t\t\t\t\n");
+            sb.append("Ext\t\t\t\t\t\tQuantity\n");
+            while (it.hasNext()) {
+                String key = it.next();
+                Integer value = topExtensions.get(key);
+                sb.append(key + "\t\t\t\t\t\t" + value + "\n");
+            }
 
 
-            jtxtAreaGeneral.setText("Quantity of files: "+fileQuantity
-                    +"\nTotal size: "+ NumberFormat.getInstance().format(totalSize/1024) +" TB ("+NumberFormat.getInstance().format(totalSize)+" GB)"
-                    +"\n"
-                    );
-            
+
+            jtxtAreaGeneral.setText("Quantity of files: " + fileQuantity +
+                    "\nUnit quantity: " + unitQuantity +
+                    "\nRented Unit quantity: " + rentedUnitQuantity +
+                    "\nTotal size: " + NumberFormat.getInstance().format(totalSize / 1024) + " TB (" + NumberFormat.getInstance().format(totalSize) + " GB)" + "\nBigger File: " + biggerFile[0] + " " + NumberFormat.getInstance().format(Double.parseDouble(biggerFile[1])) + " MB" +
+                    "\nOlder File: " + olderFile[0] + " " + NumberFormat.getInstance().format(Double.parseDouble(olderFile[1])) + " MB " + new SimpleDateFormat().format(date)+
+                    "\n" + sb.toString());
+            jtxtAreaGeneral.moveCaretPosition(0);
+
         } catch (Exception ex) {
             jtxtAreaGeneral.setText(ex.toString());
         }
@@ -157,10 +210,34 @@ public class Statistics extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLblInfo;
-    private javax.swing.JPanel jPnChoose;
     private javax.swing.JPanel jPnNew;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabPanel;
     private javax.swing.JTextArea jtxtAreaGeneral;
     // End of variables declaration//GEN-END:variables
+
+    private int createUnitCounterReport(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        sql = "select count(*) from unit";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        ps.close();
+        rs.close();
+        return 0;
+    }
+
+        private int createRentedUnitCounterReport(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        sql = "select count(*) from unit where rented_to is not null";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        ps.close();
+        rs.close();
+        return 0;
+    }
+
 }

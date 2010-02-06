@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import jorg.gui.config.Configurator;
+import jorg.gui.config.ConfiguratorWindow;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
 import jorg.gui.file.FileIndexing;
@@ -31,6 +32,7 @@ public class Main extends javax.swing.JFrame {
         jMnuBar = new javax.swing.JMenuBar();
         jMnuFile = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JSeparator();
+        jMnuPreferences = new javax.swing.JMenuItem();
         jMnuExit = new javax.swing.JMenuItem();
         jMnuContainer = new javax.swing.JMenu();
         jMnuContainerQuery = new javax.swing.JMenuItem();
@@ -51,7 +53,7 @@ public class Main extends javax.swing.JFrame {
                 closing(evt);
             }
             public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
+                formWindowOpened1(evt);
             }
         });
 
@@ -75,8 +77,19 @@ public class Main extends javax.swing.JFrame {
         jMnuFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMnuFile.add(jSeparator1);
 
+        jMnuPreferences.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuPreferences.setForeground(new java.awt.Color(153, 0, 51));
+        jMnuPreferences.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/ComposeMail24.gif"))); // NOI18N
+        jMnuPreferences.setText("Preferences");
+        jMnuPreferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMnuPreferencesActionPerformed(evt);
+            }
+        });
+        jMnuFile.add(jMnuPreferences);
+
         jMnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32));
+        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         jMnuExit.setForeground(new java.awt.Color(153, 0, 51));
         jMnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Stop24 (2).gif"))); // NOI18N
         jMnuExit.setText("Exit");
@@ -171,7 +184,7 @@ public class Main extends javax.swing.JFrame {
         jMnuAbout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMnuAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jMnuAboutSub1.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuAboutSub1.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuAboutSub1.setForeground(new java.awt.Color(153, 0, 51));
         jMnuAboutSub1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Host24.gif"))); // NOI18N
         jMnuAboutSub1.setText("Statistics");
@@ -182,7 +195,7 @@ public class Main extends javax.swing.JFrame {
         });
         jMnuAbout.add(jMnuAboutSub1);
 
-        jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuAboutSub.setForeground(new java.awt.Color(153, 0, 51));
         jMnuAboutSub.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Information24.gif"))); // NOI18N
         jMnuAboutSub.setText("About");
@@ -220,9 +233,13 @@ public class Main extends javax.swing.JFrame {
     private FileIndexing fileIndexing = new FileIndexing(this);
     private FileSearching fileSearching = new FileSearching(this);
     private Statistics frmStatistics = new Statistics();
+    private ConfiguratorWindow frmConfiguration = new ConfiguratorWindow(this);
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowOpened1(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened1
+    }//GEN-LAST:event_formWindowOpened1
+
+    
 
     private void jMnuContainerQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuContainerQueryActionPerformed
         SwingUtil.center(getContainer());
@@ -283,6 +300,11 @@ public class Main extends javax.swing.JFrame {
         frmStatistics.setVisible(true);
     }//GEN-LAST:event_jMnuAboutSub1ActionPerformed
 
+    private void jMnuPreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuPreferencesActionPerformed
+        SwingUtil.center(frmConfiguration);
+        frmConfiguration.setVisible(true);
+    }//GEN-LAST:event_jMnuPreferencesActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -306,6 +328,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuIndexFiles;
     private javax.swing.JMenu jMnuIndexable;
     private javax.swing.JMenuItem jMnuManagmentUnit;
+    private javax.swing.JMenuItem jMnuPreferences;
     private javax.swing.JMenuItem jMnuSearchFiles;
     private javax.swing.JMenu jMnuUnit;
     private javax.swing.JSeparator jSeparator1;

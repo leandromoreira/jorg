@@ -17,7 +17,7 @@ import org.apache.lucene.util.Version;
 public class LuceneIndexer {
 
     public static final String[] stopWords = Configurator.getStopWords();
-    public static final java.io.File INDEX_DIR = new java.io.File("testindex");
+    public static final java.io.File INDEX_DIR = new java.io.File("index");
     public final static String ID_FIELD = "id";
     public final static String CONTENTS_FIELD = "contents";
 

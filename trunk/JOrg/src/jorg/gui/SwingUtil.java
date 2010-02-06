@@ -5,7 +5,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -13,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableColumnModel;
@@ -27,6 +27,8 @@ import jorgcore.entity.File;
 import jorgcore.entity.Unit;
 
 public final class SwingUtil {
+
+    private static int SELECT_ONE_ROW = 0;
 
     public final static void center(final JFrame frame) {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -178,15 +180,12 @@ public final class SwingUtil {
 
             @Override
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                if (columnIndex == 0) {
-                    return false;
-                }
-                return true;
+                return false;
             }
         };
         tab.setColumnModel(tb);
         tab.setModel(tbm);
-
+        tab.setSelectionMode(SELECT_ONE_ROW);
         int index = 0;
 
         tab.getColumnModel().getColumn(index).setResizable(false);
@@ -235,10 +234,16 @@ public final class SwingUtil {
             getInternationalizedText("container.table.id"),
             getInternationalizedText("container.table.description"),
             getInternationalizedText("container.table.id_pai")};
-        TableModel tbm = new DefaultTableModel(columnNames, rowCount);
+        TableModel tbm = new DefaultTableModel(columnNames, rowCount) {
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
         tab.setColumnModel(tb);
         tab.setModel(tbm);
-
+        tab.setSelectionMode(SELECT_ONE_ROW);
         tab.getColumnModel().getColumn(0).setResizable(false);
         tab.getColumnModel().getColumn(0).setMaxWidth(55);
         tab.getColumnModel().getColumn(1).setResizable(false);
@@ -299,10 +304,16 @@ public final class SwingUtil {
             getInternationalizedText("unit.table.type"),
             getInternationalizedText("unit.table.rented")
         };
-        TableModel tbm = new DefaultTableModel(columnNames, rowCount);
+        TableModel tbm = new DefaultTableModel(columnNames, rowCount) {
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return false;
+            }
+        };
         tab.setColumnModel(tb);
         tab.setModel(tbm);
-
+        tab.setSelectionMode(SELECT_ONE_ROW);
         tab.getColumnModel().getColumn(0).setResizable(false);
         tab.getColumnModel().getColumn(0).setMaxWidth(55);
         tab.getColumnModel().getColumn(1).setResizable(false);

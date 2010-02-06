@@ -66,7 +66,7 @@ public final class Configurator {
         }
         return internationalizator.getProperty(key);
     }
-    private static final String iconPath = "/jorg/gui/picture/icons/";
+    private static final String iconPath = "icons/";
 
     public final static String getPathFor(String ext) {
         if (ext == null) {

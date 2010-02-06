@@ -4,13 +4,12 @@ import java.awt.Component;
 import javax.swing.Icon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import jorg.gui.SwingUtil;
 
 public class IconCellRender extends DefaultTableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Icon imagem = (Icon) (new javax.swing.ImageIcon(SwingUtil.class.getResource(value.toString())));
+        Icon imagem = (Icon) (new javax.swing.ImageIcon(value.toString()));
         if (isSelected) {
             setBackground(table.getSelectionBackground());
         } else {

@@ -11,6 +11,10 @@ import jorgcore.database.DataBase;
 
 public class Unit {
 
+    public Unit() {
+       creation_date = new Date();
+    }
+
     public int id;
     public int id_container;
     public String name;
@@ -180,6 +184,15 @@ public class Unit {
         ResultSet rs = db.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
         mapping(rs, unit);
         return unit;
+    }
+
+    public static int lastId() throws SQLException {
+        ResultSet rs = db.query("select max(id) from unit");
+        if (rs.next()) {
+            return rs.getInt(1);
+        } else {
+            return 0;
+        }
     }
 
     public static Unit findBy(int id) throws SQLException {

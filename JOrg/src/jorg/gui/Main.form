@@ -51,7 +51,7 @@
                   <Color blue="33" green="0" red="99" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/jorg/gui/picture/Stop24 (2).gif"/>
+                  <Image iconType="3" name="/jorg/gui/picture/Rewind24.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
@@ -185,7 +185,7 @@
                   <Color blue="33" green="0" red="99" type="rgb"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/jorg/gui/picture/Find24.gif"/>
+                  <Image iconType="3" name="/jorg/gui/picture/Zoom24.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Search Files"/>
               </Properties>
@@ -211,7 +211,7 @@
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMnuAboutSub1">
+            <MenuItem class="javax.swing.JMenuItem" name="jMnuStatistics">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="32" style="0"/>
@@ -225,7 +225,7 @@
                 <Property name="text" type="java.lang.String" value="Statistics"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMnuAboutSub1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMnuStatisticsActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMnuAboutSub">

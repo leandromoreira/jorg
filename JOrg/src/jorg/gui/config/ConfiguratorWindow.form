@@ -30,8 +30,8 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTabPanel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jLblInfo" alignment="0" pref="822" max="32767" attributes="0"/>
+                  <Component id="jTabPanel" alignment="0" pref="915" max="32767" attributes="0"/>
+                  <Component id="jLblInfo" alignment="0" pref="915" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jbtSave" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -95,20 +95,17 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jTxtFilesNotIndexable" alignment="0" pref="710" max="32767" attributes="0"/>
-                                  <Component id="jTxtWordsNotIndexable" alignment="1" pref="710" max="32767" attributes="0"/>
+                                  <Component id="jTxtFilesNotIndexable" alignment="0" pref="803" max="32767" attributes="0"/>
+                                  <Component id="jTxtWordsNotIndexable" alignment="1" pref="803" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLblNumberOfResults" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="142" pref="142" max="142" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLblNumberOfResults" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jTxtNumberOfResults" alignment="0" min="-2" pref="189" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="493" max="32767" attributes="0"/>
+                              <EmptySpace pref="624" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -118,7 +115,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jlblLookAndFeel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTxtLookAndFeel" alignment="0" pref="515" max="32767" attributes="0"/>
+                                  <Component id="jTxtLookAndFeel" alignment="0" pref="608" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -192,7 +189,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Words not indexable (Stop words -&gt; Words that doesn&apos;t mean nothing when you are searching)&#xa;"/>
+                <Property name="text" type="java.lang.String" value="Words not indexable (Stop words -&gt; Words that doesn&apos;t mean nothing when you are searching) "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTxtWordsNotIndexable">
@@ -230,42 +227,42 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblPersonal" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTxtPersonal" pref="665" max="32767" attributes="0"/>
+                              <Component id="jTxtPersonal" pref="758" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblVideo" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jTxtVideo" pref="666" max="32767" attributes="0"/>
+                              <Component id="jTxtVideo" pref="759" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblAudio" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jTxtAudio" pref="665" max="32767" attributes="0"/>
+                              <Component id="jTxtAudio" pref="758" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblPicture" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                              <Component id="jTxtPicture" pref="665" max="32767" attributes="0"/>
+                              <Component id="jTxtPicture" pref="758" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblHtml" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                              <Component id="jTxtHtml" pref="665" max="32767" attributes="0"/>
+                              <Component id="jTxtHtml" pref="758" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblOfficeDocs" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTxtOfficeDocs" pref="651" max="32767" attributes="0"/>
+                              <Component id="jTxtOfficeDocs" pref="744" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblDiskImages" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTxtDiskImage" pref="628" max="32767" attributes="0"/>
+                              <Component id="jTxtDiskImage" pref="721" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLblCompression" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jTxtCompression" pref="631" max="32767" attributes="0"/>
+                              <Component id="jTxtCompression" pref="724" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -424,6 +421,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jbtBack">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/jorg/gui/picture/Rewind24.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Back"/>
       </Properties>
       <Events>
@@ -432,6 +432,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="jbtSave">
       <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/jorg/gui/picture/Save24.gif"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
       <Events>

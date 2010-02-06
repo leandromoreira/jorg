@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.JPanel;
+import jorg.gui.config.Configurator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -22,7 +23,7 @@ public final class GraphGenerator {
     
     public void generateGroupGraph(Map<String, Double> groupByPercent) {
         datasetGroup = new DefaultCategoryDataset();
-        chartGroup = ChartFactory.createBarChart("", "Group", "Percent", datasetGroup, PlotOrientation.HORIZONTAL, true, true, true);
+        chartGroup = ChartFactory.createBarChart("", Configurator.getInternationlizedText("statistics.tab.grouping.title"), Configurator.getInternationlizedText("percent"), datasetGroup, PlotOrientation.HORIZONTAL, true, true, true);
         double total = 0;
         Iterator<String> it1 = groupByPercent.keySet().iterator();
         while (it1.hasNext()) {
@@ -35,7 +36,7 @@ public final class GraphGenerator {
         }
         NumberFormat df = DecimalFormat.getInstance();
         df.setMaximumFractionDigits(4);
-        datasetGroup.addValue((100.0d - total), "", "Others");
+        datasetGroup.addValue((100.0d - total), "", Configurator.getInternationlizedText("others"));
     }
 
     private DefaultCategoryDataset datasetPopularExtension;
@@ -47,7 +48,7 @@ public final class GraphGenerator {
 
     public void generateExtensionGraph(Map<String, Integer> groupByPercent) {
         datasetPopularExtension = new DefaultCategoryDataset();
-        chartPopularExtension = ChartFactory.createBarChart("", "Extension", "Quantity", datasetPopularExtension, PlotOrientation.HORIZONTAL, true, true, true);
+        chartPopularExtension = ChartFactory.createBarChart("", Configurator.getInternationlizedText("extension"), Configurator.getInternationlizedText("quantity"), datasetPopularExtension, PlotOrientation.HORIZONTAL, true, true, true);
         Iterator<String> it1 = groupByPercent.keySet().iterator();
         while (it1.hasNext()) {
             String key = it1.next();

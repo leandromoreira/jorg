@@ -2,7 +2,6 @@ package jorg.gui.config;
 
 import javax.swing.JOptionPane;
 import jorg.gui.Main;
-import jorg.gui.SwingUtil;
 
 public class ConfiguratorWindow extends javax.swing.JFrame {
 
@@ -77,7 +76,7 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
         jlblFilesNotIndexable.setText("Files not indexable (ex: *.ini,Folder.jpg,Thumbs.db,albumart_*)\n");
 
         jLblWordsNotIndexable.setForeground(new java.awt.Color(0, 0, 153));
-        jLblWordsNotIndexable.setText("Words not indexable (Stop words -> Words that doesn't mean nothing when you are searching)\n");
+        jLblWordsNotIndexable.setText("Words not indexable (Stop words -> Words that doesn't mean nothing when you are searching) ");
 
         jLblNumberOfResults.setForeground(new java.awt.Color(0, 0, 153));
         jLblNumberOfResults.setText("Number of results");
@@ -97,16 +96,14 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
                         .addGap(413, 413, 413))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPnGeneralLayout.createSequentialGroup()
                         .addGroup(jPnGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTxtFilesNotIndexable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
-                            .addComponent(jTxtWordsNotIndexable, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE))
+                            .addComponent(jTxtFilesNotIndexable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE)
+                            .addComponent(jTxtWordsNotIndexable, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(jPnGeneralLayout.createSequentialGroup()
                         .addGroup(jPnGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPnGeneralLayout.createSequentialGroup()
-                                .addComponent(jLblNumberOfResults)
-                                .addGap(142, 142, 142))
+                            .addComponent(jLblNumberOfResults)
                             .addComponent(jTxtNumberOfResults, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(493, Short.MAX_VALUE))
+                        .addContainerGap(624, Short.MAX_VALUE))
                     .addGroup(jPnGeneralLayout.createSequentialGroup()
                         .addGroup(jPnGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTxtLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -114,7 +111,7 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPnGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlblLookAndFeel)
-                            .addComponent(jTxtLookAndFeel, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE))
+                            .addComponent(jTxtLookAndFeel, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPnGeneralLayout.setVerticalGroup(
@@ -179,35 +176,35 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblPersonal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTxtPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE))
+                        .addComponent(jTxtPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE))
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblVideo)
                         .addGap(18, 18, 18)
-                        .addComponent(jTxtVideo, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE))
+                        .addComponent(jTxtVideo, javax.swing.GroupLayout.DEFAULT_SIZE, 759, Short.MAX_VALUE))
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblAudio)
                         .addGap(18, 18, 18)
-                        .addComponent(jTxtAudio, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE))
+                        .addComponent(jTxtAudio, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE))
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblPicture)
                         .addGap(12, 12, 12)
-                        .addComponent(jTxtPicture, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE))
+                        .addComponent(jTxtPicture, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE))
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblHtml)
                         .addGap(24, 24, 24)
-                        .addComponent(jTxtHtml, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE))
+                        .addComponent(jTxtHtml, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE))
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblOfficeDocs)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTxtOfficeDocs, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE))
+                        .addComponent(jTxtOfficeDocs, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE))
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblDiskImages)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTxtDiskImage, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE))
+                        .addComponent(jTxtDiskImage, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE))
                     .addGroup(jPnGroupingLayout.createSequentialGroup()
                         .addComponent(jLblCompression)
                         .addGap(18, 18, 18)
-                        .addComponent(jTxtCompression, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)))
+                        .addComponent(jTxtCompression, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPnGroupingLayout.setVerticalGroup(
@@ -256,6 +253,7 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
         jLblInfo.setText("Configuration");
         jLblInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        jbtBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Rewind24.gif"))); // NOI18N
         jbtBack.setText("Back");
         jbtBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,6 +261,7 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
             }
         });
 
+        jbtSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Save24.gif"))); // NOI18N
         jbtSave.setText("Save");
         jbtSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,8 +276,8 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabPanel)
-                    .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
+                    .addComponent(jTabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
+                    .addComponent(jLblInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 915, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jbtSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -362,52 +361,514 @@ public class ConfiguratorWindow extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void loadFileValuesToFiedls() {
-        jTxtLanguage.setText(Configurator.getSetupProprerty("language.file"));
-        jTxtLookAndFeel.setText(Configurator.getSetupProprerty("lookandfeel"));
-        jTxtFilesNotIndexable.setText(Configurator.getSetupProprerty("files.not.indexable"));
-        jTxtWordsNotIndexable.setText(Configurator.getSetupProprerty("stop.words"));
-        jTxtNumberOfResults.setText(Configurator.getSetupProprerty("number.results"));
-        jTxtPersonal.setText(Configurator.getSetupProprerty("types.personal"));
-        jTxtCompression.setText(Configurator.getSetupProprerty("types.compression"));
-        jTxtDiskImage.setText(Configurator.getSetupProprerty("types.image"));
-        jTxtOfficeDocs.setText(Configurator.getSetupProprerty("types.docs"));
-        jTxtHtml.setText(Configurator.getSetupProprerty("types.html"));
-        jTxtPicture.setText(Configurator.getSetupProprerty("types.picture"));
-        jTxtAudio.setText(Configurator.getSetupProprerty("types.audio"));
-        jTxtVideo.setText(Configurator.getSetupProprerty("types.video"));
+        getjTxtLanguage().setText(Configurator.getSetupProprerty("language.file"));
+        getjTxtLookAndFeel().setText(Configurator.getSetupProprerty("lookandfeel"));
+        getjTxtFilesNotIndexable().setText(Configurator.getSetupProprerty("files.not.indexable"));
+        getjTxtWordsNotIndexable().setText(Configurator.getSetupProprerty("stop.words"));
+        getjTxtNumberOfResults().setText(Configurator.getSetupProprerty("number.results"));
+        getjTxtPersonal().setText(Configurator.getSetupProprerty("types.personal"));
+        getjTxtCompression().setText(Configurator.getSetupProprerty("types.compression"));
+        getjTxtDiskImage().setText(Configurator.getSetupProprerty("types.image"));
+        getjTxtOfficeDocs().setText(Configurator.getSetupProprerty("types.docs"));
+        getjTxtHtml().setText(Configurator.getSetupProprerty("types.html"));
+        getjTxtPicture().setText(Configurator.getSetupProprerty("types.picture"));
+        getjTxtAudio().setText(Configurator.getSetupProprerty("types.audio"));
+        getjTxtVideo().setText(Configurator.getSetupProprerty("types.video"));
     }
 
     private void saveAll() {
         try {
             String previousLangFile = Configurator.getSetupProprerty("language.file");
-            String settedLangFile = jTxtLanguage.getText();
-            Configurator.saveSetup("language.file", jTxtLanguage.getText());
+            String settedLangFile = getjTxtLanguage().getText();
+            Configurator.saveSetup("language.file", getjTxtLanguage().getText());
             if (!previousLangFile.equals(settedLangFile)) {
-                main.internationalize();
-                main.repaint();
-                main.pack();
-                JOptionPane.showMessageDialog(this, "This option could requires the restart of the application!");
+                getMain().internationalize();
+                getMain().repaint();
+                getMain().pack();
+                JOptionPane.showMessageDialog(this, Configurator.getInternationlizedText("config.msg.could.require"));
             }
             String previousLookAndFeel = Configurator.getSetupProprerty("lookandfeel");
-            String settedLookAndFeel = jTxtLookAndFeel.getText();
-            Configurator.saveSetup("lookandfeel", jTxtLookAndFeel.getText());
+            String settedLookAndFeel = getjTxtLookAndFeel().getText();
+            Configurator.saveSetup("lookandfeel", getjTxtLookAndFeel().getText());
             if (!previousLookAndFeel.equals(settedLookAndFeel)) {
-                JOptionPane.showMessageDialog(this, "This option requires the restart of the application!");
+                JOptionPane.showMessageDialog(this, Configurator.getInternationlizedText("config.msg.require"));
             }
-            Configurator.saveSetup("files.not.indexable", jTxtFilesNotIndexable.getText());
-            Configurator.saveSetup("stop.words", jTxtWordsNotIndexable.getText());
-            Configurator.saveSetup("number.results", jTxtNumberOfResults.getText());
-            Configurator.saveSetup("types.personal", jTxtPersonal.getText());
-            Configurator.saveSetup("types.compression", jTxtCompression.getText());
-            Configurator.saveSetup("types.image", jTxtDiskImage.getText());
-            Configurator.saveSetup("types.docs", jTxtOfficeDocs.getText());
-            Configurator.saveSetup("types.html", jTxtHtml.getText());
-            Configurator.saveSetup("types.picture", jTxtPicture.getText());
-            Configurator.saveSetup("types.audio", jTxtAudio.getText());
-            Configurator.saveSetup("types.video", jTxtVideo.getText());
+            Configurator.saveSetup("files.not.indexable", getjTxtFilesNotIndexable().getText());
+            Configurator.saveSetup("stop.words", getjTxtWordsNotIndexable().getText());
+            Configurator.saveSetup("number.results", getjTxtNumberOfResults().getText());
+            Configurator.saveSetup("types.personal", getjTxtPersonal().getText());
+            Configurator.saveSetup("types.compression", getjTxtCompression().getText());
+            Configurator.saveSetup("types.image", getjTxtDiskImage().getText());
+            Configurator.saveSetup("types.docs", getjTxtOfficeDocs().getText());
+            Configurator.saveSetup("types.html", getjTxtHtml().getText());
+            Configurator.saveSetup("types.picture", getjTxtPicture().getText());
+            Configurator.saveSetup("types.audio", getjTxtAudio().getText());
+            Configurator.saveSetup("types.video", getjTxtVideo().getText());
         } catch (ConfiguratorException ex) {
-            JOptionPane.showMessageDialog(this, "There was an error when it was trying to save -- " + ex);
+            JOptionPane.showMessageDialog(this, Configurator.getInternationlizedText("config.msg.error")+ ex);
         }
         loadFileValuesToFiedls();
+    }
+
+    /**
+     * @return the main
+     */
+    public Main getMain() {
+        return main;
+    }
+
+    /**
+     * @param main the main to set
+     */
+    public void setMain(Main main) {
+        this.main = main;
+    }
+
+    /**
+     * @return the jLblAudio
+     */
+    public javax.swing.JLabel getjLblAudio() {
+        return jLblAudio;
+    }
+
+    /**
+     * @param jLblAudio the jLblAudio to set
+     */
+    public void setjLblAudio(javax.swing.JLabel jLblAudio) {
+        this.jLblAudio = jLblAudio;
+    }
+
+    /**
+     * @return the jLblCompression
+     */
+    public javax.swing.JLabel getjLblCompression() {
+        return jLblCompression;
+    }
+
+    /**
+     * @param jLblCompression the jLblCompression to set
+     */
+    public void setjLblCompression(javax.swing.JLabel jLblCompression) {
+        this.jLblCompression = jLblCompression;
+    }
+
+    /**
+     * @return the jLblDiskImages
+     */
+    public javax.swing.JLabel getjLblDiskImages() {
+        return jLblDiskImages;
+    }
+
+    /**
+     * @param jLblDiskImages the jLblDiskImages to set
+     */
+    public void setjLblDiskImages(javax.swing.JLabel jLblDiskImages) {
+        this.jLblDiskImages = jLblDiskImages;
+    }
+
+    /**
+     * @return the jLblHtml
+     */
+    public javax.swing.JLabel getjLblHtml() {
+        return jLblHtml;
+    }
+
+    /**
+     * @param jLblHtml the jLblHtml to set
+     */
+    public void setjLblHtml(javax.swing.JLabel jLblHtml) {
+        this.jLblHtml = jLblHtml;
+    }
+
+    /**
+     * @return the jLblInfo
+     */
+    public javax.swing.JLabel getjLblInfo() {
+        return jLblInfo;
+    }
+
+    /**
+     * @param jLblInfo the jLblInfo to set
+     */
+    public void setjLblInfo(javax.swing.JLabel jLblInfo) {
+        this.jLblInfo = jLblInfo;
+    }
+
+    /**
+     * @return the jLblNumberOfResults
+     */
+    public javax.swing.JLabel getjLblNumberOfResults() {
+        return jLblNumberOfResults;
+    }
+
+    /**
+     * @param jLblNumberOfResults the jLblNumberOfResults to set
+     */
+    public void setjLblNumberOfResults(javax.swing.JLabel jLblNumberOfResults) {
+        this.jLblNumberOfResults = jLblNumberOfResults;
+    }
+
+    /**
+     * @return the jLblOfficeDocs
+     */
+    public javax.swing.JLabel getjLblOfficeDocs() {
+        return jLblOfficeDocs;
+    }
+
+    /**
+     * @param jLblOfficeDocs the jLblOfficeDocs to set
+     */
+    public void setjLblOfficeDocs(javax.swing.JLabel jLblOfficeDocs) {
+        this.jLblOfficeDocs = jLblOfficeDocs;
+    }
+
+    /**
+     * @return the jLblPersonal
+     */
+    public javax.swing.JLabel getjLblPersonal() {
+        return jLblPersonal;
+    }
+
+    /**
+     * @param jLblPersonal the jLblPersonal to set
+     */
+    public void setjLblPersonal(javax.swing.JLabel jLblPersonal) {
+        this.jLblPersonal = jLblPersonal;
+    }
+
+    /**
+     * @return the jLblPicture
+     */
+    public javax.swing.JLabel getjLblPicture() {
+        return jLblPicture;
+    }
+
+    /**
+     * @param jLblPicture the jLblPicture to set
+     */
+    public void setjLblPicture(javax.swing.JLabel jLblPicture) {
+        this.jLblPicture = jLblPicture;
+    }
+
+    /**
+     * @return the jLblVideo
+     */
+    public javax.swing.JLabel getjLblVideo() {
+        return jLblVideo;
+    }
+
+    /**
+     * @param jLblVideo the jLblVideo to set
+     */
+    public void setjLblVideo(javax.swing.JLabel jLblVideo) {
+        this.jLblVideo = jLblVideo;
+    }
+
+    /**
+     * @return the jLblWordsNotIndexable
+     */
+    public javax.swing.JLabel getjLblWordsNotIndexable() {
+        return jLblWordsNotIndexable;
+    }
+
+    /**
+     * @param jLblWordsNotIndexable the jLblWordsNotIndexable to set
+     */
+    public void setjLblWordsNotIndexable(javax.swing.JLabel jLblWordsNotIndexable) {
+        this.jLblWordsNotIndexable = jLblWordsNotIndexable;
+    }
+
+    /**
+     * @return the jPnGeneral
+     */
+    public javax.swing.JPanel getjPnGeneral() {
+        return jPnGeneral;
+    }
+
+    /**
+     * @param jPnGeneral the jPnGeneral to set
+     */
+    public void setjPnGeneral(javax.swing.JPanel jPnGeneral) {
+        this.jPnGeneral = jPnGeneral;
+    }
+
+    /**
+     * @return the jPnGrouping
+     */
+    public javax.swing.JPanel getjPnGrouping() {
+        return jPnGrouping;
+    }
+
+    /**
+     * @param jPnGrouping the jPnGrouping to set
+     */
+    public void setjPnGrouping(javax.swing.JPanel jPnGrouping) {
+        this.jPnGrouping = jPnGrouping;
+    }
+
+    /**
+     * @return the jTabPanel
+     */
+    public javax.swing.JTabbedPane getjTabPanel() {
+        return jTabPanel;
+    }
+
+    /**
+     * @param jTabPanel the jTabPanel to set
+     */
+    public void setjTabPanel(javax.swing.JTabbedPane jTabPanel) {
+        this.jTabPanel = jTabPanel;
+    }
+
+    /**
+     * @return the jTxtAudio
+     */
+    public javax.swing.JTextField getjTxtAudio() {
+        return jTxtAudio;
+    }
+
+    /**
+     * @param jTxtAudio the jTxtAudio to set
+     */
+    public void setjTxtAudio(javax.swing.JTextField jTxtAudio) {
+        this.jTxtAudio = jTxtAudio;
+    }
+
+    /**
+     * @return the jTxtCompression
+     */
+    public javax.swing.JTextField getjTxtCompression() {
+        return jTxtCompression;
+    }
+
+    /**
+     * @param jTxtCompression the jTxtCompression to set
+     */
+    public void setjTxtCompression(javax.swing.JTextField jTxtCompression) {
+        this.jTxtCompression = jTxtCompression;
+    }
+
+    /**
+     * @return the jTxtDiskImage
+     */
+    public javax.swing.JTextField getjTxtDiskImage() {
+        return jTxtDiskImage;
+    }
+
+    /**
+     * @param jTxtDiskImage the jTxtDiskImage to set
+     */
+    public void setjTxtDiskImage(javax.swing.JTextField jTxtDiskImage) {
+        this.jTxtDiskImage = jTxtDiskImage;
+    }
+
+    /**
+     * @return the jTxtFilesNotIndexable
+     */
+    public javax.swing.JTextField getjTxtFilesNotIndexable() {
+        return jTxtFilesNotIndexable;
+    }
+
+    /**
+     * @param jTxtFilesNotIndexable the jTxtFilesNotIndexable to set
+     */
+    public void setjTxtFilesNotIndexable(javax.swing.JTextField jTxtFilesNotIndexable) {
+        this.jTxtFilesNotIndexable = jTxtFilesNotIndexable;
+    }
+
+    /**
+     * @return the jTxtHtml
+     */
+    public javax.swing.JTextField getjTxtHtml() {
+        return jTxtHtml;
+    }
+
+    /**
+     * @param jTxtHtml the jTxtHtml to set
+     */
+    public void setjTxtHtml(javax.swing.JTextField jTxtHtml) {
+        this.jTxtHtml = jTxtHtml;
+    }
+
+    /**
+     * @return the jTxtLanguage
+     */
+    public javax.swing.JTextField getjTxtLanguage() {
+        return jTxtLanguage;
+    }
+
+    /**
+     * @param jTxtLanguage the jTxtLanguage to set
+     */
+    public void setjTxtLanguage(javax.swing.JTextField jTxtLanguage) {
+        this.jTxtLanguage = jTxtLanguage;
+    }
+
+    /**
+     * @return the jTxtLookAndFeel
+     */
+    public javax.swing.JTextField getjTxtLookAndFeel() {
+        return jTxtLookAndFeel;
+    }
+
+    /**
+     * @param jTxtLookAndFeel the jTxtLookAndFeel to set
+     */
+    public void setjTxtLookAndFeel(javax.swing.JTextField jTxtLookAndFeel) {
+        this.jTxtLookAndFeel = jTxtLookAndFeel;
+    }
+
+    /**
+     * @return the jTxtNumberOfResults
+     */
+    public javax.swing.JTextField getjTxtNumberOfResults() {
+        return jTxtNumberOfResults;
+    }
+
+    /**
+     * @param jTxtNumberOfResults the jTxtNumberOfResults to set
+     */
+    public void setjTxtNumberOfResults(javax.swing.JTextField jTxtNumberOfResults) {
+        this.jTxtNumberOfResults = jTxtNumberOfResults;
+    }
+
+    /**
+     * @return the jTxtOfficeDocs
+     */
+    public javax.swing.JTextField getjTxtOfficeDocs() {
+        return jTxtOfficeDocs;
+    }
+
+    /**
+     * @param jTxtOfficeDocs the jTxtOfficeDocs to set
+     */
+    public void setjTxtOfficeDocs(javax.swing.JTextField jTxtOfficeDocs) {
+        this.jTxtOfficeDocs = jTxtOfficeDocs;
+    }
+
+    /**
+     * @return the jTxtPersonal
+     */
+    public javax.swing.JTextField getjTxtPersonal() {
+        return jTxtPersonal;
+    }
+
+    /**
+     * @param jTxtPersonal the jTxtPersonal to set
+     */
+    public void setjTxtPersonal(javax.swing.JTextField jTxtPersonal) {
+        this.jTxtPersonal = jTxtPersonal;
+    }
+
+    /**
+     * @return the jTxtPicture
+     */
+    public javax.swing.JTextField getjTxtPicture() {
+        return jTxtPicture;
+    }
+
+    /**
+     * @param jTxtPicture the jTxtPicture to set
+     */
+    public void setjTxtPicture(javax.swing.JTextField jTxtPicture) {
+        this.jTxtPicture = jTxtPicture;
+    }
+
+    /**
+     * @return the jTxtVideo
+     */
+    public javax.swing.JTextField getjTxtVideo() {
+        return jTxtVideo;
+    }
+
+    /**
+     * @param jTxtVideo the jTxtVideo to set
+     */
+    public void setjTxtVideo(javax.swing.JTextField jTxtVideo) {
+        this.jTxtVideo = jTxtVideo;
+    }
+
+    /**
+     * @return the jTxtWordsNotIndexable
+     */
+    public javax.swing.JTextField getjTxtWordsNotIndexable() {
+        return jTxtWordsNotIndexable;
+    }
+
+    /**
+     * @param jTxtWordsNotIndexable the jTxtWordsNotIndexable to set
+     */
+    public void setjTxtWordsNotIndexable(javax.swing.JTextField jTxtWordsNotIndexable) {
+        this.jTxtWordsNotIndexable = jTxtWordsNotIndexable;
+    }
+
+    /**
+     * @return the jbtBack
+     */
+    public javax.swing.JButton getJbtBack() {
+        return jbtBack;
+    }
+
+    /**
+     * @param jbtBack the jbtBack to set
+     */
+    public void setJbtBack(javax.swing.JButton jbtBack) {
+        this.jbtBack = jbtBack;
+    }
+
+    /**
+     * @return the jbtSave
+     */
+    public javax.swing.JButton getJbtSave() {
+        return jbtSave;
+    }
+
+    /**
+     * @param jbtSave the jbtSave to set
+     */
+    public void setJbtSave(javax.swing.JButton jbtSave) {
+        this.jbtSave = jbtSave;
+    }
+
+    /**
+     * @return the jlblFilesNotIndexable
+     */
+    public javax.swing.JLabel getJlblFilesNotIndexable() {
+        return jlblFilesNotIndexable;
+    }
+
+    /**
+     * @param jlblFilesNotIndexable the jlblFilesNotIndexable to set
+     */
+    public void setJlblFilesNotIndexable(javax.swing.JLabel jlblFilesNotIndexable) {
+        this.jlblFilesNotIndexable = jlblFilesNotIndexable;
+    }
+
+    /**
+     * @return the jlblLanguage
+     */
+    public javax.swing.JLabel getJlblLanguage() {
+        return jlblLanguage;
+    }
+
+    /**
+     * @param jlblLanguage the jlblLanguage to set
+     */
+    public void setJlblLanguage(javax.swing.JLabel jlblLanguage) {
+        this.jlblLanguage = jlblLanguage;
+    }
+
+    /**
+     * @return the jlblLookAndFeel
+     */
+    public javax.swing.JLabel getJlblLookAndFeel() {
+        return jlblLookAndFeel;
+    }
+
+    /**
+     * @param jlblLookAndFeel the jlblLookAndFeel to set
+     */
+    public void setJlblLookAndFeel(javax.swing.JLabel jlblLookAndFeel) {
+        this.jlblLookAndFeel = jlblLookAndFeel;
     }
 }

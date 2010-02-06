@@ -15,6 +15,7 @@ import jorg.gui.config.Configurator;
 import jorg.indexing.LuceneIndexer;
 import jorgcore.database.DataBase;
 import jorgcore.entity.File;
+import jorgcore.entity.Unit;
 
 public class IndexingThread extends Thread {
 
@@ -23,18 +24,18 @@ public class IndexingThread extends Thread {
     private String path;
     private String id_unit;
     private List<String> filesRejected = new ArrayList<String>();
-    private boolean stop = false;
+    private static boolean stop = false;
     private static final int COMMIT_AT = 2000;
 
-    public static void log(Object o){
-        System.out.println(new Date().toLocaleString()+"--LOG :"+o);
+    public static void log(Object o) {
+        System.out.println(new Date().toLocaleString() + "--LOG :" + o);
     }
 
-    public void safetyStop(){
-        stop = true; 
+    public void safetyStop() {
+        stop = true;
     }
 
-    public boolean isStoped(){
+    public boolean isStoped() {
         return stop;
     }
 
@@ -50,31 +51,35 @@ public class IndexingThread extends Thread {
         prg.setIndeterminate(true);
         prg.setString(Configurator.getInternationlizedText("list.of.files"));
         try {
-            log("Starting to list all files on "+path);
-            Collection<File> files = FileManager.listFilesAt(path, new ListFileListener(lbl),this);
-            log("Done! They are "+files.size()+ " files.");
-
-            prg.setIndeterminate(false);
-            prg.setMaximum(files.size() + 1);
-
-            log("Starting to insert all files on the list");
-            
-            File.setupBatch();
-            
-            if (id_unit.equals("")) {
-                indexWithoutAUnit(files);
-            } else {
-                long id = 0L;
-                String[] terms = id_unit.split("-");
-                id = Long.parseLong(terms[0].trim());
-                indexWithALinkedUnit(files, id);
+            log("Starting to list all files on " + path);
+            Collection<File> files = FileManager.listFilesAt(path, new ListFileListener(lbl), this);
+            log("Done! They are " + files.size() + " files.");
+            boolean showPopup = false;
+            long unitId = 0l;
+            if (files.size() != 0) {
+                prg.setIndeterminate(false);
+                prg.setMaximum(files.size() + 1);
+                log("Starting to insert all files on the list");
+                File.setupBatch();
+                if (id_unit.equals("")) {
+                    long id = mockingAUnit();
+                    indexWithALinkedUnit(files, id);
+                    showPopup = true;
+                    unitId = id;
+                } else {
+                    long id = 0L;
+                    String[] terms = id_unit.split("-");
+                    id = Long.parseLong(terms[0].trim());
+                    indexWithALinkedUnit(files, id);
+                }
+                File.finishBatch();
+                Thread.sleep(500);
+                int lastIdBefore = File.lastId() - files.size();
+                log("lastIdBefore =" + lastIdBefore);
+                luceneIndexationOf(files, lastIdBefore);
+            }else{
+                prg.setIndeterminate(false);
             }
-            File.finishBatch();
-            Thread.sleep(500);
-            int lastIdBefore = File.lastId()-files.size();
-            log("lastIdBefore ="+lastIdBefore);
-            luceneIndexationOf(files,lastIdBefore);
-            
             lbl.setText(Configurator.getInternationlizedText("finish"));
             prg.setValue(prg.getMinimum());
             log("Done!");
@@ -82,14 +87,18 @@ public class IndexingThread extends Thread {
                 JOptionPane.showMessageDialog(null, createMessage(filesRejected), "Files that were not indexed.", JOptionPane.INFORMATION_MESSAGE);
             }
             form.enableEverything();
+            if (showPopup) {
+                JOptionPane.showMessageDialog(null, "Labeled this unit with [" + unitId + "]");
+            }
         } catch (Exception ex) {
             form.enableEverything();
             lbl.setText(ex.getMessage());
             ex.printStackTrace();
-        } finally{
+        } finally {
             try {
                 DataBase.getConnection().setAutoCommit(true);
             } catch (SQLException ex) {
+                ex.printStackTrace();
                 Logger.getLogger(IndexingThread.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -109,7 +118,9 @@ public class IndexingThread extends Thread {
         long count = 0;
         filesRejected.clear();
         for (File file : files) {
-            if (stop) throw new SQLException("");
+            if (stop) {
+                throw new SQLException("someone has stopped");
+            }
             try {
                 File.insert(file, id);
             } catch (SQLException e) {
@@ -128,36 +139,26 @@ public class IndexingThread extends Thread {
             }
         }
     }
-
-    private void indexWithoutAUnit(Collection<File> files) throws SQLException {
-        long count = 0;
-        filesRejected.clear();
-        for (File file : files) {
-            if (stop) throw new SQLException("");
-            try {
-                File.insert(file);
-            } catch (SQLException e) {
-                filesRejected.add(file.path + file.name + " - " + e);
-                e.printStackTrace();
-            } catch (Exception e) {
-                filesRejected.add(file.path + file.name + " - " + e);
-                e.printStackTrace();
-            }
-            prg.setValue(prg.getValue() + 1);
-            lbl.setText(file.name);
-            count++;
-            if (count >= COMMIT_AT) {
-                File.finishBatch();
-                count = 0;
-            }
-        }
-    }
     private FileIndexing form;
+
     public void setDelegate(FileIndexing aThis) {
         form = aThis;
     }
 
     private void luceneIndexationOf(Collection<File> files, int lastIdBefore) throws IOException {
         LuceneIndexer.Index(files, lastIdBefore);
+    }
+
+    private long mockingAUnit() throws SQLException {
+        Unit.begin();
+        Unit unit = new Unit();
+        unit.name = "s";
+        Unit.insert(unit);
+        unit.id = Unit.lastId();
+        unit.name = String.valueOf(unit.id);
+        Unit.update(unit);
+        Unit.commit();
+        long id = unit.id;
+        return id;
     }
 }

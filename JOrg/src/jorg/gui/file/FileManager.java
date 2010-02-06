@@ -20,19 +20,19 @@ public class FileManager {
         }
         Collection<File> files = new ArrayList<File>();
         if (thread.isStoped()) {
-            throw new IllegalStateException("");
+            throw new IllegalStateException("thread.isStoped");
         }
         if (children != null) {
             for (int i = 0; i < children.length; i++) {
                 String filename = children[i];
                 if (thread.isStoped()) {
-                    throw new IllegalStateException("");
+                    throw new IllegalStateException("thread.isStoped");
                 }
                 if (new java.io.File(path + fileSeparator + filename).isDirectory()) {
                     files.addAll(listFilesAt(path + fileSeparator + filename, listener, thread));
                 } else {
                     if (thread.isStoped()) {
-                        throw new IllegalStateException("");
+                        throw new IllegalStateException("thread.isStoped");
                     }
                     if (Configurator.isIndexable(filename)) {
                         files.add(new File(new java.io.File(path + fileSeparator + filename)));

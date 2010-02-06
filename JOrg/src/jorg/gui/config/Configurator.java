@@ -6,15 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class Configurator {
-    //REMEMBER TO PUT SYSTEM.LINEDIVISOR TO PATHS...
-    //config + Ssytem.filesperator ,,,,
 
     private final static String SETUP_PATH = "", LANG_PATH = "";
     private final static File setupFile = new File(SETUP_PATH + "setup.properties");
@@ -45,6 +42,7 @@ public final class Configurator {
         try {
             FileOutputStream out = new FileOutputStream(setupFile);
             setup.store(out, "Setup general configurations.");
+            out.close();
         } catch (Exception ex) {
             throw new ConfiguratorException(getInternationlizedText("configuration.save.error") + ex, ex);
         }
@@ -151,8 +149,14 @@ public final class Configurator {
                     return false;
                 }
             } else {
-                if (filename.toLowerCase().endsWith(file.substring(1, file.length()).toLowerCase().trim())) {
-                    return false;
+                if (file.endsWith("*")) {
+                    if (filename.toLowerCase().startsWith(file.substring(0, file.length() - 1).toLowerCase().trim())) {
+                        return false;
+                    }
+                }else{
+                    if (filename.toLowerCase().endsWith(file.substring(1, file.length()).toLowerCase().trim())) {
+                        return false;
+                    }
                 }
             }
         }

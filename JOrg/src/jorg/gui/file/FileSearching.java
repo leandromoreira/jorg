@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,38 @@ public class FileSearching extends javax.swing.JFrame {
     public FileSearching(Main main) {
         this();
         delegate = main;
+    }
+
+    private boolean isNumber(String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private String createMinMaxCondition(String min, String max, final String connectivity) {
+        String value = null;
+        if (isNotNullAndNotEmpty(min) & isNotNullAndNotEmpty(max)) {
+            min = min.replace(",", ".");
+            max = max.replace(",", ".");
+            if (isNumber(min) & isNumber(max)) {
+                value = connectivity + " size >= " + min + " and size <= " + max + " ";
+            }
+        } else {
+            if (isNotNullAndNotEmpty(min)) {
+                if (isNumber(min)) {
+                    value = connectivity + " size >= " + min + " ";
+                }
+            }
+            if (isNotNullAndNotEmpty(max)) {
+                if (isNumber(max)) {
+                    value = connectivity + " size <= " + max + " ";
+                }
+            }
+        }
+        return value;
     }
 
     @SuppressWarnings("unchecked")
@@ -85,15 +118,12 @@ public class FileSearching extends javax.swing.JFrame {
         jLblWithExtension.setText("With extension");
 
         jTxtExtension.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTxtExtension.setText("Any");
 
         jTxtMin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTxtMin.setText("Any");
 
         jLblWithMinSize.setText("With min. size");
 
         jTxtMax.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTxtMax.setText("Any");
 
         jLblWithMaxSize.setText("With max. size");
 
@@ -172,32 +202,7 @@ public class FileSearching extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        /*getjCboLocation().setModel(new javax.swing.DefaultComboBoxModel(FileManager.getDrives()));
-
-        try {
-        SwingUtil.resetMessage(getjLblMessage());
-        Unit.begin();
-        List<Unit> set = Unit.listLast();
-        Iterator<Unit> it = set.iterator();
-        SwingUtil.populateJTableUnit(getjTblChose(), set.size(), it);
-        } catch (SQLException ex) {
-        Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-        SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-        } catch (Exception ex) {
-        Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-        SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-        } finally {
-        try {
-        Unit.commit();
-        } catch (SQLException ex) {
-        Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }*/
     }//GEN-LAST:event_formWindowActivated
-
-    private final void validate(final String fieldsToSwho) {
-        //name,path,size,size_in_bytes,date_last_modified,time_last_modified
-    }
     private boolean readAgain = false;
 
     public void setReadAgain(boolean read) {
@@ -213,9 +218,19 @@ public class FileSearching extends javax.swing.JFrame {
                 readAgain = false;
             }
             int[] ids = LuceneSearcher.search(query);
-            Collection<File> files = File.listBy(ids, null);
-            if (files.size() != 0) {
-                files = orderBy(ids, (List<File>) files);
+
+            String condition = mountCondition(jTxtExtension.getText(),
+                    jTxtMin.getText(),
+                    jTxtMax.getText());
+            query = query.trim();
+            Collection<File> files = Collections.EMPTY_LIST;
+            if (!query.equals("")) {
+                files = File.listBy(ids, condition);
+                if (files.size() != 0) {
+                    files = orderBy(ids, (List<File>) files);
+                }
+            }else{
+                files = File.listBy(condition);
             }
             SwingUtil.populateJTableFile(getjTblFile(), files.size(), files.iterator());
         } catch (CorruptIndexException ex) {
@@ -523,5 +538,26 @@ public class FileSearching extends javax.swing.JFrame {
         } else {
             return "";
         }
+    }
+
+    private final String mountCondition(final String ext, final String min, final String max) {
+        String value = null;
+        boolean first = true;
+        if (isNotNullAndNotEmpty(ext)) {
+            first = false;
+            value = " extension = '" + ext + "' ";
+        }
+        if (first) {
+            String connectivity = " ";
+            value = createMinMaxCondition(min, max, connectivity);
+        } else {
+            String connectivity = " and ";
+            value = createMinMaxCondition(min, max, connectivity) == null ? value : value + createMinMaxCondition(min, max, connectivity);
+        }
+        return value;
+    }
+
+    private final boolean isNotNullAndNotEmpty(final String value) {
+        return (value != null & (!value.trim().equals("")));
     }
 }

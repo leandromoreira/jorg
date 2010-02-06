@@ -1,6 +1,11 @@
 package jorg.tests;
 
+import jorg.gui.statistics.GraphGenerator;
+import jorgcore.entity.Unit;
+
 public class Tests implements Cloneable {
+
+    
 
     private int id;
 
@@ -17,11 +22,14 @@ public class Tests implements Cloneable {
 
     public static void main(String[] args) {
         try {
-            Tests t = new Tests();
-            t.field = "a";
-            Tests t1 = t.clone();
-
-            log(t1.field==t.field);
+            Unit.begin();
+            Unit unit = new  Unit();
+            unit.name = "s";
+            Unit.insert(unit);
+            unit.id = Unit.lastId();
+            unit.name = String.valueOf(unit.id);
+            Unit.update(unit);
+            Unit.commit();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println(ex);

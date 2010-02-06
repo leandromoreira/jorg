@@ -7,15 +7,28 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jorg.gui.config.Configurator;
 import jorgcore.database.DataBase;
 
 public class Statistics extends javax.swing.JFrame {
 
     public Statistics() {
         initComponents();
+    }
+
+    private void computeGroupByPercent(final Map<String, Double> groupByPercent, final int fileQuantity, final Connection con, PreparedStatement ps, ResultSet rs) {
+        compute("Audio", Configurator.getAudioTypes(), groupByPercent, fileQuantity, con, ps, rs);
+        compute("Html", Configurator.getHtmlTypes(), groupByPercent, fileQuantity, con, ps, rs);
+        compute("Personal", Configurator.getPersonalTypes(), groupByPercent, fileQuantity, con, ps, rs);
+        compute("Compression", Configurator.getCompressionTypes(), groupByPercent, fileQuantity, con, ps, rs);
+        compute("Disk Image", Configurator.getImageTypes(), groupByPercent, fileQuantity, con, ps, rs);
+        compute("Doc", Configurator.getDocTypes(), groupByPercent, fileQuantity, con, ps, rs);
+        compute("Picture", Configurator.getPictureTypes(), groupByPercent, fileQuantity, con, ps, rs);
+        compute("Video", Configurator.getVideoTypes(), groupByPercent, fileQuantity, con, ps, rs);
     }
 
     private int createFileCounterReport(ResultSet rs, PreparedStatement ps) throws SQLException {
@@ -26,6 +39,31 @@ public class Statistics extends javax.swing.JFrame {
         ps.close();
         rs.close();
         return fileQuantity;
+    }
+
+    private void createJTabPanelTabs() {
+        if (jTabPanel.getComponentCount() < 2) {
+            jTabPanel.addTab("Group", null);
+            jTabPanel.addTab("Extension", null);
+        }
+    }
+
+    private String[] fileBaseOnItsModifiedDate(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        String[] name = new String[2];
+        if (rs.next()) {
+            name[0] = rs.getString(1);
+            name[1] = rs.getString(2);
+            if (sql.toLowerCase().contains("min")) {
+                olderDate = rs.getDate(3);
+            } else {
+                newerDate = rs.getDate(3);
+            }
+        }
+        ps.close();
+        rs.close();
+        return name;
     }
 
     private Map<String, Integer> top10Extensions(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -40,21 +78,16 @@ public class Statistics extends javax.swing.JFrame {
         rs.close();
         return map;
     }
-    private Date date;
+    private Date olderDate, newerDate;
+
+    private String[] newerFile(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        sql = "select name,size,date_last_modified from file where date_last_modified = (select max(date_last_modified) from file)";
+        return fileBaseOnItsModifiedDate(con, sql, ps, rs);
+    }
 
     private String[] olderFile(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
         sql = "select name,size,date_last_modified from file where date_last_modified = (select min(date_last_modified) from file)";
-        ps = con.prepareStatement(sql);
-        rs = ps.executeQuery();
-        String name[] = new String[2];
-        if (rs.next()) {
-            name[0] = rs.getString(1);
-            name[1] = rs.getString(2);
-            date = rs.getDate(3);
-        }
-        ps.close();
-        rs.close();
-        return name;
+        return fileBaseOnItsModifiedDate(con, sql, ps, rs);
     }
 
     private String[] biggerFile(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -69,6 +102,23 @@ public class Statistics extends javax.swing.JFrame {
         ps.close();
         rs.close();
         return name;
+    }
+
+    private int quantityOfFileFor(Connection con, String[] ext, PreparedStatement ps, ResultSet rs) throws SQLException {
+        String sql = "select count(*) from file where extension in (";
+        for (String string : ext) {
+            sql += "'" + string.trim() + "',";
+        }
+        sql = sql.substring(0, sql.length() - 1) + ")";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        int totalSize = 0;
+        if (rs.next()) {
+            totalSize = rs.getInt(1);
+        }
+        ps.close();
+        rs.close();
+        return totalSize;
     }
 
     private double createSumarizeOfSize(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
@@ -104,11 +154,14 @@ public class Statistics extends javax.swing.JFrame {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         jtxtAreaGeneral.setBackground(new java.awt.Color(0, 0, 0));
         jtxtAreaGeneral.setColumns(20);
-        jtxtAreaGeneral.setFont(new java.awt.Font("Monospaced", 0, 14));
+        jtxtAreaGeneral.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         jtxtAreaGeneral.setForeground(new java.awt.Color(51, 255, 0));
         jtxtAreaGeneral.setRows(5);
         jScrollPane1.setViewportView(jtxtAreaGeneral);
@@ -161,6 +214,18 @@ public class Statistics extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void compute(String key, String[] extensions, Map<String, Double> groupByPercent, int fileQuantity, Connection con, PreparedStatement ps, ResultSet rs) {
+        try {
+            int xQuantity;
+            xQuantity = quantityOfFileFor(con, extensions, ps, rs);
+            double xPercent = (100.0d * (double) xQuantity) / (double) fileQuantity;
+            groupByPercent.put(key, xPercent);
+        } catch (SQLException ex) {
+            Logger.getLogger(Statistics.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
             final Connection con = DataBase.getConnection();
@@ -173,31 +238,36 @@ public class Statistics extends javax.swing.JFrame {
             final double totalSize = createSumarizeOfSize(con, sql, ps, rs);
             final String[] biggerFile = biggerFile(con, sql, ps, rs);
             final String[] olderFile = olderFile(con, sql, ps, rs);
-            final Map<String, Integer> topExtensions = top10Extensions(con, sql, ps, rs);
-            Iterator<String> it = topExtensions.keySet().iterator();
-            final StringBuilder sb = new StringBuilder();
-            sb.append("Top10 Extensions\t\t\t\t\t\t\n");
-            sb.append("Ext\t\t\t\t\t\tQuantity\n");
-            while (it.hasNext()) {
-                String key = it.next();
-                Integer value = topExtensions.get(key);
-                sb.append(key + "\t\t\t\t\t\t" + value + "\n");
+            final String[] newerFile = newerFile(con, sql, ps, rs);
+            try {
+                final Map<String, Integer> topExtensions = top10Extensions(con, sql, ps, rs);
+                final Map<String, Double> groupByPercent = new LinkedHashMap<String, Double>();
+                computeGroupByPercent( groupByPercent, fileQuantity, con, ps, rs);
+                GraphGenerator g = new GraphGenerator();
+                createJTabPanelTabs();
+                g.generateGroupGraph(groupByPercent);
+                jTabPanel.setComponentAt(1, g.getGroupChart());
+                g.generateExtensionGraph(topExtensions);
+                jTabPanel.setComponentAt(2, g.getPopularExtensionChart());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-
-
-            jtxtAreaGeneral.setText("Quantity of files: " + fileQuantity +
-                    "\nUnit quantity: " + unitQuantity +
-                    "\nRented Unit quantity: " + rentedUnitQuantity +
+            jtxtAreaGeneral.setText("File's quantity: " + fileQuantity +
+                    "\nUnit's quantity: " + unitQuantity +
+                    "\nRented Unit's quantity: " + rentedUnitQuantity +
                     "\nTotal size: " + NumberFormat.getInstance().format(totalSize / 1024) + " TB (" + NumberFormat.getInstance().format(totalSize) + " GB)" + "\nBigger File: " + biggerFile[0] + " " + NumberFormat.getInstance().format(Double.parseDouble(biggerFile[1])) + " MB" +
-                    "\nOlder File: " + olderFile[0] + " " + NumberFormat.getInstance().format(Double.parseDouble(olderFile[1])) + " MB " + new SimpleDateFormat().format(date)+
-                    "\n" + sb.toString());
+                    "\nNewer File: " + newerFile[0] + " " + NumberFormat.getInstance().format(Double.parseDouble(newerFile[1])) + " MB " + new SimpleDateFormat().format(newerDate) +
+                    "\nOlder File: " + olderFile[0] + " " + NumberFormat.getInstance().format(Double.parseDouble(olderFile[1])) + " MB " + new SimpleDateFormat().format(olderDate));
             jtxtAreaGeneral.moveCaretPosition(0);
 
         } catch (Exception ex) {
             jtxtAreaGeneral.setText(ex.toString());
         }
     }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    }//GEN-LAST:event_formWindowOpened
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -228,7 +298,7 @@ public class Statistics extends javax.swing.JFrame {
         return 0;
     }
 
-        private int createRentedUnitCounterReport(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+    private int createRentedUnitCounterReport(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
         sql = "select count(*) from unit where rented_to is not null";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -239,5 +309,4 @@ public class Statistics extends javax.swing.JFrame {
         rs.close();
         return 0;
     }
-
 }

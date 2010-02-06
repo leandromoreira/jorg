@@ -15,7 +15,7 @@ public final class Configurator {
     private final static String VERSION = "0.83B";
     private final static String MAIN_TITLE = "JOrg";
     private final static String DEV_BLOG = "http://archsofty.blogspot.com";
-    private final static String SETUP_PATH = "", LANG_PATH = "";
+    private final static String SETUP_PATH = "config/", LANG_PATH = "config/";
     private final static File setupFile = new File(SETUP_PATH + "setup.properties");
     private static Properties setup = new Properties(), internationalizator = new Properties();
     private static File iFile;

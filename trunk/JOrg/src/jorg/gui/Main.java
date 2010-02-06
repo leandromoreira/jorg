@@ -42,7 +42,7 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexFiles = new javax.swing.JMenuItem();
         jMnuSearchFiles = new javax.swing.JMenuItem();
         jMnuAbout = new javax.swing.JMenu();
-        jMnuAboutSub1 = new javax.swing.JMenuItem();
+        jMnuStatistics = new javax.swing.JMenuItem();
         jMnuAboutSub = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -77,7 +77,7 @@ public class Main extends javax.swing.JFrame {
         jMnuFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jMnuFile.add(jSeparator1);
 
-        jMnuPreferences.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuPreferences.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuPreferences.setForeground(new java.awt.Color(153, 0, 51));
         jMnuPreferences.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/ComposeMail24.gif"))); // NOI18N
         jMnuPreferences.setText("Preferences");
@@ -91,7 +91,7 @@ public class Main extends javax.swing.JFrame {
         jMnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         jMnuExit.setForeground(new java.awt.Color(153, 0, 51));
-        jMnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Stop24 (2).gif"))); // NOI18N
+        jMnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Rewind24.gif"))); // NOI18N
         jMnuExit.setText("Exit");
         jMnuExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,9 +164,9 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexable.add(jMnuIndexFiles);
 
         jMnuSearchFiles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuSearchFiles.setFont(new java.awt.Font("Segoe UI", 0, 32));
+        jMnuSearchFiles.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
         jMnuSearchFiles.setForeground(new java.awt.Color(153, 0, 51));
-        jMnuSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Find24.gif"))); // NOI18N
+        jMnuSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jMnuSearchFiles.setText("Search Files");
         jMnuSearchFiles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,16 +184,16 @@ public class Main extends javax.swing.JFrame {
         jMnuAbout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jMnuAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jMnuAboutSub1.setFont(new java.awt.Font("Segoe UI", 0, 32));
-        jMnuAboutSub1.setForeground(new java.awt.Color(153, 0, 51));
-        jMnuAboutSub1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Host24.gif"))); // NOI18N
-        jMnuAboutSub1.setText("Statistics");
-        jMnuAboutSub1.addActionListener(new java.awt.event.ActionListener() {
+        jMnuStatistics.setFont(new java.awt.Font("Segoe UI", 0, 32));
+        jMnuStatistics.setForeground(new java.awt.Color(153, 0, 51));
+        jMnuStatistics.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Host24.gif"))); // NOI18N
+        jMnuStatistics.setText("Statistics");
+        jMnuStatistics.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMnuAboutSub1ActionPerformed(evt);
+                jMnuStatisticsActionPerformed(evt);
             }
         });
-        jMnuAbout.add(jMnuAboutSub1);
+        jMnuAbout.add(jMnuStatistics);
 
         jMnuAboutSub.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuAboutSub.setForeground(new java.awt.Color(153, 0, 51));
@@ -232,19 +232,16 @@ public class Main extends javax.swing.JFrame {
     private SearchUnit unit = new SearchUnit();
     private FileIndexing fileIndexing = new FileIndexing(this);
     private FileSearching fileSearching = new FileSearching(this);
-    private Statistics frmStatistics = new Statistics();
-    private ConfiguratorWindow frmConfiguration = new ConfiguratorWindow(this);
-
+    private Statistics statisticsWindow = new Statistics();
+    private ConfiguratorWindow configurationWindow = new ConfiguratorWindow(this);
 
     private void formWindowOpened1(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened1
     }//GEN-LAST:event_formWindowOpened1
 
-    
-
     private void jMnuContainerQueryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuContainerQueryActionPerformed
         SwingUtil.center(getContainer());
         getContainer().getjTxtTerm().setText("");
-        SwingUtil.setDefaultButton( getContainer(), getContainer().getjBtnSearch());
+        SwingUtil.setDefaultButton(getContainer(), getContainer().getjBtnSearch());
         getContainer().setVisible(true);
     }//GEN-LAST:event_jMnuContainerQueryActionPerformed
 
@@ -257,7 +254,7 @@ public class Main extends javax.swing.JFrame {
     private void jMnuManagmentUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuManagmentUnitActionPerformed
         SwingUtil.center(getUnit());
         getUnit().getjTxtTerm().setText("");
-        SwingUtil.setDefaultButton( getUnit(), getUnit().getjBtnSearch());
+        SwingUtil.setDefaultButton(getUnit(), getUnit().getjBtnSearch());
         SwingUtil.setDefaultButton(getUnit().getNewUnit(), getUnit().getNewUnit().getjBtnSearch());
         getUnit().setVisible(true);
     }//GEN-LAST:event_jMnuManagmentUnitActionPerformed
@@ -265,23 +262,17 @@ public class Main extends javax.swing.JFrame {
     private void jMnuIndexFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuIndexFilesActionPerformed
         SwingUtil.center(getFileIndexing());
         getFileIndexing().getjTxtTerm().setText("");
-        SwingUtil.setDefaultButton( getFileIndexing(), getFileIndexing().getjBtnSearch());
+        SwingUtil.setDefaultButton(getFileIndexing(), getFileIndexing().getjBtnSearch());
         getFileIndexing().setVisible(true);
     }//GEN-LAST:event_jMnuIndexFilesActionPerformed
 
     private void jMnuAboutSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSubActionPerformed
-       JOptionPane.showMessageDialog(this,"JOrg\n" +
-               "version: "+Configurator.getInternationlizedText("main.version")+"\n"
-              +"devblog: "+Configurator.getInternationlizedText("main.developer.blog")+"\n"
-              +"srcsite: "+Configurator.getSetupProprerty("source.code.site")
-              +"\n------------------------------------------------------"
-              ,"JOrg - "+Configurator.getInternationlizedText("main.version"),JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "JOrg\n" +
+                "version: " + Configurator.getInternationlizedText("main.version") + "\n" + "devblog: " + Configurator.getInternationlizedText("main.developer.blog") + "\n" + "srcsite: " + Configurator.getSetupProprerty("source.code.site") + "\n------------------------------------------------------", "JOrg - " + Configurator.getInternationlizedText("main.version"), JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMnuAboutSubActionPerformed
 
     private void closing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closing
         try {
-            //DataBase.getConnection().createStatement().execute("SHUTDOWN");
-            // todo: implement the right way to close javadb
             DataBase.getConnection().close();
             LuceneSearcher.closeReader();
         } catch (SQLException ex) {
@@ -290,19 +281,19 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_closing
 
     private void jMnuSearchFilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuSearchFilesActionPerformed
-        SwingUtil.center(fileSearching);
-        SwingUtil.setDefaultButton( fileSearching, fileSearching.getjBtnSearch());
-        fileSearching.setVisible(true);
+        SwingUtil.center(getFileSearching());
+        SwingUtil.setDefaultButton(getFileSearching(), getFileSearching().getjBtnSearch());
+        getFileSearching().setVisible(true);
     }//GEN-LAST:event_jMnuSearchFilesActionPerformed
 
-    private void jMnuAboutSub1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSub1ActionPerformed
-        SwingUtil.center(frmStatistics);
-        frmStatistics.setVisible(true);
-    }//GEN-LAST:event_jMnuAboutSub1ActionPerformed
+    private void jMnuStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuStatisticsActionPerformed
+        SwingUtil.center(getStatisticsWindow());
+        getStatisticsWindow().setVisible(true);
+    }//GEN-LAST:event_jMnuStatisticsActionPerformed
 
     private void jMnuPreferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuPreferencesActionPerformed
-        SwingUtil.center(frmConfiguration);
-        frmConfiguration.setVisible(true);
+        SwingUtil.center(getConfigurationWindow());
+        getConfigurationWindow().setVisible(true);
     }//GEN-LAST:event_jMnuPreferencesActionPerformed
 
     public static void main(String args[]) {
@@ -319,7 +310,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLblTitulo;
     private javax.swing.JMenu jMnuAbout;
     private javax.swing.JMenuItem jMnuAboutSub;
-    private javax.swing.JMenuItem jMnuAboutSub1;
     private javax.swing.JMenuBar jMnuBar;
     private javax.swing.JMenu jMnuContainer;
     private javax.swing.JMenuItem jMnuContainerQuery;
@@ -330,22 +320,26 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuManagmentUnit;
     private javax.swing.JMenuItem jMnuPreferences;
     private javax.swing.JMenuItem jMnuSearchFiles;
+    private javax.swing.JMenuItem jMnuStatistics;
     private javax.swing.JMenu jMnuUnit;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 
     private final void setupMenu() {
-        setInternationalizedText("mnu.file",getjMnuFile());
-        setInternationalizedText("mnu.container",getjMnuContainer());
-        setInternationalizedText("mnu.container.search",getjMnuContainerQuery());
-        setInternationalizedText("mnu.management.unit",getjMnuManagmentUnit());
-        setInternationalizedText("mnu.unit",getjMnuUnit());
-        setInternationalizedText("mnu.index",getjMnuIndexable());
-        setInternationalizedText("mnu.index.file",getjMnuIndexFiles());
-        setInternationalizedText("mnu.index.search",getjMnuSearchFiles());
-        setInternationalizedText("mnu.about",getjMnuAbout());
-        setInternationalizedText("mnu.about",getjMnuAboutSub());
-        setInternationalizedText("exit",getjMnuExit());
+        setInternationalizedText("mnu.file", getjMnuFile());
+        setInternationalizedText("mnu.file.preferences", getjMnuPreferences());
+        setInternationalizedText("exit", getjMnuExit());
+        setInternationalizedText("mnu.container", getjMnuContainer());
+        setInternationalizedText("mnu.container.search", getjMnuContainerQuery());
+        setInternationalizedText("mnu.management.unit", getjMnuManagmentUnit());
+        setInternationalizedText("mnu.unit", getjMnuUnit());
+        setInternationalizedText("mnu.index", getjMnuIndexable());
+        setInternationalizedText("mnu.index.file", getjMnuIndexFiles());
+        setInternationalizedText("mnu.index.search", getjMnuSearchFiles());
+        setInternationalizedText("mnu.about", getjMnuAbout());
+        setInternationalizedText("mnu.about", getjMnuAboutSub());
+        setInternationalizedText("mnu.about.statistics", getjMnuStatistics());
+
     }
 
     private final String getInternationalizedText(final String key) {
@@ -368,9 +362,52 @@ public class Main extends javax.swing.JFrame {
     public final void internationalize() {
         setupMain();
         setupMenu();
+        configConfigWindows();
         configContainerWindows();
         configUnitWindows();
         configFileIndexWindow();
+        configSearchFileWindow();
+        configStatisticsWindow();
+    }
+
+    private void configStatisticsWindow() {
+        getStatisticsWindow().setTitle(getInternationalizedText("statistics.title"));
+        setInternationalizedText("statistics.title", getStatisticsWindow().getjLblInfo());
+        getStatisticsWindow().getjTabPanel().setTitleAt(0, getInternationalizedText("statistics.tab.general.title"));
+        getStatisticsWindow().getjTabPanel().setTitleAt(1, getInternationalizedText("statistics.tab.grouping.title"));
+        getStatisticsWindow().getjTabPanel().setTitleAt(2, getInternationalizedText("statistics.tab.top10.title"));
+    }
+
+    private void configSearchFileWindow() {
+        getFileSearching().setTitle(getInternationalizedText("file.window.info"));
+        setInternationalizedText("search", getFileSearching().getjBtnSearch());
+        setInternationalizedText("file.window.info", getFileSearching().getjLblInfo());
+        setInternationalizedText("file.searching.for", getFileSearching().getjLblSearchingFor());
+        setInternationalizedText("file.wext", getFileSearching().getjLblWithExtension());
+        setInternationalizedText("file.wmis", getFileSearching().getjLblWithMinSize());
+        setInternationalizedText("file.wmas", getFileSearching().getjLblWithMaxSize());
+    }
+
+    private void configConfigWindows() {
+        getConfigurationWindow().setTitle(getInternationalizedText("config.title"));
+        setInternationalizedText("back", getConfigurationWindow().getJbtBack());
+        setInternationalizedText("save", getConfigurationWindow().getJbtSave());
+        setInternationalizedText("config.title", getConfigurationWindow().getjLblInfo());
+        getConfigurationWindow().getjTabPanel().setTitleAt(0, getInternationalizedText("config.general"));
+        getConfigurationWindow().getjTabPanel().setTitleAt(1, getInternationalizedText("config.grouping"));
+        setInternationalizedText("config.lang", getConfigurationWindow().getJlblLanguage());
+        setInternationalizedText("config.laf", getConfigurationWindow().getJlblLookAndFeel());
+        setInternationalizedText("config.fni", getConfigurationWindow().getJlblFilesNotIndexable());
+        setInternationalizedText("config.wni", getConfigurationWindow().getjLblWordsNotIndexable());
+        setInternationalizedText("config.number.of.results", getConfigurationWindow().getjLblNumberOfResults());
+        setInternationalizedText("config.personal", getConfigurationWindow().getjLblPersonal());
+        setInternationalizedText("config.video", getConfigurationWindow().getjLblVideo());
+        setInternationalizedText("config.audio", getConfigurationWindow().getjLblAudio());
+        setInternationalizedText("config.picture", getConfigurationWindow().getjLblPicture());
+        setInternationalizedText("config.html", getConfigurationWindow().getjLblHtml());
+        setInternationalizedText("config.docs", getConfigurationWindow().getjLblOfficeDocs());
+        setInternationalizedText("config.disk.image", getConfigurationWindow().getjLblDiskImages());
+        setInternationalizedText("config.compression", getConfigurationWindow().getjLblCompression());
     }
 
     private final void setupMain() {
@@ -418,13 +455,13 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("window.unit.info", getUnit().getjLblUnitInfo());
         setInternationalizedText("window.unit.search.label", getUnit().getjLblSearchText());
         setInternationalizedText("search", getUnit().getjBtnSearch());
-        setInternationalizedText("container.tip",getUnit().getjLblContainerTip());
-        setInternationalizedText("new",getUnit().getjBtnNew());
-        setInternationalizedText("edit",getUnit().getjBtnEdit());
-        setInternationalizedText("delete",getUnit().getjBtnDelete());
-        setInternationalizedText("rent",getUnit().getjBtnRent());
-        setInternationalizedText("giveback",getUnit().getjBtnGiveBack());
-        setInternationalizedText("back",getUnit().getjBtnBack());
+        setInternationalizedText("container.tip", getUnit().getjLblContainerTip());
+        setInternationalizedText("new", getUnit().getjBtnNew());
+        setInternationalizedText("edit", getUnit().getjBtnEdit());
+        setInternationalizedText("delete", getUnit().getjBtnDelete());
+        setInternationalizedText("rent", getUnit().getjBtnRent());
+        setInternationalizedText("giveback", getUnit().getjBtnGiveBack());
+        setInternationalizedText("back", getUnit().getjBtnBack());
         NewUnit nUnit = getUnit().getNewUnit();
         setInternationalizedText("back", nUnit.getjBtnBack());
         setInternationalizedText("save", nUnit.getjBtnSave());
@@ -446,10 +483,10 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("window.file.isitfrom", getFileIndexing().getjChk());
         setInternationalizedText("mnu.unit", getFileIndexing().getjLblContainerParent());
         setInternationalizedText("window.file.choselocation", getFileIndexing().getjLblName());
-        setInternationalizedText("index",getFileIndexing().getjBtnIndex());
+        setInternationalizedText("index", getFileIndexing().getjBtnIndex());
         setInternationalizedText("search", getFileIndexing().getjBtnSearch());
-        setInternationalizedText("back",getFileIndexing().getjBtnBack());
-        setInternationalizedText("cancel",getFileIndexing().getjBtnStop());
+        setInternationalizedText("back", getFileIndexing().getjBtnBack());
+        setInternationalizedText("cancel", getFileIndexing().getjBtnStop());
     }
 
     /**
@@ -702,5 +739,75 @@ public class Main extends javax.swing.JFrame {
      */
     public void setjSeparator1(javax.swing.JSeparator jSeparator1) {
         this.jSeparator1 = jSeparator1;
+    }
+
+    /**
+     * @return the fileSearching
+     */
+    public FileSearching getFileSearching() {
+        return fileSearching;
+    }
+
+    /**
+     * @param fileSearching the fileSearching to set
+     */
+    public void setFileSearching(FileSearching fileSearching) {
+        this.fileSearching = fileSearching;
+    }
+
+    /**
+     * @return the jMnuPreferences
+     */
+    public javax.swing.JMenuItem getjMnuPreferences() {
+        return jMnuPreferences;
+    }
+
+    /**
+     * @param jMnuPreferences the jMnuPreferences to set
+     */
+    public void setjMnuPreferences(javax.swing.JMenuItem jMnuPreferences) {
+        this.jMnuPreferences = jMnuPreferences;
+    }
+
+    /**
+     * @return the jMnuStatistics
+     */
+    public javax.swing.JMenuItem getjMnuStatistics() {
+        return jMnuStatistics;
+    }
+
+    /**
+     * @param jMnuStatistics the jMnuStatistics to set
+     */
+    public void setjMnuStatistics(javax.swing.JMenuItem jMnuStatistics) {
+        this.jMnuStatistics = jMnuStatistics;
+    }
+
+    /**
+     * @return the statisticsWindow
+     */
+    public Statistics getStatisticsWindow() {
+        return statisticsWindow;
+    }
+
+    /**
+     * @param statisticsWindow the statisticsWindow to set
+     */
+    public void setStatisticsWindow(Statistics statisticsWindow) {
+        this.statisticsWindow = statisticsWindow;
+    }
+
+    /**
+     * @return the configurationWindow
+     */
+    public ConfiguratorWindow getConfigurationWindow() {
+        return configurationWindow;
+    }
+
+    /**
+     * @param configurationWindow the configurationWindow to set
+     */
+    public void setConfigurationWindow(ConfiguratorWindow configurationWindow) {
+        this.configurationWindow = configurationWindow;
     }
 }

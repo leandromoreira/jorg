@@ -116,6 +116,26 @@ public class File {
         }
     }
 
+    public final static Collection<File> listBy(String where) throws SQLException {
+        Collection<File> list = new ArrayList<File>();
+        StringBuilder sql = new StringBuilder("select * from file where " + where);
+        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql.toString());
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            File file = new File();
+            file.extension = rs.getString("extension");
+            file.id = rs.getLong("id");
+            file.id_unit = rs.getInt("id_unit");
+            file.name = rs.getString("name");
+            file.path = rs.getString("path");
+            file.size = rs.getFloat("size");
+            file.size_in_bytes = rs.getLong("size_in_bytes");
+            file.time_last_modified = rs.getTime("time_last_modified");
+            file.date_last_modified = rs.getDate("date_last_modified");
+            list.add(file);
+        }
+        return list;
+    }
     public final static Collection<File> listBy(final int[] ids, String where) throws SQLException {
 
         if (ids.length == 0) {

@@ -257,7 +257,7 @@
             <Component class="javax.swing.JButton" name="jBtnSearch">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/jorg/gui/picture/Find24.gif"/>
+                  <Image iconType="3" name="/jorg/gui/picture/Zoom24.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Search"/>
               </Properties>

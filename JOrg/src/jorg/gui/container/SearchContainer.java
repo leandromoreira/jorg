@@ -55,7 +55,7 @@ public class SearchContainer extends javax.swing.JFrame {
         jLblSearchText.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLblSearchText.setText("Search by description:");
 
-        jBtnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Find24.gif"))); // NOI18N
+        jBtnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jBtnSearch.setText("Search");
         jBtnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

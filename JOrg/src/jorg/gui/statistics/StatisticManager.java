@@ -1,5 +1,6 @@
 package jorg.gui.statistics;
 
+import java.awt.Cursor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +26,8 @@ public class StatisticManager implements Runnable {
     public void run() {
         String initText = listener.getjLblInfo().getText();
         try {
+            listener.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            listener.getJtxtAreaGeneral().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             listener.getjPrgStatistics().setIndeterminate(true);
             listener.updateInfo(Configurator.getInternationlizedText("statistics.initiating"));
             final Connection con = DataBase.getConnection();
@@ -75,6 +78,8 @@ public class StatisticManager implements Runnable {
         } finally {
             listener.getjPrgStatistics().setIndeterminate(false);
             listener.getjLblInfo().setText((initText));
+            listener.setCursor(Cursor.getDefaultCursor());
+            listener.getJtxtAreaGeneral().setCursor(Cursor.getDefaultCursor());
         }
     }
 

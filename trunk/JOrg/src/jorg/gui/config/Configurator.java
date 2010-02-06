@@ -12,7 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class Configurator {
-
+    private final static String VERSION = "0.83B";
+    private final static String MAIN_TITLE = "JOrg";
+    private final static String DEV_BLOG = "http://archsofty.blogspot.com";
     private final static String SETUP_PATH = "", LANG_PATH = "";
     private final static File setupFile = new File(SETUP_PATH + "setup.properties");
     private static Properties setup = new Properties(), internationalizator = new Properties();
@@ -53,6 +55,15 @@ public final class Configurator {
     }
 
     public final static String getInternationlizedText(final String key) {
+        if ("main.version".equals(key)){
+            return VERSION;
+        }
+        if ("main.title".equals(key)){
+            return MAIN_TITLE;
+        }
+        if ("main.developer.blog".equals(key)){
+            return DEV_BLOG;
+        }
         return internationalizator.getProperty(key);
     }
     private static final String iconPath = "/jorg/gui/picture/icons/";

@@ -146,7 +146,7 @@ public class NewContainer extends javax.swing.JFrame {
 
         jTxtTerm.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jBtnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Find24.gif"))); // NOI18N
+        jBtnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jBtnSearch.setText("Search");
         jBtnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

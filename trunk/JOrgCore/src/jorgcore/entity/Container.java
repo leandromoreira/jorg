@@ -16,15 +16,6 @@ public class Container {
     public int id;
     public String description;
     public int id_pai;
-    private static DataBase db;
-
-    public static void begin() throws SQLException {
-        db = new DataBase();
-    }
-
-    public static void commit() throws SQLException {
-        db.close();
-    }
 
     public static void insert(Container con) throws SQLException {
         String sql = "insert into container(description,insert_date) values (?,?)";
@@ -32,6 +23,7 @@ public class Container {
         ps.setString(1, con.description);
         ps.setDate(2, new Date(new java.util.Date().getTime()));
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void insert(Container con, int id_pai) throws SQLException {
@@ -41,6 +33,7 @@ public class Container {
         ps.setInt(2, id_pai);
         ps.setDate(3, new Date(new java.util.Date().getTime()));
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void update(Container con) throws SQLException {
@@ -49,6 +42,7 @@ public class Container {
         ps.setString(1, con.description);
         ps.setInt(2, con.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void update(Container con, int id_pai) throws SQLException {
@@ -58,6 +52,7 @@ public class Container {
         ps.setInt(2, id_pai);
         ps.setInt(3, con.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void becomeRoot(Container con) throws SQLException {
@@ -66,6 +61,7 @@ public class Container {
         ps.setNull(1, java.sql.Types.INTEGER);
         ps.setInt(2, con.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void delete(Container con) throws SQLException {
@@ -74,26 +70,31 @@ public class Container {
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, con.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static int count() throws SQLException {
-        ResultSet rs = db.query("select count(*) from container ");
+        ResultSet rs = DataBase.query("select count(*) from container ");
         rs.next();
-        return rs.getInt(1);
+        int count = rs.getInt(1);
+        rs.close();
+        return count;
     }
 
     public static List<Container> findAll() throws SQLException {
         List<Container> containers = new ArrayList<Container>();
-        ResultSet rs = db.query("select * from container order by id desc offset 0 rows fetch next 20 rows only");
+        ResultSet rs = DataBase.query("select * from container order by id desc offset 0 rows fetch next 20 rows only");
         mapping(rs, containers);
+        rs.close();
         return containers;
     }
 
     public static Container findBy(int id) throws SQLException {
         Container container = new Container();
-        ResultSet rs = db.query("select * from container where id=" + id);
+        ResultSet rs = DataBase.query("select * from container where id=" + id);
         rs.next();
         mappingElement(container, rs);
+        rs.close();
         return container;
     }
 
@@ -108,12 +109,14 @@ public class Container {
 
     public static Container findParentBy(int id) throws SQLException {
         Container container = new Container();
-        ResultSet rs = db.query("select * from container where id=" + id + " and id_pai is not null");
+        ResultSet rs = DataBase.query("select * from container where id=" + id + " and id_pai is not null");
         rs.next();
         mappingElement(container, rs);
-        rs = db.query("select * from container where id=" + container.id_pai);
+        rs.close();
+        rs = DataBase.query("select * from container where id=" + container.id_pai);
         rs.next();
         mappingElement(container, rs);
+        rs.close();
         return container;
     }
 
@@ -130,8 +133,9 @@ public class Container {
 
     private static List<Container> findWhere(String where) throws SQLException {
         List<Container> containers = new ArrayList<Container>();
-        ResultSet rs = db.query("select * from container where " + where + " order by id  desc");
+        ResultSet rs = DataBase.query("select * from container where " + where + " order by id  desc");
         mapping(rs, containers);
+        rs.close();
         return containers;
     }
 
@@ -158,13 +162,13 @@ public class Container {
         containers.add(node);
         Container container = null;
         do {
-            ResultSet rsLast = db.query("select * from container where id=" + id_tmp + " and id_pai is null");
+            ResultSet rsLast = DataBase.query("select * from container where id=" + id_tmp + " and id_pai is null");
             if (rsLast.next()) {
+                rsLast.close();
                 break;
             }
-            ResultSet rs = db.query("select * from container where id=" + id_pai_tmp);
+            ResultSet rs = DataBase.query("select * from container where id=" + id_pai_tmp);
             if (rs.next()) {
-
                 container = new Container();
                 mappingElement(container, rs);
                 containers.add(container);
@@ -233,6 +237,7 @@ public class Container {
         ps.setNull(1, java.sql.Types.INTEGER);
         ps.setInt(2, con.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     private static void deleteAllUnitLinks(Container con) throws SQLException {
@@ -241,5 +246,6 @@ public class Container {
         ps.setNull(1, java.sql.Types.INTEGER);
         ps.setInt(2, con.id);
         ps.executeUpdate();
+        ps.close();
     }
 }

@@ -222,6 +222,19 @@ public class FileSearching extends javax.swing.JFrame {
 
     private void jBtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchActionPerformed
         String query = getjTxtSearch().getText();
+        if (query == null || query.trim().equals("")) {
+            return;
+        }
+        query = query.replace(".", " ");
+        query = query.replace(":", " ");
+        query = query.replace(";", " ");
+        query = query.replace("/", " ");
+        query = query.replace("\\", " ");
+        query = query.replace("[", " ");
+        query = query.replace("]", " ");
+        if (query.startsWith("*")){
+            query = query.substring(1, query.length());
+        }
         getjLblMessage().setText("");
         try {
             if (readAgain) {
@@ -240,7 +253,7 @@ public class FileSearching extends javax.swing.JFrame {
                 if (files.size() != 0) {
                     files = orderBy(ids, (List<File>) files);
                 }
-            }else{
+            } else {
                 files = File.listBy(condition);
             }
             SwingUtil.populateJTableFile(getjTblFile(), files.size(), files.iterator());
@@ -546,7 +559,7 @@ public class FileSearching extends javax.swing.JFrame {
     private final String stateOf(final Unit unit) {
         SimpleDateFormat sdf = new SimpleDateFormat();
         if (unit.rented_to != null) {
-            return " <font color='blue'>(" + Configurator.getInternationlizedText("rented.to") + " " + unit.rented_to + " "+sdf.format(unit.rented_date)+")</font> ";
+            return " <font color='blue'>(" + Configurator.getInternationlizedText("rented.to") + " " + unit.rented_to + " " + sdf.format(unit.rented_date) + ")</font> ";
         } else {
             return "";
         }

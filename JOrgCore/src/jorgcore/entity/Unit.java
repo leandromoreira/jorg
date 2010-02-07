@@ -12,9 +12,8 @@ import jorgcore.database.DataBase;
 public class Unit {
 
     public Unit() {
-       creation_date = new Date();
+        creation_date = new Date();
     }
-
     public int id;
     public int id_container;
     public String name;
@@ -24,30 +23,20 @@ public class Unit {
     public String type;
     public String keywords;
     public double capacity;
-    private static DataBase db;
-
-    public static void begin() throws SQLException {
-        db = new DataBase();
-    }
-
-    @Deprecated
-    public static void commit() throws SQLException {
-    }
 
     public static void insert(Unit unit) throws SQLException {
-        String sql = "insert into unit(" +
-                "name,creation_date,type,keywords) values (?,?,?,?)";
+        String sql = "insert into unit(name,creation_date,type,keywords) values (?,?,?,?)";
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
         ps.setString(3, unit.type);
         ps.setString(4, unit.keywords);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void insert(Unit unit, int idContainer) throws SQLException {
-        String sql = "insert into unit(" +
-                "name,creation_date,type,keywords,id_container) values (?,?,?,?,?)";
+        String sql = "insert into unit(name,creation_date,type,keywords,id_container) values (?,?,?,?,?)";
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
@@ -55,11 +44,11 @@ public class Unit {
         ps.setString(4, unit.keywords);
         ps.setInt(5, idContainer);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void update(Unit unit) throws SQLException {
-        String sql = "update unit set " +
-                "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
+        String sql = "update unit set name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setString(2, unit.type);
@@ -67,23 +56,22 @@ public class Unit {
         ps.setNull(4, java.sql.Types.INTEGER);
         ps.setInt(5, unit.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void updateRent(Unit unit) throws SQLException {
-        String sql = "update unit set " +
-                "rented_to = ?,rented_date = ? where id = ?";
+        String sql = "update unit set rented_to = ?,rented_date = ? where id = ?";
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.rented_to);
         ps.setDate(2, new java.sql.Date(unit.rented_date.getTime()));
         ps.setInt(3, unit.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     public final static void updateForRent(final Unit unit) throws SQLException {
-        String sql = "update unit set " +
-                "rented_to = ?,rented_date = ? where id = ?";
+        String sql = "update unit set rented_to = ?,rented_date = ? where id = ?";
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
-
         if (unit.rented_to == null || "".equals(unit.rented_to)) {
             ps.setNull(1, java.sql.Types.VARCHAR);
         } else {
@@ -96,11 +84,11 @@ public class Unit {
         }
         ps.setInt(3, unit.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     public static void update(Unit unit, int idContainer) throws SQLException {
-        String sql = "update unit set " +
-                "name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
+        String sql = "update unit set name = ?,type = ?,keywords = ?, id_container = ? where id = ?";
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setString(1, unit.name);
         ps.setString(2, unit.type);
@@ -108,6 +96,7 @@ public class Unit {
         ps.setInt(4, idContainer);
         ps.setInt(5, unit.id);
         ps.executeUpdate();
+        ps.close();
     }
 
     private static int[] deleteLuceneIndex(int id) {
@@ -126,8 +115,11 @@ public class Unit {
             for (Integer value : arrays) {
                 ids[index++] = value;
             }
+            ps.close();
+            rs.close();
             return ids;
         } catch (SQLException sQLException) {
+            sQLException.printStackTrace();
         }
         return new int[0];
     }
@@ -138,17 +130,21 @@ public class Unit {
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, unit.id);
         ps.executeUpdate();
+        ps.close();
         sql = "delete from unit where id =?";
         ps = DataBase.getConnection().prepareStatement(sql);
         ps.setInt(1, unit.id);
         ps.executeUpdate();
+        ps.close();
         return ids;
     }
 
     public static int count() throws SQLException {
-        ResultSet rs = db.query("select count(*) from unit ");
+        ResultSet rs = DataBase.query("select count(*) from unit ");
         rs.next();
-        return rs.getInt(1);
+        int count = rs.getInt(1);
+        rs.close();
+        return count;
     }
 
     public static boolean hasParent(Unit unit) {
@@ -161,35 +157,34 @@ public class Unit {
     }
 
     public static Container findParentBy(Unit unit) throws SQLException {
-        Container.begin();
-        ResultSet rs = db.query("select * from unit where id=" + unit.id + " and id_container is not null");
+        ResultSet rs = DataBase.query("select * from unit where id=" + unit.id + " and id_container is not null");
         rs.next();
-        System.out.println(rs.getString(1));
-        try {
-            return Container.findBy(unit.id_container);
-        } finally {
-            Container.commit();
-        }
+        rs.close();
+        return Container.findBy(unit.id_container);
     }
 
     public static List<Unit> findAll() throws SQLException {
         List<Unit> unit = new ArrayList<Unit>();
-        ResultSet rs = db.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
+        ResultSet rs = DataBase.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
         mapping(rs, unit);
+        rs.close();
         return unit;
     }
 
     public static List<Unit> listLast() throws SQLException {
         List<Unit> unit = new ArrayList<Unit>();
-        ResultSet rs = db.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
+        ResultSet rs = DataBase.query("select * from unit order by id desc  offset 0 rows fetch next 20 rows only");
         mapping(rs, unit);
+        rs.close();
         return unit;
     }
 
     public static int lastId() throws SQLException {
-        ResultSet rs = db.query("select max(id) from unit");
+        ResultSet rs = DataBase.query("select max(id) from unit");
         if (rs.next()) {
-            return rs.getInt(1);
+            int lastId = rs.getInt(1);
+            rs.close();
+            return lastId;
         } else {
             return 0;
         }
@@ -197,17 +192,19 @@ public class Unit {
 
     public static Unit findBy(int id) throws SQLException {
         Unit unit = new Unit();
-        ResultSet rs = db.query("select * from unit where id=" + id);
+        ResultSet rs = DataBase.query("select * from unit where id=" + id);
         rs.next();
         mappingElement(unit, rs);
+        rs.close();
         return unit;
     }
 
     public static Unit findUnitWithinContainerBy(int id) throws SQLException {
         Unit unit = new Unit();
-        ResultSet rs = db.query("select * from unit where id=" + id + " and id_container is not null");
+        ResultSet rs = DataBase.query("select * from unit where id=" + id + " and id_container is not null");
         rs.next();
         mappingElement(unit, rs);
+        rs.close();
         return unit;
     }
 
@@ -224,8 +221,9 @@ public class Unit {
 
     private static List<Unit> findWhere(String where) throws SQLException {
         List<Unit> containers = new ArrayList<Unit>();
-        ResultSet rs = db.query("select * from unit where " + where + " order by id  desc");
+        ResultSet rs = DataBase.query("select * from unit where " + where + " order by id  desc");
         mapping(rs, containers);
+        rs.close();
         return containers;
     }
 

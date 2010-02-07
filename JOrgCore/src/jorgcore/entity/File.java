@@ -43,14 +43,6 @@ public class File {
         }
     }
 
-    @Deprecated
-    public static void begin() throws SQLException {
-    }
-
-    @Deprecated
-    public static void commit() throws SQLException {
-    }
-
     public static void setupBatch() throws SQLException {
         if (psBatch == null | psBatchLinked == null) {
             String sql = "insert into file(" +
@@ -110,6 +102,7 @@ public class File {
             file.size_in_bytes = rs.getLong("size_in_bytes");
             file.time_last_modified = rs.getTime("time_last_modified");
             file.date_last_modified = rs.getDate("date_last_modified");
+            rs.close();
             return file;
         }else{
             return null;
@@ -134,6 +127,8 @@ public class File {
             file.date_last_modified = rs.getDate("date_last_modified");
             list.add(file);
         }
+        rs.close();
+        ps.close();
         return list;
     }
     public final static Collection<File> listBy(final int[] ids, String where) throws SQLException {
@@ -167,14 +162,9 @@ public class File {
             file.date_last_modified = rs.getDate("date_last_modified");
             list.add(file);
         }
+        rs.close();
+        ps.close();
         return list;
-    }
-
-    private final static boolean existsUnit(final Long id) throws SQLException {
-        StringBuilder sql = new StringBuilder("select * from file where id=" + id+" and id_unit is not null");
-        PreparedStatement ps = DataBase.getConnection().prepareStatement(sql.toString());
-        ResultSet rs = ps.executeQuery();
-        return rs.next();
     }
 
     private final static String createRestriction(final int[] ids, String where) {
@@ -192,7 +182,10 @@ public class File {
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql.toString());
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return rs.getInt(1);
+            int lastId = rs.getInt(1);
+            rs.close();
+            ps.close();
+            return lastId;
         } else {
             return 0;
         }
@@ -210,6 +203,7 @@ public class File {
         }
         PreparedStatement ps = DataBase.getConnection().prepareStatement(sql.toString());
         ps.executeUpdate();
+        ps.close();
     }
 
     @Override

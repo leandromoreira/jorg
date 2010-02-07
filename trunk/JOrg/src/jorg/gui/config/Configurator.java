@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class Configurator {
-    private final static String VERSION = "0.83B";
+    private final static String VERSION = "0.85B";
     private final static String MAIN_TITLE = "JOrg";
     private final static String DEV_BLOG = "http://archsofty.blogspot.com";
     private final static String SETUP_PATH = "config/", LANG_PATH = "config/";

@@ -88,7 +88,7 @@ public class IndexingThread extends Thread {
             }
             form.enableEverything();
             if (showPopup) {
-                JOptionPane.showMessageDialog(null, "Labeled this unit with [" + unitId + "]");
+                JOptionPane.showMessageDialog(null, Configurator.getInternationlizedText("labeled.msg") + " [" + unitId + "]");
             }
         } catch (Exception ex) {
             form.enableEverything();

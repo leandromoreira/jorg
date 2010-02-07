@@ -120,6 +120,7 @@ public final class SwingUtil {
         if (rowCount > 20) {
             rowCount = 20;
         }
+        tab.setAutoCreateRowSorter(true);
         populateJTableContainerNew(tab, rowCount);
         try {
             Container.begin();
@@ -143,8 +144,8 @@ public final class SwingUtil {
 
     public static void populateJTableFile(JTable tab, int rowCount, Iterator<File> it) {
         tab.setRowHeight(48);
+        tab.setAutoCreateRowSorter(true);        
         TableColumnModel tb = new DefaultTableColumnModel();
-
         TableColumn icon = new TableColumn(0, 150);
         icon.setPreferredWidth(55);
         icon.setResizable(false);
@@ -217,6 +218,7 @@ public final class SwingUtil {
 
     public static void populateJTableContainerNew(JTable tab, int rowCount) {
         TableColumnModel tb = new DefaultTableColumnModel();
+        tab.setAutoCreateRowSorter(true);
         TableColumn id = new TableColumn(0, 150);
         id.setPreferredWidth(150);
         id.setResizable(false);
@@ -256,6 +258,7 @@ public final class SwingUtil {
         if (rowCount > 20) {
             rowCount = 20;
         }
+        tab.setAutoCreateRowSorter(true);
         populateJTableUnitNew(tab, rowCount);
         try {
             Unit.begin();
@@ -278,6 +281,7 @@ public final class SwingUtil {
     }
 
     public static void populateJTableUnitNew(JTable tab, int rowCount) {
+        tab.setAutoCreateRowSorter(true);
         TableColumnModel tb = new DefaultTableColumnModel();
         TableColumn id = new TableColumn(0, 150);
         id.setPreferredWidth(150);

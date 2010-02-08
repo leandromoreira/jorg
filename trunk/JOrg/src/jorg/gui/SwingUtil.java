@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableColumnModel;
@@ -27,7 +26,6 @@ import jorgcore.entity.File;
 import jorgcore.entity.Unit;
 
 public final class SwingUtil {
-
     private static int SELECT_ONE_ROW = 0;
 
     public final static void center(final JFrame frame) {
@@ -122,11 +120,6 @@ public final class SwingUtil {
         }
         tab.setAutoCreateRowSorter(true);
         populateJTableContainerNew(tab, rowCount);
-        try {
-            Container.begin();
-        } catch (SQLException ex) {
-            Logger.getLogger(SwingUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
         int row = 0;
         while (it.hasNext()) {
             Container con = it.next();
@@ -260,11 +253,6 @@ public final class SwingUtil {
         }
         tab.setAutoCreateRowSorter(true);
         populateJTableUnitNew(tab, rowCount);
-        try {
-            Unit.begin();
-        } catch (SQLException ex) {
-            Logger.getLogger(SwingUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
         int row = 0;
         while (it.hasNext()) {
             Unit con = it.next();

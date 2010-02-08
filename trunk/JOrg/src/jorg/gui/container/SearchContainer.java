@@ -14,8 +14,6 @@ public class SearchContainer extends javax.swing.JFrame {
 
     private NewContainer newContainer = new NewContainer(this);
 
-    
-
     public SearchContainer() {
         newContainer.getRootPane().setDefaultButton(newContainer.getjBtnSearch());
         initComponents();
@@ -191,7 +189,6 @@ public class SearchContainer extends javax.swing.JFrame {
         SwingUtil.center(newContainer);
         newContainer.setInfoTitle("container.title.edit");
         try {
-            Container.begin();
             fillEditForm(Container.findBy(id));
             newContainer.setEditedId(id);
             newContainer.setInsertableMode(false);
@@ -199,13 +196,6 @@ public class SearchContainer extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
             SwingUtil.setupJLblToErrorMessage(jLblMessage, ex.toString());
-        } finally {
-            try {
-                Container.commit();
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-                SwingUtil.setupJLblToErrorMessage(jLblMessage, ex.toString());
-            }
         }
     }//GEN-LAST:event_jBtnContainerEditActionPerformed
 
@@ -225,18 +215,12 @@ public class SearchContainer extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         SwingUtil.resetMessage(jLblMessage);
         try {
-            Container.begin();
             Iterator<Container> it = Container.findAll().iterator();
             SwingUtil.populateJTableContainer(jTblContainer, Container.count(), it);
         } catch (SQLException ex) {
             Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                pack();
-                Container.commit();
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            pack();
         }
     }//GEN-LAST:event_formWindowOpened
 
@@ -244,11 +228,10 @@ public class SearchContainer extends javax.swing.JFrame {
         if (!jTxtTerm.getText().equals("")) {
             try {
                 String term = jTxtTerm.getText();
-                if (!term.contains("*")){
+                if (!term.contains("*")) {
                     term = "*" + term + "*";
                 }
                 SwingUtil.resetMessage(jLblMessage);
-                Container.begin();
                 List<Container> set = Container.findBy(term);
                 Iterator<Container> it = set.iterator();
                 SwingUtil.populateJTableContainer(jTblContainer, set.size(), it);
@@ -258,13 +241,7 @@ public class SearchContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(jLblMessage, ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            } 
         }
     }//GEN-LAST:event_jBtnSearchActionPerformed
 
@@ -273,9 +250,7 @@ public class SearchContainer extends javax.swing.JFrame {
         SwingUtil.resetMessage(jLblMessage);
         try {
             String id = jTblContainer.getValueAt(jTblContainer.getSelectedRow(), 0).toString();
-            Container.begin();
             trees = (Container.giveMeFullAdresOf(Container.findBy(new Integer(id))));
-            Container.commit();
             if (trees.length() > 70) {
                 JOptionPane.showMessageDialog(this, trees, Configurator.getInternationlizedText("location"), JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -291,7 +266,6 @@ public class SearchContainer extends javax.swing.JFrame {
         if (answer == 0) {
             String id = jTblContainer.getValueAt(jTblContainer.getSelectedRow(), 0).toString();
             try {
-                Container.begin();
                 Container.delete(Container.findBy(new Integer(id)));
             } catch (SQLException ex) {
                 Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
@@ -299,14 +273,7 @@ public class SearchContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(jLblMessage, ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
-                    SwingUtil.setupJLblToErrorMessage(jLblMessage, ex.toString());
-                }
-            }
+            } 
             formWindowOpened(null);
         }
     }//GEN-LAST:event_jBtnContainerDeleteActionPerformed

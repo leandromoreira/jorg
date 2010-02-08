@@ -38,9 +38,8 @@ public class Statistics extends javax.swing.JFrame {
             }
         });
 
-        jtxtAreaGeneral.setBackground(new java.awt.Color(224, 223, 227));
         jtxtAreaGeneral.setColumns(20);
-        jtxtAreaGeneral.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jtxtAreaGeneral.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jtxtAreaGeneral.setForeground(new java.awt.Color(153, 0, 51));
         jtxtAreaGeneral.setRows(5);
         jScrollPane1.setViewportView(jtxtAreaGeneral);

@@ -296,7 +296,6 @@ public class FileIndexing extends javax.swing.JFrame {
         if (!jTxtTerm.getText().equals("")) {
             try {
                 SwingUtil.resetMessage(getjLblMessage());
-                Unit.begin();
                 List<Unit> set = Unit.findBy(getjTxtTerm().getText());
                 Iterator<Unit> it = set.iterator();
                 SwingUtil.populateJTableUnit(getjTblChose(), set.size(), it);
@@ -306,12 +305,6 @@ public class FileIndexing extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-            } finally {
-                try {
-                    Unit.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         }
 }//GEN-LAST:event_jBtnSearchActionPerformed
@@ -328,7 +321,6 @@ public class FileIndexing extends javax.swing.JFrame {
 
         try {
             SwingUtil.resetMessage(getjLblMessage());
-            Unit.begin();
             List<Unit> set = Unit.listLast();
             Iterator<Unit> it = set.iterator();
             SwingUtil.populateJTableUnit(getjTblChose(), set.size(), it);
@@ -338,12 +330,6 @@ public class FileIndexing extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
             SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-        } finally {
-            try {
-                Unit.commit();
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }//GEN-LAST:event_formWindowActivated
 
@@ -633,19 +619,13 @@ public class FileIndexing extends javax.swing.JFrame {
 
     private void goBack() {
         try {
-            Unit.begin();
             Iterator<Unit> it = Unit.findAll().iterator();
             SwingUtil.populateJTableUnit(getSearch().getjTblUnit(), Unit.count(), it);
             setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
-                pack();
-                Unit.commit();
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            pack();
         }
     }
 

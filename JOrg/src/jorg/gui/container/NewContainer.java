@@ -258,7 +258,6 @@ public class NewContainer extends javax.swing.JFrame {
                     term = "*" + term + "*";
                 }
                 SwingUtil.resetMessage(getjLblMessage());
-                Container.begin();
                 List<Container> set = Container.findBy(term);
                 Iterator<Container> it = set.iterator();
                 SwingUtil.populateJTableContainer(getjTblContainer(), set.size(), it);
@@ -268,13 +267,7 @@ public class NewContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            } 
         }
 }//GEN-LAST:event_jBtnSearchActionPerformed
 
@@ -308,7 +301,6 @@ public class NewContainer extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try{
-                Container.begin();
                 List<Container> set = Container.findAll();
                 Iterator<Container> it = set.iterator();
                 SwingUtil.populateJTableContainer(getjTblContainer(), set.size(), it);
@@ -318,13 +310,7 @@ public class NewContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            } 
     }//GEN-LAST:event_formWindowActivated
 
     /**
@@ -607,19 +593,13 @@ public class NewContainer extends javax.swing.JFrame {
 
     private void goBack() {
         try {
-            Container.begin();
             Iterator<Container> it = Container.findAll().iterator();
             SwingUtil.populateJTableContainer(getSearch().getjTblContainer(), Container.count(), it);
             setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            try {
                 pack();
-                Container.commit();
-            } catch (SQLException ex) {
-                Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
@@ -661,7 +641,6 @@ public class NewContainer extends javax.swing.JFrame {
                 return;
             }
             try {
-                Container.begin();
                 Container newContainer = new Container();
                 newContainer.description = getjTxtDescription().getText().trim();
                 Container.insert(newContainer);
@@ -671,13 +650,6 @@ public class NewContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
-                    SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-                }
             }
 
         } else {
@@ -690,7 +662,6 @@ public class NewContainer extends javax.swing.JFrame {
                 return;
             }
             try {
-                Container.begin();
                 Container newContainer = new Container();
                 newContainer.description = getjTxtDescription().getText().trim();
                 int id_pai = new Integer(getjTxtParent().getText().split("-")[0].trim());
@@ -701,14 +672,7 @@ public class NewContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
-                    SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-                }
-            }
+            } 
         }
         goBack();
     }
@@ -720,7 +684,6 @@ public class NewContainer extends javax.swing.JFrame {
                 return;
             }
             try {
-                Container.begin();
                 Container editedContainer = Container.findBy(id);
                 editedContainer.description = getjTxtDescription().getText().trim();
                 Container.becomeRoot(editedContainer);
@@ -731,13 +694,6 @@ public class NewContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
-                    SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-                }
             }
 
         } else {
@@ -750,7 +706,6 @@ public class NewContainer extends javax.swing.JFrame {
                 return;
             }
             try {
-                Container.begin();
                 Container editedContainer = Container.findBy(id);
                 editedContainer.description = getjTxtDescription().getText().trim();
                 int id_pai = new Integer(getjTxtParent().getText().split("-")[0].trim());
@@ -761,13 +716,6 @@ public class NewContainer extends javax.swing.JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
                 SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-            } finally {
-                try {
-                    Container.commit();
-                } catch (SQLException ex) {
-                    Logger.getLogger(NewContainer.class.getName()).log(Level.SEVERE, null, ex);
-                    SwingUtil.setupJLblToErrorMessage(getjLblMessage(), ex.toString());
-                }
             }
         }
         goBack();

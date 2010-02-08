@@ -278,7 +278,6 @@ public class FileSearching extends javax.swing.JFrame {
             if (file == null) {
                 jLblMessage.setText(Configurator.getInternationlizedText("no.unit.linked"));
             } else {
-                Unit.begin();
                 Unit unit = null;
                 boolean hasContainer = false;
                 try {
@@ -289,7 +288,6 @@ public class FileSearching extends javax.swing.JFrame {
                 }
                 String state = stateOf(unit);
                 if (hasContainer) {
-                    Container.begin();
                     String fullPath = Container.giveMeFullAdresOf(Container.findBy(unit.id_container));
                     jLblMessage.setText("<html>" + fullPath + " >> " + unit.name + state + "</html>");
                 } else {

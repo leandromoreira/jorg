@@ -150,14 +150,12 @@ public class IndexingThread extends Thread {
     }
 
     private long mockingAUnit() throws SQLException {
-        Unit.begin();
         Unit unit = new Unit();
         unit.name = "s";
         Unit.insert(unit);
         unit.id = Unit.lastId();
         unit.name = String.valueOf(unit.id);
         Unit.update(unit);
-        Unit.commit();
         long id = unit.id;
         return id;
     }

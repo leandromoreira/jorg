@@ -12,18 +12,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class Configurator {
-    private final static String VERSION = "0.85B";
+
+    private final static String VERSION = "0.87B";
     private final static String MAIN_TITLE = "JOrg";
     private final static String DEV_BLOG = "http://archsofty.blogspot.com";
-    private final static String SETUP_PATH = "config/", LANG_PATH = "config/";
-    private final static File setupFile = new File(SETUP_PATH + "setup.properties");
-    private static Properties setup = new Properties(), internationalizator = new Properties();
+    private final static String ABS_PATH = new File("").getAbsolutePath();
+    private final static String SETUP_PATH = ABS_PATH + File.separator + "config" + File.separator;
+    private final static String LANG_PATH = ABS_PATH + File.separator + "config" + File.separator;
+    private static final String ICON_PATH = ABS_PATH + File.separator + "icons" + File.separator;
+    private final static File SETUP_FILE = new File(SETUP_PATH + "setup.properties");
+    private static Properties setup = new Properties();
+    private static Properties internationalizator = new Properties();
     private static File iFile;
+    private static String[] filesToDontIndex;
     private static String[] stopWords;
 
     static {
         try {
-            FileInputStream in = new FileInputStream(setupFile);
+            FileInputStream in = new FileInputStream(SETUP_FILE);
             try {
                 setup.load(in);
                 iFile = new File(LANG_PATH + setup.getProperty("language.file"));
@@ -42,7 +48,7 @@ public final class Configurator {
     public final static void saveSetup(final String key, final String value) throws ConfiguratorException {
         setup.put(key, value);
         try {
-            FileOutputStream out = new FileOutputStream(setupFile);
+            FileOutputStream out = new FileOutputStream(SETUP_FILE);
             setup.store(out, "Setup general configurations.");
             out.close();
         } catch (Exception ex) {
@@ -55,56 +61,55 @@ public final class Configurator {
     }
 
     public final static String getInternationlizedText(final String key) {
-        if ("main.version".equals(key)){
+        if ("main.version".equals(key)) {
             return VERSION;
         }
-        if ("main.title".equals(key)){
+        if ("main.title".equals(key)) {
             return MAIN_TITLE;
         }
-        if ("main.developer.blog".equals(key)){
+        if ("main.developer.blog".equals(key)) {
             return DEV_BLOG;
         }
         return internationalizator.getProperty(key);
     }
-    private static final String iconPath = "icons/";
 
-    public final static String getPathFor(String ext) {
+    public final static String getPathFor(final String ext) {
         if (ext == null) {
-            return iconPath + "exe_sem_nada.png";
+            return ICON_PATH + "exe_sem_nada.png";
         } else {
             if (isInside(getPersonalTypes(), ext)) {
-                return iconPath + "exe_sem_nada.png";
+                return ICON_PATH + "exe_sem_nada.png";
             }
 
             if (isInside(getCompressionTypes(), ext)) {
-                return iconPath + "rar_zip_tar.png";
+                return ICON_PATH + "rar_zip_tar.png";
             }
 
             if (isInside(getImageTypes(), ext)) {
-                return iconPath + "iso_nrg_mdf_.png";
+                return ICON_PATH + "iso_nrg_mdf_.png";
             }
 
             if (isInside(getPersonalTypes(), ext)) {
-                return iconPath + "picture.png";
+                return ICON_PATH + "picture.png";
             }
 
             if (isInside(getDocTypes(), ext)) {
-                return iconPath + "doc_ex_.png";
+                return ICON_PATH + "doc_ex_.png";
             }
 
             if (isInside(getHtmlTypes(), ext)) {
-                return iconPath + "html_.png";
+                return ICON_PATH + "html_.png";
             }
 
             if (isInside(getVideoTypes(), ext)) {
-                return iconPath + "avi_mkv_video_.png";
+                return ICON_PATH + "avi_mkv_video_.png";
             }
 
             if (isInside(getAudioTypes(), ext)) {
-                return iconPath + "mp3_wma_au.png";
+                return ICON_PATH + "mp3_wma_au.png";
             }
         }
-        return iconPath + "exe_sem_nada.png";
+        return ICON_PATH + "exe_sem_nada.png";
     }
 
     public final static String[] getPersonalTypes() {
@@ -139,10 +144,10 @@ public final class Configurator {
         return getType("types.video");
     }
 
-    private final static String[] getType(String type) {
-        String types = setup.getProperty(type);
-        String[] arrayTypes = types.split(",");
-        List<String> list = new ArrayList<String>();
+    private final static String[] getType(final String type) {
+        final String types = setup.getProperty(type);
+        final String[] arrayTypes = types.split(",");
+        final List<String> list = new ArrayList<String>();
         for (String element : arrayTypes) {
             if (!element.trim().equals("")) {
                 list.add(element.toLowerCase().trim());
@@ -150,7 +155,6 @@ public final class Configurator {
         }
         return list.toArray(new String[0]);
     }
-    private static String[] filesToDontIndex;
 
     public final static boolean isIndexable(final String filename) {
         for (String file : filesToDontIndex) {
@@ -164,7 +168,7 @@ public final class Configurator {
                     if (filename.toLowerCase().startsWith(file.substring(0, file.length() - 1).toLowerCase().trim())) {
                         return false;
                     }
-                }else{
+                } else {
                     if (filename.toLowerCase().endsWith(file.substring(1, file.length()).toLowerCase().trim())) {
                         return false;
                     }
@@ -175,7 +179,7 @@ public final class Configurator {
     }
 
     public final static String[] getStopWords() {
-        String[] value = new String[stopWords.length];
+        final String[] value = new String[stopWords.length];
         int index = 0;
         for (String word : stopWords) {
             value[index++] = word.trim();

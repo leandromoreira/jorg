@@ -26,6 +26,7 @@ public class IndexingThread extends Thread {
     private List<String> filesRejected = new ArrayList<String>();
     private static boolean stop = false;
     private static final int COMMIT_AT = 2000;
+    private int idCurrentUnit = -1;
 
     public static void log(Object o) {
         System.out.println(new Date().toLocaleString() + "--LOG :" + o);
@@ -63,6 +64,7 @@ public class IndexingThread extends Thread {
                 File.setupBatch();
                 if (id_unit.equals("")) {
                     long id = mockingAUnit();
+                    idCurrentUnit = (int) id;
                     indexWithALinkedUnit(files, id);
                     showPopup = true;
                     unitId = id;
@@ -70,6 +72,7 @@ public class IndexingThread extends Thread {
                     long id = 0L;
                     String[] terms = id_unit.split("-");
                     id = Long.parseLong(terms[0].trim());
+                    idCurrentUnit = (int) id;
                     indexWithALinkedUnit(files, id);
                 }
                 File.finishBatch();
@@ -77,7 +80,7 @@ public class IndexingThread extends Thread {
                 int lastIdBefore = File.lastId() - files.size();
                 log("lastIdBefore =" + lastIdBefore);
                 luceneIndexationOf(files, lastIdBefore);
-            }else{
+            } else {
                 prg.setIndeterminate(false);
             }
             lbl.setText(Configurator.getInternationlizedText("finish"));
@@ -97,6 +100,9 @@ public class IndexingThread extends Thread {
         } finally {
             try {
                 DataBase.getConnection().setAutoCommit(true);
+                if (idCurrentUnit != -1) {
+                    Unit.delete(idCurrentUnit);
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 Logger.getLogger(IndexingThread.class.getName()).log(Level.SEVERE, null, ex);

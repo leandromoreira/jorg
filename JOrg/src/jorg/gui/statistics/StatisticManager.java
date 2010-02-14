@@ -107,27 +107,29 @@ public class StatisticManager implements Runnable {
     }
 
     private int createUnitCounterReport(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        int unitCounter = 0;
         sql = "select count(*) from unit";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         if (rs.next()) {
-            return rs.getInt(1);
+            unitCounter = rs.getInt(1);
         }
         ps.close();
         rs.close();
-        return 0;
+        return unitCounter;
     }
 
     private int createRentedUnitCounterReport(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {
+        int lentCount = 0;
         sql = "select count(*) from unit where rented_to is not null";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         if (rs.next()) {
-            return rs.getInt(1);
+            lentCount = rs.getInt(1);
         }
         ps.close();
         rs.close();
-        return 0;
+        return lentCount;
     }
 
     private double createSumarizeOfSize(Connection con, String sql, PreparedStatement ps, ResultSet rs) throws SQLException {

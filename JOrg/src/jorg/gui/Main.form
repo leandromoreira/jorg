@@ -280,8 +280,8 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jLblTitulo" alignment="0" pref="1261" max="32767" attributes="0"/>
-          <Component id="jLblDescricao" alignment="0" pref="1261" max="32767" attributes="0"/>
+          <Component id="jLblTitulo" alignment="0" pref="888" max="32767" attributes="0"/>
+          <Component id="jLblDescricao" alignment="0" pref="888" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -290,7 +290,7 @@
               <Component id="jLblTitulo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLblDescricao" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="332" max="32767" attributes="0"/>
+              <EmptySpace pref="272" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

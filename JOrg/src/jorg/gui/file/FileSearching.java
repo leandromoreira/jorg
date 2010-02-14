@@ -107,6 +107,12 @@ public class FileSearching extends javax.swing.JFrame {
         jLblInfo.setText("File Searching");
         jLblInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        jTxtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxtSearchKeyTyped(evt);
+            }
+        });
+
         jBtnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jBtnSearch.setText("Search");
         jBtnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -222,53 +228,8 @@ public class FileSearching extends javax.swing.JFrame {
 
     private void jBtnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearchActionPerformed
         String query = getjTxtSearch().getText();
-        if (query == null || query.trim().equals("")) {
+        if (query(query)) {
             return;
-        }
-        query = query.replace(".", " ");
-        query = query.replace(":", " ");
-        query = query.replace(";", " ");
-        query = query.replace("/", " ");
-        query = query.replace("\\", " ");
-        query = query.replace("[", " ");
-        query = query.replace("]", " ");
-        if (query.startsWith("*")){
-            query = query.substring(1, query.length());
-        }
-        getjLblMessage().setText("");
-        try {
-            if (readAgain) {
-                LuceneSearcher.resetReader();
-                readAgain = false;
-            }
-            int[] ids = LuceneSearcher.search(query);
-
-            String condition = mountCondition(jTxtExtension.getText(),
-                    jTxtMin.getText(),
-                    jTxtMax.getText());
-            query = query.trim();
-            Collection<File> files = Collections.EMPTY_LIST;
-            if (!query.equals("")) {
-                files = File.listBy(ids, condition);
-                if (files.size() != 0) {
-                    files = orderBy(ids, (List<File>) files);
-                }
-            } else {
-                files = File.listBy(condition);
-            }
-            SwingUtil.populateJTableFile(getjTblFile(), files.size(), files.iterator());
-        } catch (CorruptIndexException ex) {
-            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            getjLblMessage().setText(reduce("Index corrupted! " + ex));
-        } catch (IOException ex) {
-            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            getjLblMessage().setText(reduce("IO exception! " + ex));
-        } catch (ParseException ex) {
-            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            getjLblMessage().setText(reduce("Parse exception! " + ex));
-        } catch (Exception ex) {
-            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
-            getjLblMessage().setText(reduce("General Exception! " + ex));
         }
     }//GEN-LAST:event_jBtnSearchActionPerformed
 
@@ -313,6 +274,69 @@ public class FileSearching extends javax.swing.JFrame {
     private void formWindowDeiconified(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowDeiconified
         System.out.println("DEICONIFEID");
     }//GEN-LAST:event_formWindowDeiconified
+
+    private void jTxtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtSearchKeyTyped
+        /*String query = getjTxtSearch().getText()+"*";
+        System.out.println(query);
+        if (query==null){
+        return;
+        }
+        if (query.equals("*")){
+        return;
+        }
+        if (query(query)) {
+        return;
+        }*/
+    }
+
+    private boolean query(String query) {
+        if (query == null || query.trim().equals("")) {
+            return true;
+        }
+        query = query.replace(".", " ");
+        query = query.replace(":", " ");
+        query = query.replace(";", " ");
+        query = query.replace("/", " ");
+        query = query.replace("\\", " ");
+        query = query.replace("[", " ");
+        query = query.replace("]", " ");
+        if (query.startsWith("*")) {
+            query = query.substring(1, query.length());
+        }
+        getjLblMessage().setText("");
+        try {
+            if (readAgain) {
+                LuceneSearcher.resetReader();
+                readAgain = false;
+            }
+            int[] ids = LuceneSearcher.search(query);
+            String condition = mountCondition(jTxtExtension.getText(), jTxtMin.getText(), jTxtMax.getText());
+            query = query.trim();
+            Collection<File> files = Collections.EMPTY_LIST;
+            if (!query.equals("")) {
+                files = File.listBy(ids, condition);
+                if (files.size() != 0) {
+                    files = orderBy(ids, (List<File>) files);
+                }
+            } else {
+                files = File.listBy(condition);
+            }
+            SwingUtil.populateJTableFile(getjTblFile(), files.size(), files.iterator());
+        } catch (CorruptIndexException ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+            getjLblMessage().setText(reduce("Index corrupted! " + ex));
+        } catch (IOException ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+            getjLblMessage().setText(reduce("IO exception! " + ex));
+        } catch (ParseException ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+            getjLblMessage().setText(reduce("Parse exception! " + ex));
+        } catch (Exception ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+            getjLblMessage().setText(reduce("General Exception! " + ex));
+        }
+        return false;
+    }//GEN-LAST:event_jTxtSearchKeyTyped
 
     private String reduce(String value) {
         return (value.length() > 85) ? value.substring(0, 85) : value;

@@ -89,7 +89,7 @@ public class Main extends javax.swing.JFrame {
         jMnuFile.add(jMnuPreferences);
 
         jMnuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuExit.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuExit.setForeground(new java.awt.Color(153, 0, 51));
         jMnuExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Rewind24.gif"))); // NOI18N
         jMnuExit.setText("Exit");
@@ -164,7 +164,7 @@ public class Main extends javax.swing.JFrame {
         jMnuIndexable.add(jMnuIndexFiles);
 
         jMnuSearchFiles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jMnuSearchFiles.setFont(new java.awt.Font("Segoe UI", 0, 32)); // NOI18N
+        jMnuSearchFiles.setFont(new java.awt.Font("Segoe UI", 0, 32));
         jMnuSearchFiles.setForeground(new java.awt.Color(153, 0, 51));
         jMnuSearchFiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/Zoom24.gif"))); // NOI18N
         jMnuSearchFiles.setText("Search Files");
@@ -214,8 +214,8 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 1261, Short.MAX_VALUE)
-            .addComponent(jLblDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 1261, Short.MAX_VALUE)
+            .addComponent(jLblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
+            .addComponent(jLblDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,17 +223,17 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLblDescricao)
-                .addContainerGap(332, Short.MAX_VALUE))
+                .addContainerGap(272, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private SearchContainer container = new SearchContainer();
-    private SearchUnit unit = new SearchUnit();
-    private FileIndexing fileIndexing = new FileIndexing(this);
-    private FileSearching fileSearching = new FileSearching(this);
-    private Statistics statisticsWindow = new Statistics();
-    private ConfiguratorWindow configurationWindow = new ConfiguratorWindow(this);
+    private final SearchContainer container = new SearchContainer();
+    private final SearchUnit unit = new SearchUnit();
+    private final FileIndexing fileIndexing = new FileIndexing(this);
+    private final FileSearching fileSearching = new FileSearching(this);
+    private final Statistics statisticsWindow = new Statistics();
+    private final ConfiguratorWindow configurationWindow = new ConfiguratorWindow(this);
 
     private void formWindowOpened1(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened1
     }//GEN-LAST:event_formWindowOpened1
@@ -268,7 +268,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jMnuAboutSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuAboutSubActionPerformed
         JOptionPane.showMessageDialog(this, "JOrg\n" +
-                "version: " + Configurator.getInternationlizedText("main.version") + "\n" + "devblog: " + Configurator.getInternationlizedText("main.developer.blog") + "\n" + "srcsite: " + Configurator.getSetupProprerty("source.code.site") + "\n------------------------------------------------------", "JOrg - " + Configurator.getInternationlizedText("main.version"), JOptionPane.INFORMATION_MESSAGE);
+                "version: " + Configurator.getInternationlizedText("main.version") 
+                + "\n" + "devblog: " + Configurator.getInternationlizedText("main.developer.blog")
+                + "\n" + "srcsite: " + Configurator.getSetupProprerty("source.code.site")
+                + "\n------------------------------------------------------", "JOrg - "
+                + Configurator.getInternationlizedText("main.version"),
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMnuAboutSubActionPerformed
 
     private void closing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_closing
@@ -497,13 +502,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     /**
-     * @param container the container to set
-     */
-    public void setContainer(SearchContainer container) {
-        this.container = container;
-    }
-
-    /**
      * @return the unit
      */
     public SearchUnit getUnit() {
@@ -511,24 +509,10 @@ public class Main extends javax.swing.JFrame {
     }
 
     /**
-     * @param unit the unit to set
-     */
-    public void setUnit(SearchUnit unit) {
-        this.unit = unit;
-    }
-
-    /**
      * @return the fileIndexing
      */
     public FileIndexing getFileIndexing() {
         return fileIndexing;
-    }
-
-    /**
-     * @param fileIndexing the fileIndexing to set
-     */
-    public void setFileIndexing(FileIndexing fileIndexing) {
-        this.fileIndexing = fileIndexing;
     }
 
     /**
@@ -749,13 +733,6 @@ public class Main extends javax.swing.JFrame {
     }
 
     /**
-     * @param fileSearching the fileSearching to set
-     */
-    public void setFileSearching(FileSearching fileSearching) {
-        this.fileSearching = fileSearching;
-    }
-
-    /**
      * @return the jMnuPreferences
      */
     public javax.swing.JMenuItem getjMnuPreferences() {
@@ -790,12 +767,6 @@ public class Main extends javax.swing.JFrame {
         return statisticsWindow;
     }
 
-    /**
-     * @param statisticsWindow the statisticsWindow to set
-     */
-    public void setStatisticsWindow(Statistics statisticsWindow) {
-        this.statisticsWindow = statisticsWindow;
-    }
 
     /**
      * @return the configurationWindow
@@ -804,10 +775,4 @@ public class Main extends javax.swing.JFrame {
         return configurationWindow;
     }
 
-    /**
-     * @param configurationWindow the configurationWindow to set
-     */
-    public void setConfigurationWindow(ConfiguratorWindow configurationWindow) {
-        this.configurationWindow = configurationWindow;
-    }
 }

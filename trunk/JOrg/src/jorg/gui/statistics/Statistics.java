@@ -6,6 +6,7 @@ import jorg.gui.config.Configurator;
 public class Statistics extends javax.swing.JFrame {
 
     private Date olderDate, newerDate;
+    private StatisticManager statistic = new StatisticManager(this);
 
     public Statistics() {
         initComponents();
@@ -124,7 +125,7 @@ public class Statistics extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
-            new Thread(new StatisticManager(this), "T-StatisticManager").start();
+            new Thread(statistic, "T-StatisticManager").start();
         } catch (Exception ex) {
             getJtxtAreaGeneral().setText(ex.toString());
         }

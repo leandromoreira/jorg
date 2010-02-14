@@ -10,12 +10,13 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -26,15 +27,17 @@ import jorgcore.entity.File;
 import jorgcore.entity.Unit;
 
 public final class SwingUtil {
-    private static int SELECT_ONE_ROW = 0;
 
-    public final static void center(final JFrame frame) {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        Point center = ge.getCenterPoint();
-        Rectangle bounds = ge.getMaximumWindowBounds();
+    private static int SELECT_ONE_ROW = 0;
+    private final static TableCellRenderer ICON_CELL_RENDER = new IconCellRender();
+
+    public final static void center(final Frame frame) {
+        final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        final Point center = ge.getCenterPoint();
+        final Rectangle bounds = ge.getMaximumWindowBounds();
         int w = Math.max(bounds.width / 2, Math.min(frame.getWidth(), bounds.width));
-        int h = Math.max(bounds.height / 2, Math.min(frame.getHeight(), bounds.height));
-        int x = center.x - w / 2, y = center.y - h / 2;
+        final int h = Math.max(bounds.height / 2, Math.min(frame.getHeight(), bounds.height));
+        final int x = center.x - w / 2, y = center.y - h / 2;
         frame.setBounds(x, y, w, h);
         if (w == bounds.width && h == bounds.height) {
             frame.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -47,7 +50,7 @@ public final class SwingUtil {
         jlbl.setText("ERROR:" + text);
     }
 
-    public final static void setDefaultButton(JFrame container, JButton jBtn) {
+    public final static void setDefaultButton(final RootPaneContainer container, final JButton jBtn) {
         container.getRootPane().setDefaultButton(jBtn);
     }
 
@@ -114,87 +117,27 @@ public final class SwingUtil {
         }
     }
 
-    public static void populateJTableContainer(JTable tab, int rowCount, Iterator<Container> it) {
+    public static void populateJTableContainer(final JTable tab, int rowCount, final Iterator<Container> it) {
         if (rowCount > 20) {
             rowCount = 20;
         }
-        tab.setAutoCreateRowSorter(true);
-        populateJTableContainerNew(tab, rowCount);
-        int row = 0;
-        while (it.hasNext()) {
-            Container con = it.next();
-            tab.setValueAt(con.id, row, 0);
-            tab.setValueAt(con.description, row, 1);
-            try {
-                tab.setValueAt(Container.findParentBy(con.id).description, row, 2);
-            } catch (SQLException ex) {
-                tab.setValueAt("", row, 2);
-            }
-            row++;
-        }
-
+        setupJTableContainerNew(tab, rowCount);
+        populateContainer(it, tab);
     }
 
-    public static void populateJTableFile(JTable tab, int rowCount, Iterator<File> it) {
-        tab.setRowHeight(48);
-        tab.setAutoCreateRowSorter(true);        
-        TableColumnModel tb = new DefaultTableColumnModel();
-        TableColumn icon = new TableColumn(0, 150);
-        icon.setPreferredWidth(55);
-        icon.setResizable(false);
-        tb.addColumn(icon);
+    public static void setupJTableContainerNew(JTable tab, int rowCount) {
+        TableColumnModel tcm = setupTableColumnModelWith(3);
+        String[] columnNames = new String[]{
+            getInternationalizedText("container.table.id"),
+            getInternationalizedText("container.table.description"),
+            getInternationalizedText("container.table.id_pai")};
+        finalSetup(columnNames, rowCount, tab, tcm);
+        setTableColumn(tab.getColumnModel().getColumn(0), 55);
+        setTableColumn(tab.getColumnModel().getColumn(1), 300);
+        setTableColumn(tab.getColumnModel().getColumn(2), 300);
+    }
 
-        TableColumn id = new TableColumn(0, 150);
-        id.setPreferredWidth(150);
-        id.setResizable(false);
-        tb.addColumn(id);
-
-        TableColumn name = new TableColumn(0, 150);
-        name.setPreferredWidth(150);
-        name.setResizable(false);
-        tb.addColumn(name);
-
-        TableColumn path = new TableColumn(0, 150);
-        path.setPreferredWidth(150);
-        path.setResizable(false);
-        tb.addColumn(path);
-
-        TableColumn size = new TableColumn(0, 150);
-        size.setPreferredWidth(150);
-        size.setResizable(false);
-        tb.addColumn(size);
-
-        String[] columnNames = new String[]{"",
-            getInternationalizedText("file.id"),
-            getInternationalizedText("file.name"),
-            getInternationalizedText("file.path"),
-            getInternationalizedText("file.size")
-        };
-        TableModel tbm = new DefaultTableModel(columnNames, rowCount) {
-
-            @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
-            }
-        };
-        tab.setColumnModel(tb);
-        tab.setModel(tbm);
-        tab.setSelectionMode(SELECT_ONE_ROW);
-        int index = 0;
-
-        tab.getColumnModel().getColumn(index).setResizable(false);
-        tab.getColumnModel().getColumn(index).setCellRenderer(new IconCellRender());
-        tab.getColumnModel().getColumn(index++).setMaxWidth(55);
-
-        tab.getColumnModel().getColumn(index).setResizable(false);
-        tab.getColumnModel().getColumn(index++).setMaxWidth(85);
-        tab.getColumnModel().getColumn(index).setResizable(false);
-        tab.getColumnModel().getColumn(index++).setMaxWidth(600);
-        tab.getColumnModel().getColumn(index).setResizable(false);
-        tab.getColumnModel().getColumn(index++).setMaxWidth(300);
-        tab.getColumnModel().getColumn(index).setResizable(false);
-        tab.getColumnModel().getColumn(index++).setMaxWidth(85);
-
+    private final static void populateJTableFile(final Iterator<File> it, final JTable tab) {
         int row = 0;
         DecimalFormat df = new DecimalFormat("#.##MB");
         while (it.hasNext()) {
@@ -206,53 +149,9 @@ public final class SwingUtil {
             tab.setValueAt(df.format(file.size), row, 4);
             row++;
         }
-
     }
 
-    public static void populateJTableContainerNew(JTable tab, int rowCount) {
-        TableColumnModel tb = new DefaultTableColumnModel();
-        tab.setAutoCreateRowSorter(true);
-        TableColumn id = new TableColumn(0, 150);
-        id.setPreferredWidth(150);
-        id.setResizable(false);
-        TableColumn desc = new TableColumn(0, 350);
-        desc.setPreferredWidth(350);
-        desc.setResizable(false);
-        TableColumn idP = new TableColumn(0, 150);
-        idP.setPreferredWidth(150);
-        idP.setResizable(false);
-        tb.addColumn(id);
-        tb.addColumn(desc);
-        tb.addColumn(idP);
-
-        String[] columnNames = new String[]{
-            getInternationalizedText("container.table.id"),
-            getInternationalizedText("container.table.description"),
-            getInternationalizedText("container.table.id_pai")};
-        TableModel tbm = new DefaultTableModel(columnNames, rowCount) {
-
-            @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return false;
-            }
-        };
-        tab.setColumnModel(tb);
-        tab.setModel(tbm);
-        tab.setSelectionMode(SELECT_ONE_ROW);
-        tab.getColumnModel().getColumn(0).setResizable(false);
-        tab.getColumnModel().getColumn(0).setMaxWidth(55);
-        tab.getColumnModel().getColumn(1).setResizable(false);
-        tab.getColumnModel().getColumn(1).setMaxWidth(300);
-        tab.getColumnModel().getColumn(2).setResizable(false);
-        tab.getColumnModel().getColumn(2).setMaxWidth(300);
-    }
-
-    public static void populateJTableUnit(JTable tab, int rowCount, Iterator<Unit> it) {
-        if (rowCount > 20) {
-            rowCount = 20;
-        }
-        tab.setAutoCreateRowSorter(true);
-        populateJTableUnitNew(tab, rowCount);
+    private final static void populateJTableUnit(final Iterator<Unit> it, final JTable tab) {
         int row = 0;
         while (it.hasNext()) {
             Unit con = it.next();
@@ -268,34 +167,66 @@ public final class SwingUtil {
         }
     }
 
-    public static void populateJTableUnitNew(JTable tab, int rowCount) {
-        tab.setAutoCreateRowSorter(true);
-        TableColumnModel tb = new DefaultTableColumnModel();
-        TableColumn id = new TableColumn(0, 150);
-        id.setPreferredWidth(150);
-        id.setResizable(false);
-        TableColumn name = new TableColumn(0, 250);
-        name.setPreferredWidth(350);
-        name.setResizable(false);
-        TableColumn type = new TableColumn(0, 250);
-        type.setPreferredWidth(150);
-        type.setResizable(false);
-        TableColumn rented = new TableColumn(0, 250);
-        rented.setPreferredWidth(150);
-        rented.setResizable(false);
+    private static void setTableColumn(final TableColumn column, final int width) {
+        setTableColumn(column, false, width);
+    }
 
+    private static void setTableColumn(final TableColumn column, final int width, final TableCellRenderer cellRender) {
+        setTableColumn(column, false, width);
+        column.setCellRenderer(cellRender);
+    }
 
-        tb.addColumn(id);
-        tb.addColumn(name);
-        tb.addColumn(type);
-        tb.addColumn(rented);
+    private static void setTableColumn(final TableColumn column, final boolean resizable, final int width) {
+        column.setResizable(resizable);
+        column.setMaxWidth(width);
+    }
 
+    public static void populateJTableFile(final JTable tab, final int rowCount, final Iterator<File> it) {
+        TableColumnModel tb = setupTableColumnModelWith(5);
+        String[] columnNames = new String[]{"",
+            getInternationalizedText("file.id"),
+            getInternationalizedText("file.name"),
+            getInternationalizedText("file.path"),
+            getInternationalizedText("file.size")
+        };
+        finalSetup(columnNames, rowCount, tab, tb, 48);
+        setTableColumn(tab.getColumnModel().getColumn(0), 55, ICON_CELL_RENDER);
+        setTableColumn(tab.getColumnModel().getColumn(1), 85);
+        setTableColumn(tab.getColumnModel().getColumn(2), 600);
+        setTableColumn(tab.getColumnModel().getColumn(3), 300);
+        setTableColumn(tab.getColumnModel().getColumn(4), 85);
+        populateJTableFile(it, tab);
+    }
+
+    public static void populateJTableUnit(final JTable tab, int rowCount, final Iterator<Unit> it) {
+        if (rowCount > 20) {
+            rowCount = 20;
+        }
+        setupJTableUnit(tab, rowCount);
+        populateJTableUnit(it, tab);
+    }
+
+    public static void setupJTableUnit(final JTable tab, final int rowCount) {
+        TableColumnModel tb = setupTableColumnModelWith(4);
         String[] columnNames = new String[]{
             getInternationalizedText("unit.table.id"),
             getInternationalizedText("unit.table.name"),
             getInternationalizedText("unit.table.type"),
             getInternationalizedText("unit.table.rented")
         };
+        finalSetup(columnNames, rowCount, tab, tb);
+        setTableColumn(tab.getColumnModel().getColumn(0), 55);
+        setTableColumn(tab.getColumnModel().getColumn(1), 300);
+        setTableColumn(tab.getColumnModel().getColumn(2), 300);
+        setTableColumn(tab.getColumnModel().getColumn(3), 300);
+    }
+
+    private static void finalSetup(final String[] columnNames, final int rowCount, final JTable tab, final TableColumnModel tcm, final int rowHeight) {
+        finalSetup(columnNames, rowCount, tab, tcm);
+        tab.setRowHeight(rowHeight);
+    }
+
+    private static void finalSetup(final String[] columnNames, final int rowCount, final JTable tab, final TableColumnModel tcm) {
         TableModel tbm = new DefaultTableModel(columnNames, rowCount) {
 
             @Override
@@ -303,16 +234,32 @@ public final class SwingUtil {
                 return false;
             }
         };
-        tab.setColumnModel(tb);
+        tab.setColumnModel(tcm);
         tab.setModel(tbm);
         tab.setSelectionMode(SELECT_ONE_ROW);
-        tab.getColumnModel().getColumn(0).setResizable(false);
-        tab.getColumnModel().getColumn(0).setMaxWidth(55);
-        tab.getColumnModel().getColumn(1).setResizable(false);
-        tab.getColumnModel().getColumn(1).setMaxWidth(300);
-        tab.getColumnModel().getColumn(2).setResizable(false);
-        tab.getColumnModel().getColumn(2).setMaxWidth(300);
-        tab.getColumnModel().getColumn(3).setResizable(false);
-        tab.getColumnModel().getColumn(3).setMaxWidth(300);
+        tab.setAutoCreateRowSorter(true);
+    }
+
+    private static void populateContainer(final Iterator<Container> it, final JTable tab) {
+        int row = 0;
+        while (it.hasNext()) {
+            Container con = it.next();
+            tab.setValueAt(con.id, row, 0);
+            tab.setValueAt(con.description, row, 1);
+            try {
+                tab.setValueAt(Container.findParentBy(con.id).description, row, 2);
+            } catch (SQLException ex) {
+                tab.setValueAt("", row, 2);
+            }
+            row++;
+        }
+    }
+
+    private static TableColumnModel setupTableColumnModelWith(final int howMuchColumns) {
+        final TableColumnModel tcm = new DefaultTableColumnModel();
+        for (int i = 0; i < howMuchColumns; i++) {
+            tcm.addColumn(new TableColumn());
+        }
+        return tcm;
     }
 }

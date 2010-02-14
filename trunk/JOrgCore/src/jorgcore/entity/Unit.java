@@ -124,6 +124,12 @@ public class Unit {
         return new int[0];
     }
 
+    public static int[] delete(int id) throws SQLException {
+        Unit unit = new Unit();
+        unit.id = id;
+        return delete(id);
+    }
+
     public static int[] delete(Unit unit) throws SQLException {
         int[] ids = deleteLuceneIndex(unit.id);
         String sql = "delete from file where id_unit =?";

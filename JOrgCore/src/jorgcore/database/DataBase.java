@@ -1,5 +1,6 @@
 package jorgcore.database;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,7 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class DataBase {
-    public static final String BD_PATH = "db";
+    private final static String ABS_PATH = new File("").getAbsolutePath();
+    public static final String BD_PATH = ABS_PATH + File.separator + "db";
     private static final String USER = "";
     private static final String PWD = "";
     private static final String URL = "jdbc:derby:";

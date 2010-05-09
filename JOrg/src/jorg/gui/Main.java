@@ -492,6 +492,7 @@ public class Main extends javax.swing.JFrame {
         setInternationalizedText("search", getFileIndexing().getjBtnSearch());
         setInternationalizedText("back", getFileIndexing().getjBtnBack());
         setInternationalizedText("cancel", getFileIndexing().getjBtnStop());
+        setInternationalizedText("name.unit.indexing", getFileIndexing().getjChkNameUnit());
     }
 
     /**

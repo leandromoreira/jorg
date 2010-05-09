@@ -1,5 +1,6 @@
 package jorg.gui.file;
 
+import javax.swing.JCheckBox;
 import jorg.gui.Main;
 import jorg.gui.unit.*;
 import java.sql.SQLException;
@@ -30,6 +31,14 @@ public class FileIndexing extends javax.swing.JFrame {
         delegate = main;
     }
 
+    public JCheckBox getjChkNameUnit() {
+        return jChkNameUnit;
+    }
+
+    public void setjChkNameUnit(JCheckBox jChkNameUnit) {
+        this.jChkNameUnit = jChkNameUnit;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -50,6 +59,7 @@ public class FileIndexing extends javax.swing.JFrame {
         jCboLocation = new javax.swing.JComboBox();
         jPrg = new javax.swing.JProgressBar();
         jBtnStop = new javax.swing.JButton();
+        jChkNameUnit = new javax.swing.JCheckBox();
         jPnChoose = new javax.swing.JPanel();
         jLblSearchText = new javax.swing.JLabel();
         jTxtTerm = new javax.swing.JTextField();
@@ -111,6 +121,13 @@ public class FileIndexing extends javax.swing.JFrame {
             }
         });
 
+        jChkNameUnit.setText("Do you wish name the unit (if you don't chose one)?");
+        jChkNameUnit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChkNameUnitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPnNewLayout = new javax.swing.GroupLayout(jPnNew);
         jPnNew.setLayout(jPnNewLayout);
         jPnNewLayout.setHorizontalGroup(
@@ -133,7 +150,8 @@ public class FileIndexing extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTxtBind, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
-                            .addComponent(jCboLocation, 0, 443, Short.MAX_VALUE))))
+                            .addComponent(jCboLocation, 0, 443, Short.MAX_VALUE)
+                            .addComponent(jChkNameUnit))))
                 .addContainerGap())
         );
         jPnNewLayout.setVerticalGroup(
@@ -149,7 +167,9 @@ public class FileIndexing extends javax.swing.JFrame {
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLblName, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCboLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jChkNameUnit)
+                .addGap(16, 16, 16)
                 .addComponent(jPrg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPnNewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -282,7 +302,7 @@ public class FileIndexing extends javax.swing.JFrame {
     private void jBtnIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIndexActionPerformed
         disableEverythingButStopButton();
         String path = getjCboLocation().getSelectedItem().toString();
-        thread = new IndexingThread(jLblMessage, jPrg, path, jTxtBind.getText());
+        thread = new IndexingThread(jLblMessage, jPrg, path, jTxtBind.getText(),getjChkNameUnit().isSelected());
         thread.setDelegate(this);
         thread.start();
 
@@ -340,6 +360,10 @@ public class FileIndexing extends javax.swing.JFrame {
         jPrg.setValue(jPrg.getMinimum());
     }//GEN-LAST:event_jBtnStopActionPerformed
 
+    private void jChkNameUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChkNameUnitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jChkNameUnitActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -360,6 +384,7 @@ public class FileIndexing extends javax.swing.JFrame {
     private javax.swing.JButton jBtnStop;
     private javax.swing.JComboBox jCboLocation;
     private javax.swing.JCheckBox jChk;
+    private javax.swing.JCheckBox jChkNameUnit;
     private javax.swing.JLabel jLblContainerParent;
     private javax.swing.JLabel jLblInfo;
     private javax.swing.JLabel jLblMessage;

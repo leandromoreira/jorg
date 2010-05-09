@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public final class Configurator {
 
-    private final static String VERSION = "0.87B";
+    private final static String VERSION = "0.91RC";
     private final static String MAIN_TITLE = "JOrg";
     private final static String DEV_BLOG = "http://archsofty.blogspot.com";
     private final static String ABS_PATH = new File("").getAbsolutePath();

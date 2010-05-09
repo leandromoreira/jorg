@@ -2,6 +2,7 @@ package jorg.gui.unit;
 
 import jorg.indexing.LuceneUpdater;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import jorg.gui.SwingUtil;
 import jorg.gui.config.Configurator;
 import jorg.gui.container.NewContainer;
 import jorg.gui.container.SearchContainer;
+import jorg.gui.file.FileSearching;
 import jorgcore.entity.Container;
 import jorgcore.entity.Unit;
 
@@ -80,6 +82,11 @@ public class SearchUnit extends javax.swing.JFrame {
 
             }
         ));
+        jTblUnit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblUnitMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTblUnit);
 
         jLblMessage.setFont(new java.awt.Font("Tahoma", 0, 18));
@@ -141,37 +148,32 @@ public class SearchUnit extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jBtnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                                .addComponent(jBtnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(jBtnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBtnRent, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBtnGiveBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLblContainerTip, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLblSearchText)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTxtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(102, 102, 102))
-                            .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE))
-                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jBtnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(jBtnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jBtnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBtnRent, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBtnGiveBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLblUnitInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(jLblContainerTip, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLblSearchText)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTxtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(102, 102, 102))
+                    .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+                    .addComponent(jLblUnitInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,6 +336,39 @@ public class SearchUnit extends javax.swing.JFrame {
             formWindowOpened(null);
         }
     }//GEN-LAST:event_jBtnGiveBackActionPerformed
+
+    private final String stateOf(final Unit unit) {
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        if (unit.rented_to != null) {
+            return " <font color='blue'>(" + Configurator.getInternationlizedText("rented.to") + " " + unit.rented_to + " " + sdf.format(unit.rented_date) + ")</font> ";
+        } else {
+            return "";
+        }
+    }
+
+    private void jTblUnitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblUnitMouseClicked
+        try {
+            Unit unit = Unit.findBy(new Integer(getjTblUnit().getValueAt(getjTblUnit().getSelectedRow(), 0).toString()));
+            boolean hasContainer = false;
+            try {
+                unit = Unit.findUnitWithinContainerBy(new Integer(getjTblUnit().getValueAt(getjTblUnit().getSelectedRow(), 0).toString()));
+                hasContainer = true;
+            } catch (SQLException sQLException) {
+                unit = Unit.findBy(new Integer(getjTblUnit().getValueAt(getjTblUnit().getSelectedRow(), 0).toString()));
+            }
+            String state = stateOf(unit);
+            if (hasContainer) {
+                String fullPath = Container.giveMeFullAdresOf(Container.findBy(unit.id_container));
+                jLblMessage.setText("<html>" + fullPath + " >> " + unit.name + state + "</html>");
+            } else {
+                jLblMessage.setText("<html>" + unit.name + state + "</html>");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTblUnitMouseClicked
 
     /**
      * @param args the command line arguments

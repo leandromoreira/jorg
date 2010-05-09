@@ -1,5 +1,6 @@
 package jorg.gui.file;
 
+import java.awt.JobAttributes;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class IndexingThread extends Thread {
     private static boolean stop = false;
     private static final int COMMIT_AT = 2000;
     private int idCurrentUnit = -1;
+    private boolean nameDecision;
+    private String unitName = "";
 
     public static void log(Object o) {
         System.out.println(new Date().toLocaleString() + "--LOG :" + o);
@@ -39,7 +42,10 @@ public class IndexingThread extends Thread {
     public boolean isStoped() {
         return stop;
     }
-
+    public IndexingThread(JLabel lbl, JProgressBar prg, String path, String id_unit, boolean name) {
+        this(lbl, prg, path, id_unit);
+        nameDecision = name;
+    }
     public IndexingThread(JLabel lbl, JProgressBar prg, String path, String id_unit) {
         this.lbl = lbl;
         this.prg = prg;
@@ -61,9 +67,19 @@ public class IndexingThread extends Thread {
                 prg.setIndeterminate(false);
                 prg.setMaximum(files.size() + 1);
                 log("Starting to insert all files on the list");
+
+                if(nameDecision){
+                    unitName = JOptionPane.showInputDialog(Configurator.getInternationlizedText("name.unit.decision"));
+                }
+                
                 File.setupBatch();
                 if (id_unit.equals("")) {
-                    long id = mockingAUnit();
+                    long id = 0l;
+                    if (nameDecision) {
+                        id = mockingAUnit(unitName);
+                    } else {
+                        id = mockingAUnit();
+                    }
                     idCurrentUnit = (int) id;
                     indexWithALinkedUnit(files, id);
                     showPopup = true;
@@ -91,7 +107,7 @@ public class IndexingThread extends Thread {
             }
             form.enableEverything();
             if (showPopup) {
-                JOptionPane.showMessageDialog(null, Configurator.getInternationlizedText("labeled.msg") + " [" + unitId + "]");
+                JOptionPane.showMessageDialog(null, Configurator.getInternationlizedText("labeled.msg") + " [" + (nameDecision?unitName:unitId) + "]");
             }
         } catch (Exception ex) {
             form.enableEverything();
@@ -161,6 +177,15 @@ public class IndexingThread extends Thread {
         Unit.insert(unit);
         unit.id = Unit.lastId();
         unit.name = String.valueOf(unit.id);
+        Unit.update(unit);
+        long id = unit.id;
+        return id;
+    }
+    private long mockingAUnit(String name) throws SQLException {
+        Unit unit = new Unit();
+        unit.name = name;
+        Unit.insert(unit);
+        unit.id = Unit.lastId();
         Unit.update(unit);
         long id = unit.id;
         return id;

@@ -87,6 +87,7 @@
                                   </Group>
                                   <Component id="jTxtBind" alignment="1" pref="443" max="32767" attributes="0"/>
                                   <Component id="jCboLocation" alignment="0" pref="443" max="32767" attributes="0"/>
+                                  <Component id="jChkNameUnit" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -109,7 +110,9 @@
                           <Component id="jLblName" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
                           <Component id="jCboLocation" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jChkNameUnit" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="jPrg" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="32" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -196,6 +199,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnStopActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jChkNameUnit">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Do you wish name the unit (if you don&apos;t chose one)?"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChkNameUnitActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

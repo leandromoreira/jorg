@@ -43,7 +43,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLblContainerTip" pref="679" max="32767" attributes="0"/>
+                          <Component id="jLblContainerTip" pref="695" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLblSearchText" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -52,7 +52,9 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jBtnSearch" min="-2" pref="136" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jBtnPrint" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLblMessage" alignment="0" pref="923" max="32767" attributes="1"/>
                   <Component id="jLblUnitInfo" alignment="0" pref="923" max="32767" attributes="0"/>
@@ -70,7 +72,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                      <Component id="jBtnPrint" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                       <Component id="jLblContainerTip" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -91,7 +94,7 @@
                   <Component id="jBtnEdit" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLblMessage" pref="56" max="32767" attributes="0"/>
+              <Component id="jLblMessage" pref="46" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -242,6 +245,16 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnGiveBackActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jBtnPrint">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/jorg/gui/picture/PrintPreview24.gif"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtnPrintActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

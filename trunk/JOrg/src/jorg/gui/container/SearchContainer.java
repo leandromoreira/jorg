@@ -1,5 +1,6 @@
 package jorg.gui.container;
 
+import java.awt.print.PrinterException;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,7 @@ public class SearchContainer extends javax.swing.JFrame {
         jBtnContainerBack = new javax.swing.JButton();
         jLblMessage = new javax.swing.JLabel();
         jBtnShow = new javax.swing.JButton();
+        jBtnPrint = new javax.swing.JButton();
 
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -120,6 +122,13 @@ public class SearchContainer extends javax.swing.JFrame {
             }
         });
 
+        jBtnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/PrintPreview24.gif"))); // NOI18N
+        jBtnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnPrintActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,7 +144,10 @@ public class SearchContainer extends javax.swing.JFrame {
                         .addComponent(jTxtTerm, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLblContainerTip, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLblContainerTip, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnPrint))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jBtnContainerNew, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -159,8 +171,10 @@ public class SearchContainer extends javax.swing.JFrame {
                     .addComponent(jLblSearchText)
                     .addComponent(jTxtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnSearch))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLblContainerTip)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLblContainerTip)
+                    .addComponent(jBtnPrint))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -171,7 +185,7 @@ public class SearchContainer extends javax.swing.JFrame {
                     .addComponent(jBtnContainerBack)
                     .addComponent(jBtnShow))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -278,6 +292,14 @@ public class SearchContainer extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBtnContainerDeleteActionPerformed
 
+    private void jBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPrintActionPerformed
+        try {
+            jTblContainer.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(SearchContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBtnPrintActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
@@ -292,6 +314,7 @@ public class SearchContainer extends javax.swing.JFrame {
     private javax.swing.JButton jBtnContainerDelete;
     private javax.swing.JButton jBtnContainerEdit;
     private javax.swing.JButton jBtnContainerNew;
+    private javax.swing.JButton jBtnPrint;
     private javax.swing.JButton jBtnSearch;
     private javax.swing.JButton jBtnShow;
     private javax.swing.JLabel jLblContainerInfo;

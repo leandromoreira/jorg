@@ -1,5 +1,6 @@
 package jorg.gui.file;
 
+import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -80,6 +81,7 @@ public class FileSearching extends javax.swing.JFrame {
         jLblWithMaxSize = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblFile = new javax.swing.JTable();
+        jBtnPrint = new javax.swing.JButton();
 
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -150,6 +152,13 @@ public class FileSearching extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTblFile);
 
+        jBtnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/PrintPreview24.gif"))); // NOI18N
+        jBtnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnPrintActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -179,7 +188,9 @@ public class FileSearching extends javax.swing.JFrame {
                             .addComponent(jTxtMax, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLblWithMaxSize))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jBtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBtnPrint))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -198,9 +209,6 @@ public class FileSearching extends javax.swing.JFrame {
                             .addComponent(jTxtMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTxtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jBtnSearch))
-                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLblWithExtension)
@@ -208,9 +216,14 @@ public class FileSearching extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTxtExtension, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTxtMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTxtMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jBtnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBtnPrint)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jLblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -338,6 +351,14 @@ public class FileSearching extends javax.swing.JFrame {
         return false;
     }//GEN-LAST:event_jTxtSearchKeyTyped
 
+    private void jBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPrintActionPerformed
+        try {
+            jTblFile.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(FileSearching.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBtnPrintActionPerformed
+
     private String reduce(String value) {
         return (value.length() > 85) ? value.substring(0, 85) : value;
     }
@@ -352,6 +373,7 @@ public class FileSearching extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnPrint;
     private javax.swing.JButton jBtnSearch;
     private javax.swing.JLabel jLblInfo;
     private javax.swing.JLabel jLblMessage;

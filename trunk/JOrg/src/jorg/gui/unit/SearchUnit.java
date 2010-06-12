@@ -1,5 +1,6 @@
 package jorg.gui.unit;
 
+import java.awt.print.PrinterException;
 import jorg.indexing.LuceneUpdater;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,7 @@ public class SearchUnit extends javax.swing.JFrame {
         jBtnNew = new javax.swing.JButton();
         jBtnRent = new javax.swing.JButton();
         jBtnGiveBack = new javax.swing.JButton();
+        jBtnPrint = new javax.swing.JButton();
 
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -141,6 +143,13 @@ public class SearchUnit extends javax.swing.JFrame {
             }
         });
 
+        jBtnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/jorg/gui/picture/PrintPreview24.gif"))); // NOI18N
+        jBtnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnPrintActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,14 +171,16 @@ public class SearchUnit extends javax.swing.JFrame {
                         .addComponent(jBtnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLblContainerTip, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
+                            .addComponent(jLblContainerTip, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLblSearchText)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTxtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(102, 102, 102))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnPrint)
+                        .addGap(23, 23, 23))
                     .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
                     .addComponent(jLblUnitInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE))
@@ -183,7 +194,8 @@ public class SearchUnit extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addComponent(jBtnPrint)
+                        .addGap(8, 8, 8)
                         .addComponent(jLblContainerTip))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jBtnSearch)
@@ -200,7 +212,7 @@ public class SearchUnit extends javax.swing.JFrame {
                     .addComponent(jBtnNew)
                     .addComponent(jBtnEdit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                .addComponent(jLblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -370,6 +382,14 @@ public class SearchUnit extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTblUnitMouseClicked
 
+    private void jBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPrintActionPerformed
+        try {
+            jTblUnit.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(SearchUnit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jBtnPrintActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -387,6 +407,7 @@ public class SearchUnit extends javax.swing.JFrame {
     private javax.swing.JButton jBtnEdit;
     private javax.swing.JButton jBtnGiveBack;
     private javax.swing.JButton jBtnNew;
+    private javax.swing.JButton jBtnPrint;
     private javax.swing.JButton jBtnRent;
     private javax.swing.JButton jBtnSearch;
     private javax.swing.JLabel jLblContainerTip;

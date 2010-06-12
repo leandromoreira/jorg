@@ -1,7 +1,10 @@
 package jorg.gui.statistics;
 
 import java.util.Date;
+import javax.swing.JOptionPane;
 import jorg.gui.config.Configurator;
+import jorg.importation.FileToCVS;
+import jorg.importation.ProgressListener;
 
 public class Statistics extends javax.swing.JFrame {
 
@@ -40,7 +43,7 @@ public class Statistics extends javax.swing.JFrame {
         });
 
         jtxtAreaGeneral.setColumns(20);
-        jtxtAreaGeneral.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jtxtAreaGeneral.setFont(new java.awt.Font("Trebuchet MS", 1, 18));
         jtxtAreaGeneral.setForeground(new java.awt.Color(153, 0, 51));
         jtxtAreaGeneral.setRows(5);
         jScrollPane1.setViewportView(jtxtAreaGeneral);
